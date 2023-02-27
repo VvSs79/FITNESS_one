@@ -1,8 +1,8 @@
 package Mk.JD2_95_22.fitness.core.dto.user;
 
+import Mk.JD2_95_22.fitness.core.util.UserStatus;
 import core.util.UserRole;
-import core.util.UserStatus;
-
+import java.util.Objects;
 import java.util.UUID;
 
 public class UserCreated {
@@ -14,7 +14,7 @@ public class UserCreated {
     private UserStatus userStatus;
 
     public UserCreated(UUID uuidUser, String FIOuser, String mailUser, String password, UserRole userRole, UserStatus userStatus) {
-        this.uuidUser = uuidUser;
+        this.uuidUser = UUID.randomUUID();
         this.FIOuser = FIOuser;
         this.mailUser = mailUser;
         this.password = password;
@@ -59,15 +59,28 @@ public class UserCreated {
     }
 
     public void setUserRole(UserRole userRole) {
-        userRole = userRole;
+        this.userRole = userRole;
     }
 
-    public core.util.UserStatus getUserStatus() {
+    public UserStatus getUserStatus() {
         return userStatus;
     }
 
-    public void setUserStatus(core.util.UserStatus userStatus) {
-        userStatus = userStatus;
+    public void setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserCreated that = (UserCreated) o;
+        return Objects.equals(uuidUser, that.uuidUser) && Objects.equals(FIOuser, that.FIOuser) && Objects.equals(mailUser, that.mailUser) && Objects.equals(password, that.password) && userRole == that.userRole && userStatus == that.userStatus;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuidUser, FIOuser, mailUser, password, userRole, userStatus);
     }
 
     @Override
@@ -77,8 +90,8 @@ public class UserCreated {
                 ", FIOuser='" + FIOuser + '\'' +
                 ", mailUser='" + mailUser + '\'' +
                 ", password='" + password + '\'' +
-                ", UserRole=" + userRole +
-                ", UserStatus=" + userStatus +
+                ", userRole=" + userRole +
+                ", userStatus=" + userStatus +
                 '}';
     }
 }
