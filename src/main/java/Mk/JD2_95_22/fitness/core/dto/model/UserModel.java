@@ -33,7 +33,7 @@ public class UserModel {
     public UserModel() {
     }
 
-    public UserModel(UUID uuid, Instant dt_create, Instant dt_update, String mail, String name, RoleEntity role, StatusEntity status) {
+    public UserModel(UUID uuid, Instant dt_create, Instant dt_update, String mail, RoleEntity role, StatusEntity status) {
         this.uuid = uuid;
         this.dt_create = dt_create;
         this.dt_update = dt_update;

@@ -22,4 +22,9 @@ public class MailStatusEntity {
     public MailStatusEntity(String name) {
         this.name = name;
     }
+
+    @NonNull
+    public String getName() {
+        return name;
+    }
 }

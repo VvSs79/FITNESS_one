@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 @Repository
 public interface IMailRepository extends JpaRepository<MailEntity, UUID> {
+    MailEntity findByEmailTo_Uuid(UUID uuid);
 
 }

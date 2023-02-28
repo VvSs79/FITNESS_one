@@ -4,7 +4,7 @@ import Mk.JD2_95_22.fitness.core.dto.user.User;
 import java.util.Objects;
 import java.util.UUID;
 
-public class mailDTO {
+public class MailDTO {
     private String emailFrom;
     private String emailTo;
     private String subject;
@@ -12,7 +12,7 @@ public class mailDTO {
     private  User user;
 
 
-    public mailDTO(String emailFrom, String emailTo, String subject, String message) {
+    public MailDTO(String emailFrom, String emailTo, String subject, String message) {
         this.emailFrom = emailFrom;
         this.emailTo = user.getMail();
         this.subject ="complete registration, click to link";
@@ -55,7 +55,7 @@ public class mailDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        mailDTO mailDTO = (mailDTO) o;
+        MailDTO mailDTO = (MailDTO) o;
         return Objects.equals(emailFrom, mailDTO.emailFrom) && Objects.equals(emailTo, mailDTO.emailTo) && Objects.equals(subject, mailDTO.subject) && Objects.equals(message, mailDTO.message);
     }
 

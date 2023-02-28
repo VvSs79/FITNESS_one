@@ -26,7 +26,6 @@ public class UserEntity implements Serializable {
     @ Column(name = "fio")
     @NonNull
     private String fio;
-
     @NonNull
     @Enumerated(EnumType.STRING)
     @ManyToOne(cascade = CascadeType.ALL)
@@ -42,14 +41,17 @@ public class UserEntity implements Serializable {
             joinColumns = @JoinColumn(name="id"),
             inverseJoinColumns = @JoinColumn(name="name"))
     private StatusEntity status;
-    @ Column(name = "password")
+    @Column(name = "password")
     @NonNull
     private String password;
+
+    @Column(name = "validation")
+    private boolean isEnabled;
 
     public UserEntity() {
     }
 
-    public UserEntity(UUID uuid, Instant dtUpdate, Instant dtCreate, String mail, String fio, RoleEntity role, StatusEntity status, String password) {
+    public UserEntity(UUID uuid,Instant dtUpdate,Instant dtCreate,String mail,String fio,RoleEntity role,StatusEntity status,String password, boolean isEnabled) {
         this.uuid = uuid;
         this.dtUpdate = dtUpdate;
         this.dtCreate = dtCreate;
@@ -58,8 +60,8 @@ public class UserEntity implements Serializable {
         this.role = role;
         this.status = status;
         this.password = password;
+        this.isEnabled = isEnabled;
     }
-
 
     public UUID getUuid() {
         return uuid;
@@ -125,5 +127,13 @@ public class UserEntity implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean accountVerified) {
+        this.isEnabled = accountVerified;
     }
 }

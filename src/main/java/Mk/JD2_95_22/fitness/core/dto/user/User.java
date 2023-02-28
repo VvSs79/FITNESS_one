@@ -10,13 +10,15 @@ import java.util.Objects;
 public class User implements Serializable {
     private Essence essence;
     private String mail;
+    private String password;
     private String fio;
     private UserRole role;
     private UserStatus status;
 
-    public User(Essence essence, String mail, String fio, UserRole role, UserStatus status) {
+    public User(Essence essence, String mail, String password, String fio, UserRole role, UserStatus status) {
         this.essence = essence;
         this.mail = mail;
+        this.password = password;
         this.fio = fio;
         this.role = role;
         this.status = status;
@@ -36,6 +38,14 @@ public class User implements Serializable {
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFio() {
@@ -67,12 +77,12 @@ public class User implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(essence, user.essence) && Objects.equals(mail, user.mail) && Objects.equals(fio, user.fio) && role == user.role && status == user.status;
+        return Objects.equals(essence, user.essence) && Objects.equals(mail, user.mail) && Objects.equals(password, user.password) && Objects.equals(fio, user.fio) && role == user.role && status == user.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(essence, mail, fio, role, status);
+        return Objects.hash(essence, mail, password, fio, role, status);
     }
 
     @Override
@@ -80,6 +90,7 @@ public class User implements Serializable {
         return "User{" +
                 "essence=" + essence +
                 ", mail='" + mail + '\'' +
+                ", password='" + password + '\'' +
                 ", fio='" + fio + '\'' +
                 ", role=" + role +
                 ", status=" + status +
