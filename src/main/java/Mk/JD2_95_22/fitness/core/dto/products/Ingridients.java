@@ -7,18 +7,18 @@ import java.util.UUID;
 
 public class Ingridients {
     @NonNull
-    private Product product;
+    private ProductDTO product;
     @NonNull
     private UUID id;
     @NonNull
     private Integer weight;
 
-    public Ingridients(@NonNull Product product) {
+    public Ingridients(@NonNull ProductDTO product) {
         this.product = product;
     }
 
     public Ingridients(Integer weight, UUID id) {
-        this.id = product.getEssence().getUuid();
+        this.id = id;
         this.weight = weight;
     }
 

@@ -1,9 +1,8 @@
 package Mk.JD2_95_22.fitness.core.dto.model;
 
-import Mk.JD2_95_22.fitness.converter.DoubleConvert;
+import Mk.JD2_95_22.fitness.converter.number_format.DoubleConvert;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import jakarta.persistence.criteria.CriteriaBuilder;
 
 public class IngridientsModel {
     @JsonProperty("product")

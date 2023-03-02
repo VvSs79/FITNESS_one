@@ -2,7 +2,7 @@ package Mk.JD2_95_22.fitness.core.dto.page;
 
 import java.util.List;
 
-public class Page<T>{
+public class PageDTO<T>{
     private int number;
     private int size;
     private int totalPages;
@@ -12,10 +12,10 @@ public class Page<T>{
     private boolean last;
     private List<T> content;
 
-    public Page() {
+    public PageDTO() {
     }
 
-    public Page(int number, int size, int totalPages, long totalElements, boolean first, int numberElements, boolean last, List<T> content) {
+    public PageDTO(int number, int size, int totalPages, long totalElements, boolean first, int numberElements, boolean last, List<T> content) {
         this.number = number;
         this.size = size;
         this.totalPages = totalPages;

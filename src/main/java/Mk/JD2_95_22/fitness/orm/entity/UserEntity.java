@@ -1,5 +1,6 @@
 package Mk.JD2_95_22.fitness.orm.entity;
 
+import Mk.JD2_95_22.fitness.core.dto.base_essense.BaseEssence;
 import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
 import java.io.Serializable;
@@ -12,14 +13,7 @@ public class UserEntity implements Serializable {
     @Id
     @Column(name = "id")
     @NonNull
-    private UUID uuid;
-    @Version
-    @ Column(name = "date_last_update")
-    @NonNull
-    private Instant dtUpdate;
-    @ Column(name = "date_created")
-    @NonNull
-    private Instant dtCreate;
+    private BaseEssence baseEssence;
     @ Column(name = "mail")
     @NonNull
     private String mail;
@@ -48,13 +42,9 @@ public class UserEntity implements Serializable {
     @Column(name = "validation")
     private boolean isEnabled;
 
-    public UserEntity() {
-    }
 
-    public UserEntity(UUID uuid,Instant dtUpdate,Instant dtCreate,String mail,String fio,RoleEntity role,StatusEntity status,String password, boolean isEnabled) {
-        this.uuid = uuid;
-        this.dtUpdate = dtUpdate;
-        this.dtCreate = dtCreate;
+    public UserEntity(String mail,String fio,RoleEntity role,StatusEntity status,String password, boolean isEnabled) {
+
         this.mail = mail;
         this.fio = fio;
         this.role = role;
@@ -63,30 +53,14 @@ public class UserEntity implements Serializable {
         this.isEnabled = isEnabled;
     }
 
-    public UUID getUuid() {
-        return uuid;
+    @NonNull
+    public BaseEssence getBaseEssence() {
+        return baseEssence;
     }
 
-    public void setUuid( UUID uuid) {
-        this.uuid = uuid;
+    public void setBaseEssence(@NonNull BaseEssence baseEssence) {
+        this.baseEssence = baseEssence;
     }
-
-    public Instant getDtUpdate() {
-        return dtUpdate;
-    }
-
-    public void setDtUpdate(Instant dtUpdate) {
-        this.dtUpdate = dtUpdate;
-    }
-
-    public Instant getDtCreate() {
-        return dtCreate;
-    }
-
-    public void setDtCreate(Instant dtCreate) {
-        this.dtCreate = dtCreate;
-    }
-
 
     public String getMail() {
         return mail;

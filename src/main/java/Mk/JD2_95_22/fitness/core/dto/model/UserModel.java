@@ -1,6 +1,6 @@
 package Mk.JD2_95_22.fitness.core.dto.model;
 
-import Mk.JD2_95_22.fitness.converter.InstantConverter;
+import Mk.JD2_95_22.fitness.converter.number_format.InstantConverter;
 import Mk.JD2_95_22.fitness.orm.entity.RoleEntity;
 import Mk.JD2_95_22.fitness.orm.entity.StatusEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

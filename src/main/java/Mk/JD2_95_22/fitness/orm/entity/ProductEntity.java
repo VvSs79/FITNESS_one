@@ -29,10 +29,7 @@ public class ProductEntity implements Serializable {
     private Double fats;
     @Column(name = "carbohydrates")
     private Double carbohydrates;
-
-    public ProductEntity() {
-    }
-
+/
     public ProductEntity(UUID uuid,
                          Instant dtCreate,
                          Instant dtUpdate,

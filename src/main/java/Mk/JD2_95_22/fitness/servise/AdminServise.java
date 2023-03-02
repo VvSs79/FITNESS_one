@@ -1,7 +1,7 @@
 package Mk.JD2_95_22.fitness.servise;
 
-import Mk.JD2_95_22.fitness.core.dto.page.Page;
-import Mk.JD2_95_22.fitness.core.dto.user.User;
+import Mk.JD2_95_22.fitness.core.dto.page.PageDTO;
+import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
 import Mk.JD2_95_22.fitness.core.dto.user.UserCreated;
 import Mk.JD2_95_22.fitness.core.util.UserStatus;
 import Mk.JD2_95_22.fitness.servise.api.IAdminRoot;
@@ -17,17 +17,17 @@ public class AdminServise implements IAdminRoot {
     }
 
     @Override
-    public Page<User> getAll(Pageable page) {
+    public PageDTO<UserDTO> getAll(Pageable page) {
         return null;
     }
 
     @Override
-    public Page getUser(UUID id, String mail) {
+    public PageDTO getUser(UUID id, String mail) {
         return null;
     }
 
     @Override
-    public Page getUsers(UserStatus status) {
+    public PageDTO getUsers(UserStatus status) {
         return null;
     }
 
@@ -42,7 +42,7 @@ public class AdminServise implements IAdminRoot {
     }
 
     @Override
-    public void setUserStatus(Page<User> page, String mail) {
+    public void setUserStatus(PageDTO<UserDTO> page, String mail) {
 
     }
 }

@@ -1,4 +1,4 @@
-package Mk.JD2_95_22.fitness.converter;
+package Mk.JD2_95_22.fitness.converter.mail;
 
 import Mk.JD2_95_22.fitness.core.dto.mail.MailDTO;
 import Mk.JD2_95_22.fitness.orm.entity.MailEntity;

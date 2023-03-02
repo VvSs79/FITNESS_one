@@ -1,6 +1,6 @@
 package Mk.JD2_95_22.fitness.core.dto.mail;
 
-import Mk.JD2_95_22.fitness.core.dto.user.User;
+import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -9,7 +9,7 @@ public class MailDTO {
     private String emailTo;
     private String subject;
     private UUID message;
-    private  User user;
+    private UserDTO user;
 
 
     public MailDTO(String emailFrom, String emailTo, String subject, String message) {

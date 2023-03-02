@@ -1,15 +1,13 @@
 package Mk.JD2_95_22.fitness.core.dto.products;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
-public class Recipe {
+public class RecipeDTO {
     private String title;
     private List<Ingridients> composition;
 
-    public Recipe(String title, List<Ingridients> composition) {
+    public RecipeDTO(String title, List<Ingridients> composition) {
         this.title = title;
         this.composition = composition;
     }
@@ -34,7 +32,7 @@ public class Recipe {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Recipe recipe = (Recipe) o;
+        RecipeDTO recipe = (RecipeDTO) o;
         return Objects.equals(title, recipe.title) && Objects.equals(composition, recipe.composition);
     }
 

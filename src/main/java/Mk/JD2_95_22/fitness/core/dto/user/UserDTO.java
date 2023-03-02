@@ -1,35 +1,49 @@
 package Mk.JD2_95_22.fitness.core.dto.user;
 
-import Mk.JD2_95_22.fitness.core.dto.BasicEssence.Essence;
+import Mk.JD2_95_22.fitness.core.dto.base_essense.BaseEssence;
 import Mk.JD2_95_22.fitness.core.util.UserStatus;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import core.util.UserRole;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.NotBlank;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
+
 import java.io.Serializable;
 import java.util.Objects;
 
 
-public class User implements Serializable {
-    private Essence essence;
+public class UserDTO implements Serializable {
+
+    private BaseEssence  baseEssence;
+    @NotBlank(message = "email cannot be empty")
     private String mail;
-    private String password;
+    @NotBlank(message = "fio cannot be empty")
     private String fio;
+    @Enumerated(EnumType.STRING)
+    @NonNull
     private UserRole role;
+    @Enumerated(EnumType.STRING)
+    @NonNull
     private UserStatus status;
 
-    public User(Essence essence, String mail, String password, String fio, UserRole role, UserStatus status) {
-        this.essence = essence;
+
+
+    public UserDTO(BaseEssence baseEssence, String mail, String fio, UserRole role, UserStatus status) {
+        this.baseEssence = baseEssence;
         this.mail = mail;
-        this.password = password;
         this.fio = fio;
         this.role = role;
         this.status = status;
     }
 
-    public Essence getEssence() {
-        return essence;
+    public BaseEssence getBaseEssence() {
+        return baseEssence;
     }
 
-    public void setEssence(Essence essence) {
-        this.essence = essence;
+    public void setBaseEssence(BaseEssence baseEssence) {
+        this.baseEssence = baseEssence;
     }
 
     public String getMail() {
@@ -38,14 +52,6 @@ public class User implements Serializable {
 
     public void setMail(String mail) {
         this.mail = mail;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFio() {
@@ -76,24 +82,24 @@ public class User implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(essence, user.essence) && Objects.equals(mail, user.mail) && Objects.equals(password, user.password) && Objects.equals(fio, user.fio) && role == user.role && status == user.status;
+        UserDTO userDTO = (UserDTO) o;
+        return Objects.equals(baseEssence, userDTO.baseEssence) && Objects.equals(mail, userDTO.mail) && Objects.equals(fio, userDTO.fio) && role == userDTO.role && status == userDTO.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(essence, mail, password, fio, role, status);
+        return Objects.hash(baseEssence, mail, fio, role, status);
     }
 
     @Override
     public String toString() {
-        return "User{" +
-                "essence=" + essence +
+        return "UserDTO{" +
+                "baseEssence=" + baseEssence +
                 ", mail='" + mail + '\'' +
-                ", password='" + password + '\'' +
                 ", fio='" + fio + '\'' +
                 ", role=" + role +
                 ", status=" + status +
                 '}';
     }
 }
+

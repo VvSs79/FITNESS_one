@@ -1,20 +1,23 @@
 package Mk.JD2_95_22.fitness.core.dto.user;
 
+import Mk.JD2_95_22.fitness.core.dto.base_essense.BaseEssence;
 import Mk.JD2_95_22.fitness.core.util.UserStatus;
 import core.util.UserRole;
+
 import java.util.Objects;
-import java.util.UUID;
+
 
 public class UserCreated {
-    private UUID uuidUser;
+    private BaseEssence baseEssence;
     private String FIOuser;
     private String mailUser;
     private String password;
     private UserRole userRole;
     private UserStatus userStatus;
 
-    public UserCreated(UUID uuidUser, String FIOuser, String mailUser, String password, UserRole userRole, UserStatus userStatus) {
-        this.uuidUser = UUID.randomUUID();
+
+    public UserCreated(BaseEssence baseEssence, String FIOuser, String mailUser, String password, UserRole userRole, UserStatus userStatus) {
+        this.baseEssence = baseEssence;
         this.FIOuser = FIOuser;
         this.mailUser = mailUser;
         this.password = password;
@@ -22,12 +25,12 @@ public class UserCreated {
         this.userStatus = userStatus;
     }
 
-    public UUID getUuidUser() {
-        return uuidUser;
+    public BaseEssence getBaseEssence() {
+        return baseEssence;
     }
 
-    public void setUuidUser(UUID uuidUser) {
-        this.uuidUser = uuidUser;
+    public void setBaseEssence(BaseEssence baseEssence) {
+        this.baseEssence = baseEssence;
     }
 
     public String getFIOuser() {
@@ -75,18 +78,18 @@ public class UserCreated {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserCreated that = (UserCreated) o;
-        return Objects.equals(uuidUser, that.uuidUser) && Objects.equals(FIOuser, that.FIOuser) && Objects.equals(mailUser, that.mailUser) && Objects.equals(password, that.password) && userRole == that.userRole && userStatus == that.userStatus;
+        return Objects.equals(baseEssence, that.baseEssence) && Objects.equals(FIOuser, that.FIOuser) && Objects.equals(mailUser, that.mailUser) && Objects.equals(password, that.password) && userRole == that.userRole && userStatus == that.userStatus;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuidUser, FIOuser, mailUser, password, userRole, userStatus);
+        return Objects.hash(baseEssence, FIOuser, mailUser, password, userRole, userStatus);
     }
 
     @Override
     public String toString() {
         return "UserCreated{" +
-                "uuidUser=" + uuidUser +
+                "baseEssence=" + baseEssence +
                 ", FIOuser='" + FIOuser + '\'' +
                 ", mailUser='" + mailUser + '\'' +
                 ", password='" + password + '\'' +

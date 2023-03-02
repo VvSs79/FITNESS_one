@@ -1,4 +1,4 @@
-package Mk.JD2_95_22.fitness.converter;
+package Mk.JD2_95_22.fitness.converter.user;
 
 
 import Mk.JD2_95_22.fitness.core.dto.model.UserModel;
@@ -12,7 +12,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Component
-public  class ConverterUserEntityToUserModel implements Converter<UserEntity, UserModel> {
+public  class ConverterToUserModel implements Converter<UserEntity, UserModel> {
     @Override
     public UserModel convert(@NonNull UserEntity source) {
         UUID uuid = source.getUuid();

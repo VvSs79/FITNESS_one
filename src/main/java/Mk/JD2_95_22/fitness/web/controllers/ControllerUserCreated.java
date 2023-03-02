@@ -1,6 +1,6 @@
 package Mk.JD2_95_22.fitness.web.controllers;
 
-import Mk.JD2_95_22.fitness.core.dto.user.User;
+import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
 
 import Mk.JD2_95_22.fitness.orm.repository.IUserRepository;
 import Mk.JD2_95_22.fitness.servise.api.IUserServise;
@@ -19,26 +19,26 @@ public class ControllerUserCreated {
        private IUserRepository userRepository;
 
         @RequestMapping(method = RequestMethod.POST)
-        public ResponseEntity<User> userCreated(@RequestBody User user){
+        public ResponseEntity<UserDTO> userCreated(@RequestBody UserDTO user){
             servise.CreatedUser();
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
 
 
         @RequestMapping(method = RequestMethod.GET)
-        public ResponseEntity<User> getUser(@RequestBody User user){
+        public ResponseEntity<UserDTO> getUser(@RequestBody UserDTO user){
             servise.getUser();
             return ResponseEntity.status(HttpStatus.OK).build();
         }
 
         @RequestMapping(method = RequestMethod.POST)
-        public ResponseEntity<User> addNewUser(@RequestBody User user){
+        public ResponseEntity<UserDTO> addNewUser(@RequestBody UserDTO user){
             servise.UpdateUser();
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
 
         @RequestMapping(method = RequestMethod.POST)
-        public ResponseEntity<User> deleteUser(@RequestBody User user){
+        public ResponseEntity<UserDTO> deleteUser(@RequestBody UserDTO user){
             servise.DeleteUser();
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }

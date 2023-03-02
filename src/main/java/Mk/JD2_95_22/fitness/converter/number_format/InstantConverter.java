@@ -1,4 +1,4 @@
-package Mk.JD2_95_22.fitness.converter;
+package Mk.JD2_95_22.fitness.converter.number_format;
 
 import com.fasterxml.jackson.databind.util.StdConverter;
 

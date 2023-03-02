@@ -1,15 +1,17 @@
-package Mk.JD2_95_22.fitness.core.dto.BasicEssence;
+package Mk.JD2_95_22.fitness.core.dto.base_essense;
 
-import Mk.JD2_95_22.fitness.converter.InstantConverter;
+import Mk.JD2_95_22.fitness.converter.number_format.InstantConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import jakarta.persistence.Version;
 import org.springframework.lang.NonNull;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.UUID;
 
-public class Essence {
+public class BaseEssence implements Serializable {
     @NonNull
     private UUID uuid;
     @NonNull
@@ -19,12 +21,13 @@ public class Essence {
     @NonNull
     @JsonSerialize(converter = InstantConverter.Serializer.class)
     @JsonDeserialize(converter =InstantConverter.Deserializer.class )
+    @Version
     private Instant timeLastUpdate;
 
-    public Essence() {
+    public BaseEssence() {
     }
 
-    public Essence(UUID uuid, Instant timeCreated,  Instant timeLastUpdate) {
+    public BaseEssence(UUID uuid, Instant timeCreated, Instant timeLastUpdate) {
         this.uuid =UUID.randomUUID();
         this.timeCreated =Instant.now();
         this.timeLastUpdate = Instant.now();
