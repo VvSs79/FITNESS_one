@@ -16,7 +16,6 @@ public class MailDTO {
         this.emailFrom = emailFrom;
         this.emailTo = user.getMail();
         this.subject ="complete registration, click to link";
-        this.message =user.getEssence().getUuid();
     }
 
     public String getEmailFrom() {

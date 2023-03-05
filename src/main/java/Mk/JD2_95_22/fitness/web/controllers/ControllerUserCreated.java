@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/api/v1/users/registration")
@@ -20,14 +22,14 @@ public class ControllerUserCreated {
 
         @RequestMapping(method = RequestMethod.POST)
         public ResponseEntity<UserDTO> userCreated(@RequestBody UserDTO user){
-            servise.CreatedUser();
+            servise.CreatedUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
 
 
         @RequestMapping(method = RequestMethod.GET)
-        public ResponseEntity<UserDTO> getUser(@RequestBody UserDTO user){
-            servise.getUser();
+        public ResponseEntity<UserDTO> getUser(@RequestBody UserDTO user, UUID id){
+            servise.getUser(id);
             return ResponseEntity.status(HttpStatus.OK).build();
         }
 

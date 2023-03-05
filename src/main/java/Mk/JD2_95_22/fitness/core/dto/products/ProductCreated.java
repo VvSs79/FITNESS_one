@@ -4,8 +4,7 @@ import Mk.JD2_95_22.fitness.core.dto.base_essense.BaseEssence;
 
 import java.util.Objects;
 
-public class ProductCreated {
-    private BaseEssence baseEssence;
+public class ProductCreated extends BaseEssence {
     private String title;
     private double weight;
     private double calories;
@@ -13,23 +12,13 @@ public class ProductCreated {
     private double fats;
     private double carbohydrates;
 
-
-    public ProductCreated(BaseEssence baseEssence, String title, double weight, double calories, double proteins, double fats, double carbohydrates) {
-        this.baseEssence = baseEssence;
+    public ProductCreated(String title, double weight, double calories, double proteins, double fats, double carbohydrates) {
         this.title = title;
         this.weight = weight;
         this.calories = calories;
         this.proteins = proteins;
         this.fats = fats;
         this.carbohydrates = carbohydrates;
-    }
-
-    public BaseEssence getBaseEssence() {
-        return baseEssence;
-    }
-
-    public void setBaseEssence(BaseEssence baseEssence) {
-        this.baseEssence = baseEssence;
     }
 
     public String getTitle() {
@@ -85,19 +74,18 @@ public class ProductCreated {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductCreated that = (ProductCreated) o;
-        return Double.compare(that.weight, weight) == 0 && Double.compare(that.calories, calories) == 0 && Double.compare(that.proteins, proteins) == 0 && Double.compare(that.fats, fats) == 0 && Double.compare(that.carbohydrates, carbohydrates) == 0 && Objects.equals(baseEssence, that.baseEssence) && Objects.equals(title, that.title);
+        return Double.compare(that.weight, weight) == 0 && Double.compare(that.calories, calories) == 0 && Double.compare(that.proteins, proteins) == 0 && Double.compare(that.fats, fats) == 0 && Double.compare(that.carbohydrates, carbohydrates) == 0 && Objects.equals(title, that.title);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(baseEssence, title, weight, calories, proteins, fats, carbohydrates);
+        return Objects.hash(title, weight, calories, proteins, fats, carbohydrates);
     }
 
     @Override
     public String toString() {
         return "ProductCreated{" +
-                "baseEssence=" + baseEssence +
-                ", title='" + title + '\'' +
+                "title='" + title + '\'' +
                 ", weight=" + weight +
                 ", calories=" + calories +
                 ", proteins=" + proteins +

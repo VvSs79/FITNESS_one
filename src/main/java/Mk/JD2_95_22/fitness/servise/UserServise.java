@@ -1,17 +1,16 @@
 package Mk.JD2_95_22.fitness.servise;
 
 
-import Mk.JD2_95_22.fitness.converter.user.ConverterToPageUser;
 import Mk.JD2_95_22.fitness.converter.user.ConverterToUserModel;
 import Mk.JD2_95_22.fitness.converter.user.ConverterToUserEntity;
 import Mk.JD2_95_22.fitness.core.dto.user.UserCreated;
 import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
 import Mk.JD2_95_22.fitness.core.dto.user.UserVerification;
-import Mk.JD2_95_22.fitness.orm.entity.UserEntity;
+import Mk.JD2_95_22.fitness.orm.entity.UserRegistrationEntity;
 import Mk.JD2_95_22.fitness.orm.repository.IUserRepository;
 import Mk.JD2_95_22.fitness.servise.api.IUserServise;
 import jakarta.validation.ValidationException;
-import org.springframework.boot.autoconfigure.security.saml2.Saml2RelyingPartyProperties;
+
 
 import java.util.Optional;
 import java.util.UUID;
@@ -19,12 +18,11 @@ import java.util.UUID;
 public class UserServise implements IUserServise {
     private final IUserRepository repository;
     private final ConverterToUserEntity converterUserToUserEntity;
-    private final ConverterToPageUser converterUserEntityToPageUser;
+
     private final ConverterToUserModel converterUserEntityToUserModel;
 
-    public UserServise(IUserRepository repository, ConverterToPageUser converterUserEntityToPageUser, ConverterToUserModel converterUserEntityToUserModel, ConverterToUserEntity converterUserToUserEntity) {
+    public UserServise(IUserRepository repository, ConverterToUserModel converterUserEntityToUserModel, ConverterToUserEntity converterUserToUserEntity) {
         this.repository = repository;
-        this.converterUserEntityToPageUser = converterUserEntityToPageUser;
         this.converterUserEntityToUserModel = converterUserEntityToUserModel;
         this.converterUserToUserEntity = converterUserToUserEntity;
     }
@@ -32,15 +30,15 @@ public class UserServise implements IUserServise {
         if(newUser==null) {
             throw new NullPointerException("User must not be null");
         }
-        UserEntity userEntity=converterUserToUserEntity.convert(newUser);
+        UserRegistrationEntity userEntity=converterUserToUserEntity.convert(newUser);
         repository.save(userEntity);
 
     }
 
 
-    public UserEntity getUser(UUID id){
-        Optional<UserEntity> findUser=repository.findById(id);
-        UserEntity userEntity=findUser.get();
+    public UserRegistrationEntity getUser(UUID id){
+        Optional<UserRegistrationEntity> findUser=repository.findById(id);
+        UserRegistrationEntity userEntity=findUser.get();
         return userEntity;
 
     }

@@ -20,7 +20,7 @@ public class MailEntity implements Serializable {
     @JoinTable(schema = "fitness", name="user",
             joinColumns = @JoinColumn(name="id"),
             inverseJoinColumns = @JoinColumn(name="name"))
-    private UserEntity emailTo;
+    private UserRegistrationEntity emailTo;
     @Column(name="Subject")
     private String subject;
     @Column(columnDefinition = "TEXT")
@@ -38,7 +38,7 @@ public class MailEntity implements Serializable {
     public MailEntity() {
     }
 
-    public MailEntity(String emailFrom, UserEntity emailTo, String subject, String text, LocalDateTime sendDateEmail, MailStatusEntity statusMail) {
+    public MailEntity(String emailFrom, UserRegistrationEntity emailTo, String subject, String text, LocalDateTime sendDateEmail, MailStatusEntity statusMail) {
         this.emailFrom = emailFrom;
         this.emailTo = emailTo;
         this.subject = subject;
@@ -56,11 +56,11 @@ public class MailEntity implements Serializable {
     }
 
 
-    public UserEntity getEmailTo() {
+    public UserRegistrationEntity getEmailTo() {
         return emailTo;
     }
 
-    public void setEmailTo(UserEntity emailTo) {
+    public void setEmailTo(UserRegistrationEntity emailTo) {
         this.emailTo = emailTo;
     }
 

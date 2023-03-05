@@ -2,10 +2,11 @@ package Mk.JD2_95_22.fitness.servise.api;
 
 import Mk.JD2_95_22.fitness.core.dto.user.UserCreated;
 import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.UUID;
 
-public interface IUserServise {
+public interface IUserServise extends UserDetailsService {
      void CreatedUser(UserDTO newUser);
      void getUser(UUID id);
      void UpdateUser();

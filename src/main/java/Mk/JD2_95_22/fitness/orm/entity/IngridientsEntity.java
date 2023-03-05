@@ -11,7 +11,7 @@ public class IngridientsEntity {
                  nullable = false, updatable = false
     )
     private ProductEntity product;
-
+    @Column(name="weight")
     private Integer weight;
 
     public IngridientsEntity() {

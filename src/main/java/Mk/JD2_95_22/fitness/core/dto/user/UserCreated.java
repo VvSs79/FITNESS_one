@@ -7,30 +7,19 @@ import core.util.UserRole;
 import java.util.Objects;
 
 
-public class UserCreated {
-    private BaseEssence baseEssence;
+public class UserCreated extends BaseEssence{
     private String FIOuser;
     private String mailUser;
     private String password;
     private UserRole userRole;
     private UserStatus userStatus;
 
-
-    public UserCreated(BaseEssence baseEssence, String FIOuser, String mailUser, String password, UserRole userRole, UserStatus userStatus) {
-        this.baseEssence = baseEssence;
+    public UserCreated(String FIOuser, String mailUser, String password, UserRole userRole, UserStatus userStatus) {
         this.FIOuser = FIOuser;
         this.mailUser = mailUser;
         this.password = password;
         this.userRole = userRole;
         this.userStatus = userStatus;
-    }
-
-    public BaseEssence getBaseEssence() {
-        return baseEssence;
-    }
-
-    public void setBaseEssence(BaseEssence baseEssence) {
-        this.baseEssence = baseEssence;
     }
 
     public String getFIOuser() {
@@ -78,19 +67,18 @@ public class UserCreated {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserCreated that = (UserCreated) o;
-        return Objects.equals(baseEssence, that.baseEssence) && Objects.equals(FIOuser, that.FIOuser) && Objects.equals(mailUser, that.mailUser) && Objects.equals(password, that.password) && userRole == that.userRole && userStatus == that.userStatus;
+        return Objects.equals(FIOuser, that.FIOuser) && Objects.equals(mailUser, that.mailUser) && Objects.equals(password, that.password) && userRole == that.userRole && userStatus == that.userStatus;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(baseEssence, FIOuser, mailUser, password, userRole, userStatus);
+        return Objects.hash(FIOuser, mailUser, password, userRole, userStatus);
     }
 
     @Override
     public String toString() {
         return "UserCreated{" +
-                "baseEssence=" + baseEssence +
-                ", FIOuser='" + FIOuser + '\'' +
+                "FIOuser='" + FIOuser + '\'' +
                 ", mailUser='" + mailUser + '\'' +
                 ", password='" + password + '\'' +
                 ", userRole=" + userRole +
