@@ -9,7 +9,7 @@ import org.springframework.core.convert.converter.Converter;
 import java.time.Instant;
 import java.util.UUID;
 
-public class ConverterEntityToModel implements Converter<UserEntity, UserModel> {
+public class UserConverterEntityToModel implements Converter<UserEntity, UserModel> {
     @Override
     public UserModel convert(UserEntity source) {
         Instant dtCreate = source.getTimeCreated();

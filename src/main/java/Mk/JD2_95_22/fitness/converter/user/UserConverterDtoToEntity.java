@@ -6,7 +6,7 @@ import Mk.JD2_95_22.fitness.orm.entity.StatusEntity;
 import Mk.JD2_95_22.fitness.orm.entity.UserEntity;
 import org.springframework.core.convert.converter.Converter;
 
-public class ConverterDtoToEntity implements Converter<UserCreated, UserEntity> {
+public class UserConverterDtoToEntity implements Converter<UserCreated, UserEntity> {
     @Override
     public UserEntity convert(UserCreated source) {
         UserCreated user=new UserCreated(

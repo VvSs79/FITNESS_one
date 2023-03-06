@@ -6,10 +6,9 @@ import Mk.JD2_95_22.fitness.core.util.UserStatus;
 import Mk.JD2_95_22.fitness.orm.entity.UserEntity;
 import org.springframework.core.convert.converter.Converter;
 
-import java.time.Instant;
 import java.util.UUID;
 
-public class ConverterEntityToDTO  implements Converter<UserEntity, UserDTO> {
+public class UserConverterEntityToDTO implements Converter<UserEntity, UserDTO> {
     @Override
     public UserDTO convert(UserEntity source) {
         String fio =source.getFio();

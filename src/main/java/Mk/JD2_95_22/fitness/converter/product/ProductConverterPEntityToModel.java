@@ -7,7 +7,7 @@ import org.springframework.core.convert.converter.Converter;
 import java.time.Instant;
 import java.util.UUID;
 
-public class ConverterPEntityToModel implements Converter<ProductEntity, ProductModel> {
+public class ProductConverterPEntityToModel implements Converter<ProductEntity, ProductModel> {
     @Override
     public ProductModel convert(ProductEntity source) {
         UUID uuid=source.getUuid();
