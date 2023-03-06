@@ -20,11 +20,11 @@ public class MailEntity implements Serializable {
     @JoinTable(schema = "fitness", name="user",
             joinColumns = @JoinColumn(name="id"),
             inverseJoinColumns = @JoinColumn(name="name"))
-    private UserRegistrationEntity emailTo;
+    private UserEntity emailTo;
     @Column(name="Subject")
     private String subject;
     @Column(columnDefinition = "TEXT")
-    private String text;
+    private UUID text;
     @Column(columnDefinition = "DateAndTimeSendMail")
     private LocalDateTime sendDateEmail;
     @NonNull
@@ -38,13 +38,21 @@ public class MailEntity implements Serializable {
     public MailEntity() {
     }
 
-    public MailEntity(String emailFrom, UserRegistrationEntity emailTo, String subject, String text, LocalDateTime sendDateEmail, MailStatusEntity statusMail) {
+    public MailEntity(String emailFrom, UserEntity emailTo, String subject, UUID text, LocalDateTime sendDateEmail, MailStatusEntity statusMail) {
         this.emailFrom = emailFrom;
         this.emailTo = emailTo;
         this.subject = subject;
         this.text = text;
         this.sendDateEmail = sendDateEmail;
         this.statusMail = statusMail;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getEmailFrom() {
@@ -55,12 +63,12 @@ public class MailEntity implements Serializable {
         this.emailFrom = emailFrom;
     }
 
-
-    public UserRegistrationEntity getEmailTo() {
+    @NonNull
+    public UserEntity getEmailTo() {
         return emailTo;
     }
 
-    public void setEmailTo(UserRegistrationEntity emailTo) {
+    public void setEmailTo(@NonNull UserEntity emailTo) {
         this.emailTo = emailTo;
     }
 
@@ -72,11 +80,11 @@ public class MailEntity implements Serializable {
         this.subject = subject;
     }
 
-    public String getText() {
+    public UUID getText() {
         return text;
     }
 
-    public void setText(String text) {
+    public void setText(UUID text) {
         this.text = text;
     }
 
@@ -88,12 +96,12 @@ public class MailEntity implements Serializable {
         this.sendDateEmail = sendDateEmail;
     }
 
-
+    @NonNull
     public MailStatusEntity getStatusMail() {
         return statusMail;
     }
 
-    public void setStatusMail(MailStatusEntity statusMail) {
+    public void setStatusMail(@NonNull MailStatusEntity statusMail) {
         this.statusMail = statusMail;
     }
 }

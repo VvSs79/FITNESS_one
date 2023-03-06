@@ -10,9 +10,9 @@ public class ProductEntity extends BaseEssenceEntety {
     @Column(name = "title")
     private String title;
     @Column(name = "weight")
-    private Integer weight;
+    private Double weight;
     @Column(name = "calories")
-    private Integer calories;
+    private Double calories;
     @Column(name = "proteins")
     private Double proteins;
     @Column(name = "fats")
@@ -23,7 +23,7 @@ public class ProductEntity extends BaseEssenceEntety {
     public ProductEntity() {
     }
 
-    public ProductEntity(String title, Integer weight, Integer calories, Double proteins, Double fats, Double carbohydrates) {
+    public ProductEntity(String title, Double weight, Double calories, Double proteins, Double fats, Double carbohydrates) {
         this.title = title;
         this.weight = weight;
         this.calories = calories;
@@ -40,19 +40,19 @@ public class ProductEntity extends BaseEssenceEntety {
         this.title = title;
     }
 
-    public Integer getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(Integer weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 
-    public Integer getCalories() {
+    public Double getCalories() {
         return calories;
     }
 
-    public void setCalories(Integer calories) {
+    public void setCalories(Double calories) {
         this.calories = calories;
     }
 

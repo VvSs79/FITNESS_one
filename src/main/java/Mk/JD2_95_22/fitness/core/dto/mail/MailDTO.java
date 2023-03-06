@@ -9,13 +9,15 @@ public class MailDTO {
     private String emailTo;
     private String subject;
     private UUID message;
-    private UserDTO user;
 
+    public MailDTO() {
+    }
 
-    public MailDTO(String emailFrom, String emailTo, String subject, String message) {
+    public MailDTO(String emailFrom, String emailTo, String subject, UUID message) {
         this.emailFrom = emailFrom;
-        this.emailTo = user.getMail();
-        this.subject ="complete registration, click to link";
+        this.emailTo = emailTo;
+        this.subject = subject;
+        this.message = message;
     }
 
     public String getEmailFrom() {
@@ -48,28 +50,5 @@ public class MailDTO {
 
     public void setMessage(UUID message) {
         this.message = message;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MailDTO mailDTO = (MailDTO) o;
-        return Objects.equals(emailFrom, mailDTO.emailFrom) && Objects.equals(emailTo, mailDTO.emailTo) && Objects.equals(subject, mailDTO.subject) && Objects.equals(message, mailDTO.message);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(emailFrom, emailTo, subject, message);
-    }
-
-    @Override
-    public String toString() {
-        return "mailDTO{" +
-                "emailFrom='" + emailFrom + '\'' +
-                ", emailTo='" + emailTo + '\'' +
-                ", subject='" + subject + '\'' +
-                ", message=" + message +
-                '}';
     }
 }

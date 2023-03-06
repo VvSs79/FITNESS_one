@@ -1,8 +1,8 @@
 package Mk.JD2_95_22.fitness.config;
 
 import Mk.JD2_95_22.fitness.converter.user.ConverterToPageUser;
-import Mk.JD2_95_22.fitness.converter.user.ConverterToUserModel;
-import Mk.JD2_95_22.fitness.converter.user.ConverterToUserEntity;
+import Mk.JD2_95_22.fitness.converter.user.ConverterDtoToModel;
+import Mk.JD2_95_22.fitness.converter.user.UserConverter;
 import Mk.JD2_95_22.fitness.orm.repository.IUserRepository;
 import Mk.JD2_95_22.fitness.servise.UserServise;
 import Mk.JD2_95_22.fitness.servise.api.IUserServise;
@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Bean;
 public class ConfigServise {
 
     @Bean
-    public IUserServise userService(IUserRepository repository, ConverterToUserEntity converterUserToUserEntity,
+    public IUserServise userService(IUserRepository repository, UserConverter converterUserToUserEntity,
                                     ConverterToPageUser converterUserEntityToPageUser,
-                                    ConverterToUserModel converterUserEntityToUserModel){
+                                    ConverterDtoToModel converterUserEntityToUserModel){
         return new UserServise(repository,
                 converterUserEntityToPageUser,
                 converterUserEntityToUserModel,

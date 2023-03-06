@@ -2,11 +2,12 @@ package Mk.JD2_95_22.fitness.core.dto.products;
 
 
 
+import Mk.JD2_95_22.fitness.core.dto.base_essense.BaseEssence;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.Objects;
-public class ProductDTO {
+public class ProductDTO extends BaseEssence {
     @NotBlank(message = "Title must not be blank")
     private String title;
     @NotBlank(message = "Weight should not be less than 1")

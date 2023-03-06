@@ -1,10 +1,8 @@
 package Mk.JD2_95_22.fitness.core.dto.products;
 
-import Mk.JD2_95_22.fitness.core.dto.base_essense.BaseEssence;
-
 import java.util.Objects;
 
-public class ProductCreated extends BaseEssence {
+public class ProductCreated  {
     private String title;
     private double weight;
     private double calories;

@@ -1,12 +1,12 @@
 package Mk.JD2_95_22.fitness.servise;
 
 
-import Mk.JD2_95_22.fitness.converter.user.ConverterToUserModel;
-import Mk.JD2_95_22.fitness.converter.user.ConverterToUserEntity;
+import Mk.JD2_95_22.fitness.converter.user.ConverterDtoToModel;
+import Mk.JD2_95_22.fitness.converter.user.UserConverter;
 import Mk.JD2_95_22.fitness.core.dto.user.UserCreated;
 import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
 import Mk.JD2_95_22.fitness.core.dto.user.UserVerification;
-import Mk.JD2_95_22.fitness.orm.entity.UserRegistrationEntity;
+import Mk.JD2_95_22.fitness.orm.entity.UserEntity;
 import Mk.JD2_95_22.fitness.orm.repository.IUserRepository;
 import Mk.JD2_95_22.fitness.servise.api.IUserServise;
 import jakarta.validation.ValidationException;
@@ -17,11 +17,11 @@ import java.util.UUID;
 
 public class UserServise implements IUserServise {
     private final IUserRepository repository;
-    private final ConverterToUserEntity converterUserToUserEntity;
+    private final UserConverter converterUserToUserEntity;
 
-    private final ConverterToUserModel converterUserEntityToUserModel;
+    private final ConverterDtoToModel converterUserEntityToUserModel;
 
-    public UserServise(IUserRepository repository, ConverterToUserModel converterUserEntityToUserModel, ConverterToUserEntity converterUserToUserEntity) {
+    public UserServise(IUserRepository repository, ConverterDtoToModel converterUserEntityToUserModel, UserConverter converterUserToUserEntity) {
         this.repository = repository;
         this.converterUserEntityToUserModel = converterUserEntityToUserModel;
         this.converterUserToUserEntity = converterUserToUserEntity;
@@ -30,15 +30,15 @@ public class UserServise implements IUserServise {
         if(newUser==null) {
             throw new NullPointerException("User must not be null");
         }
-        UserRegistrationEntity userEntity=converterUserToUserEntity.convert(newUser);
+        UserEntity userEntity=converterUserToUserEntity.convert(newUser);
         repository.save(userEntity);
 
     }
 
 
-    public UserRegistrationEntity getUser(UUID id){
-        Optional<UserRegistrationEntity> findUser=repository.findById(id);
-        UserRegistrationEntity userEntity=findUser.get();
+    public UserEntity getUser(UUID id){
+        Optional<UserEntity> findUser=repository.findById(id);
+        UserEntity userEntity=findUser.get();
         return userEntity;
 
     }

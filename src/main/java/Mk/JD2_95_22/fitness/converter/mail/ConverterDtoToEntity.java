@@ -4,12 +4,15 @@ import Mk.JD2_95_22.fitness.core.dto.mail.MailDTO;
 import Mk.JD2_95_22.fitness.orm.entity.MailEntity;
 import org.springframework.core.convert.converter.Converter;
 
-public class ConverterMailEntityToMailDTO implements Converter<MailEntity, MailDTO> {
+public class ConverterDtoToEntity implements Converter<MailDTO, MailEntity> {
     @Override
-    public MailDTO convert(MailEntity source) {
-        return new MailDTO(source.getEmailFrom(),
+    public MailEntity convert(MailDTO source) {
+        MailDTO mailDTO=new MailDTO(
+                source.getEmailFrom(),
                 source.getEmailTo(),
                 source.getSubject(),
-                source.getText());
+                source.getMessage());
+
+        return new MailEntity();
     }
 }

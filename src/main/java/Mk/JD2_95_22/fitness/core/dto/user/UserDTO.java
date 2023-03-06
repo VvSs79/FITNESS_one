@@ -1,9 +1,9 @@
 package Mk.JD2_95_22.fitness.core.dto.user;
 
 import Mk.JD2_95_22.fitness.core.dto.base_essense.BaseEssence;
+import Mk.JD2_95_22.fitness.core.util.UserRole;
 import Mk.JD2_95_22.fitness.core.util.UserStatus;
 
-import core.util.UserRole;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
@@ -23,6 +23,9 @@ public class UserDTO extends BaseEssence {
     @Enumerated(EnumType.STRING)
     @NonNull
     private UserStatus status;
+
+    public UserDTO() {
+    }
 
     public UserDTO(String mail, String fio, @NonNull UserRole role, @NonNull UserStatus status) {
         this.mail = mail;

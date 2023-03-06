@@ -5,7 +5,7 @@ import org.springframework.lang.NonNull;
 
 @Entity
 @Table(name = "User", schema = "fitness")
-public class UserRegistrationEntity extends BaseEssenceEntety {
+public class UserEntity extends BaseEssenceEntety {
     @ Column(name = "mail")
     @NonNull
     private String mail;
@@ -31,10 +31,10 @@ public class UserRegistrationEntity extends BaseEssenceEntety {
     @NonNull
     private String password;
 
-    public UserRegistrationEntity() {
+    public UserEntity() {
     }
 
-    public UserRegistrationEntity(@NonNull String mail, @NonNull String fio, @NonNull RoleEntity role, @NonNull StatusEntity status, @NonNull String password) {
+    public UserEntity(@NonNull String mail, @NonNull String fio, @NonNull RoleEntity role, @NonNull StatusEntity status, @NonNull String password) {
         this.mail = mail;
         this.fio = fio;
         this.role = role;
