@@ -27,6 +27,7 @@ public class UserEntity extends BaseEssenceEntety {
             joinColumns = @JoinColumn(name="id"),
             inverseJoinColumns = @JoinColumn(name="name"))
     private StatusEntity status;
+    private Boolean enabled;
     @Column(name = "password")
     @NonNull
     private String password;
@@ -34,12 +35,21 @@ public class UserEntity extends BaseEssenceEntety {
     public UserEntity() {
     }
 
-    public UserEntity(@NonNull String mail, @NonNull String fio, @NonNull RoleEntity role, @NonNull StatusEntity status, @NonNull String password) {
+    public UserEntity(@NonNull String mail, @NonNull String fio, @NonNull RoleEntity role, @NonNull StatusEntity status,Boolean enabled, @NonNull String password) {
         this.mail = mail;
         this.fio = fio;
         this.role = role;
         this.status = status;
+        this.enabled=enabled;
         this.password = password;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     @NonNull

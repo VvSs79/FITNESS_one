@@ -1,31 +1,24 @@
-package Mk.JD2_95_22.fitness.servise;
+package Mk.JD2_95_22.fitness.servise.user;
 
-
-import Mk.JD2_95_22.fitness.converter.user.ConverterDtoToModel;
-import Mk.JD2_95_22.fitness.converter.user.UserConverter;
-import Mk.JD2_95_22.fitness.core.dto.user.UserCreated;
-import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
-import Mk.JD2_95_22.fitness.core.dto.user.UserVerification;
-import Mk.JD2_95_22.fitness.orm.entity.UserEntity;
+import Mk.JD2_95_22.fitness.converter.user.*;
 import Mk.JD2_95_22.fitness.orm.repository.IUserRepository;
-import Mk.JD2_95_22.fitness.servise.api.IUserServise;
-import jakarta.validation.ValidationException;
 
-
-import java.util.Optional;
-import java.util.UUID;
-
-public class UserServise implements IUserServise {
+public class UserService {
     private final IUserRepository repository;
-    private final UserConverter converterUserToUserEntity;
 
-    private final ConverterDtoToModel converterUserEntityToUserModel;
+    private final UserConverterDtoToEntity userConverterDtoToEntity;
+    private final UserConverterEntityToDTO userConverterEntityToDTO;
+    private final UserConverterEntityToModel userConverterEntityToModel;
+    private final  UserConverterEntityToPage userConverterEntityToPage;
 
-    public UserServise(IUserRepository repository, ConverterDtoToModel converterUserEntityToUserModel, UserConverter converterUserToUserEntity) {
+    public UserService(IUserRepository repository, UserConverterDtoToEntity userConverterDtoToEntity, UserConverterEntityToDTO userConverterEntityToDTO, UserConverterEntityToModel userConverterEntityToModel, UserConverterEntityToPage userConverterEntityToPage) {
         this.repository = repository;
-        this.converterUserEntityToUserModel = converterUserEntityToUserModel;
-        this.converterUserToUserEntity = converterUserToUserEntity;
+        this.userConverterDtoToEntity = userConverterDtoToEntity;
+        this.userConverterEntityToDTO = userConverterEntityToDTO;
+        this.userConverterEntityToModel = userConverterEntityToModel;
+        this.userConverterEntityToPage = userConverterEntityToPage;
     }
+
     public void CreatedUser(UserDTO newUser){
         if(newUser==null) {
             throw new NullPointerException("User must not be null");
@@ -45,12 +38,12 @@ public class UserServise implements IUserServise {
     public void UpdateUser(){};
     public void DeleteUser(){};
     public void exist(){};
-     public void verficationUser(UserVerification verificationUser) throws ValidationException {
-         if(verificationUser==null){
-             throw new ValidationException("There is already a user with this email");
-         }
+    public void verficationUser(UserVerification verificationUser) throws ValidationException {
+        if(verificationUser==null){
+            throw new ValidationException("There is already a user with this email");
+        }
 
-     }
+    }
 
     public void validate( UserCreated user) throws ValidationException {
         String mail= user.getMailUser();

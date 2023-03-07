@@ -3,7 +3,7 @@ package Mk.JD2_95_22.fitness.config;
 import Mk.JD2_95_22.fitness.converter.mail.MailConverterEntityTolDTO;
 import Mk.JD2_95_22.fitness.converter.number_format.DoubleConvert;
 import Mk.JD2_95_22.fitness.converter.number_format.InstantConverter;
-import Mk.JD2_95_22.fitness.converter.product.ProductConverterPEntityToModel;
+import Mk.JD2_95_22.fitness.converter.product.ProductConverterEntityToModel;
 import Mk.JD2_95_22.fitness.converter.product.ProductConvertertEntityToDTO;
 import Mk.JD2_95_22.fitness.converter.user.UserConverterDtoToEntity;
 import Mk.JD2_95_22.fitness.converter.user.UserConverterEntityToDTO;
@@ -29,7 +29,7 @@ public class ConverterConfig implements WebMvcConfigurer {
         registry.addConverter(new UserConverterDtoToEntity());
         registry.addConverter(new UserConverterEntityToPage());
         registry.addConverter(new ProductConvertertEntityToDTO());
-        registry.addConverter(new ProductConverterPEntityToModel());
+        registry.addConverter(new ProductConverterEntityToModel());
 
 //mail
         registry.addConverter(new UserConverterDtoToEntity());

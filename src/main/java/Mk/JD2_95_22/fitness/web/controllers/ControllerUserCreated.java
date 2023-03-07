@@ -3,7 +3,7 @@ package Mk.JD2_95_22.fitness.web.controllers;
 import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
 
 import Mk.JD2_95_22.fitness.orm.repository.IUserRepository;
-import Mk.JD2_95_22.fitness.servise.api.IUserServise;
+import Mk.JD2_95_22.fitness.servise.api.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/users/registration")
 public class ControllerUserCreated {
 
-       private IUserServise servise;
+       private IUserService servise;
        @Autowired
        private IUserRepository userRepository;
 

@@ -15,6 +15,7 @@ public class RoleEntity {
     public RoleEntity(String name) {
        this.name = name;
     }
+
     public String getName() {
         return name;
     }

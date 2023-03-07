@@ -1,4 +1,4 @@
-package Mk.JD2_95_22.fitness.servise;
+package Mk.JD2_95_22.fitness.servise.root;
 
 import Mk.JD2_95_22.fitness.core.dto.page.PageDTO;
 import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
@@ -10,7 +10,7 @@ import java.awt.print.Pageable;
 import java.time.Instant;
 import java.util.UUID;
 
-public class AdminServise implements IAdminRoot {
+public class AdminRoot implements IAdminRoot {
     @Override
     public void add(UserCreated newUser) {
 

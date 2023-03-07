@@ -1,5 +1,6 @@
 package Mk.JD2_95_22.fitness.orm.entity;
 
+import Mk.JD2_95_22.fitness.core.util.UserStatus;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +17,8 @@ public class StatusEntity {
     public StatusEntity(String name) {
         this.name = name;
     }
+
+
 
     public String getName() {
         return name;

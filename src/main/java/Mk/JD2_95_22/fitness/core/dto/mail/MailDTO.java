@@ -1,23 +1,20 @@
 package Mk.JD2_95_22.fitness.core.dto.mail;
 
-import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
-import java.util.Objects;
-import java.util.UUID;
 
 public class MailDTO {
     private String emailFrom;
     private String emailTo;
     private String subject;
-    private UUID message;
+    private String mailContent;
 
     public MailDTO() {
     }
 
-    public MailDTO(String emailFrom, String emailTo, String subject, UUID message) {
+    public MailDTO(String emailFrom, String emailTo, String subject, String mailContent) {
         this.emailFrom = emailFrom;
         this.emailTo = emailTo;
         this.subject = subject;
-        this.message = message;
+        this.mailContent = mailContent;
     }
 
     public String getEmailFrom() {
@@ -44,11 +41,11 @@ public class MailDTO {
         this.subject = subject;
     }
 
-    public UUID getMessage() {
-        return message;
+    public String getMailContent() {
+        return mailContent;
     }
 
-    public void setMessage(UUID message) {
-        this.message = message;
+    public void setMailContent(String mailContent) {
+        this.mailContent = mailContent;
     }
 }
