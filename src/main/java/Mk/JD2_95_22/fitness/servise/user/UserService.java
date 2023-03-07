@@ -4,13 +4,13 @@ import Mk.JD2_95_22.fitness.converter.user.*;
 import Mk.JD2_95_22.fitness.core.dto.page.PageDTO;
 import Mk.JD2_95_22.fitness.core.dto.user.UserCreated;
 import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
+
 import Mk.JD2_95_22.fitness.core.dto.user.UserVerification;
-import Mk.JD2_95_22.fitness.core.exeption.SingleExeption;
-import Mk.JD2_95_22.fitness.core.util.UserRole;
 import Mk.JD2_95_22.fitness.core.util.UserStatus;
 import Mk.JD2_95_22.fitness.orm.entity.RoleEntity;
 import Mk.JD2_95_22.fitness.orm.entity.UserEntity;
 import Mk.JD2_95_22.fitness.orm.repository.IUserRepository;
+import Mk.JD2_95_22.fitness.servise.api.IUserService;
 import jakarta.validation.ValidationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +19,7 @@ import org.springframework.data.domain.Pageable;
 import java.time.Instant;
 import java.util.*;
 
-public class UserService {
+public class UserService implements IUserService {
     private final IUserRepository repository;
 
     private final UserConverterDtoToEntity userConverterDtoToEntity;
