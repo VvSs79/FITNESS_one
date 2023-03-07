@@ -1,5 +1,6 @@
 package Mk.JD2_95_22.fitness.web.controllers;
 
+import Mk.JD2_95_22.fitness.core.dto.user.UserCreated;
 import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
 
 import Mk.JD2_95_22.fitness.orm.repository.IUserRepository;
@@ -21,7 +22,7 @@ public class ControllerUserCreated {
        private IUserRepository userRepository;
 
         @RequestMapping(method = RequestMethod.POST)
-        public ResponseEntity<UserDTO> userCreated(@RequestBody UserDTO user){
+        public ResponseEntity<UserCreated> userCreated(@RequestBody UserDTO user){
             servise.CreatedUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
