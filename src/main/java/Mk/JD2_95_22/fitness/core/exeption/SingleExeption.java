@@ -1,10 +1,10 @@
 package Mk.JD2_95_22.fitness.core.exeption;
 
-public class ClassSingleExeption {
+public class SingleExeption {
     private String logref;
     private String message;
 
-    public ClassSingleExeption(String logref, String message) {
+    public SingleExeption(String logref, String message) {
         this.logref = logref;
         this.message = message;
     }

@@ -2,11 +2,11 @@ package Mk.JD2_95_22.fitness.core.exeption;
 
 import java.util.List;
 
-public class ClassMultyExeption {
+public class MultyExeption {
     private String logref;
-    private List<ClassError> errors;
+    private List<Error> errors;
 
-    public ClassMultyExeption(String logref, List<ClassError> errors) {
+    public MultyExeption(String logref, List<Error> errors) {
         this.logref = logref;
         this.errors = errors;
     }
@@ -15,7 +15,7 @@ public class ClassMultyExeption {
         return logref;
     }
 
-    public List<ClassError> getErrors() {
+    public List<Error> getErrors() {
         return errors;
     }
 }
