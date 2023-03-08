@@ -1,4 +1,6 @@
 package Mk.JD2_95_22.fitness.orm.entity.user;
+import Mk.JD2_95_22.fitness.core.util.UserRole;
+import Mk.JD2_95_22.fitness.core.util.UserStatus;
 import Mk.JD2_95_22.fitness.orm.entity.utils.RoleEntity;
 import Mk.JD2_95_22.fitness.orm.entity.utils.StatusEntity;
 import jakarta.persistence.*;
@@ -7,11 +9,10 @@ import org.springframework.lang.NonNull;
 import java.time.Instant;
 import java.util.UUID;
 
+
 @Entity
-@Table(name = "User", schema = "fitness",
-        uniqueConstraints = {@UniqueConstraint(columnNames = "uuid"),
-                             @UniqueConstraint(columnNames = "mail")})
-public class UserEntity  {
+@Table(name = "User", schema = "fitness")
+public class UserEntity {
     @Id
     @Column(name = "uuid")
     private UUID uuid;

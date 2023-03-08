@@ -10,7 +10,7 @@ import org.springframework.lang.NonNull;
 import java.util.UUID;
 
 @Entity
-@Table(name="UserLogin" )
+@Table(name="UserLogin" , schema = "fitness")
 public class UserLoginEntity {
     @Id
     @Column(name = "id")
@@ -29,12 +29,12 @@ public class UserLoginEntity {
         this.password = password;
     }
 
-    @NonNull
+
     public UUID getId() {
         return id;
     }
 
-    public void setId(@NonNull UUID id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

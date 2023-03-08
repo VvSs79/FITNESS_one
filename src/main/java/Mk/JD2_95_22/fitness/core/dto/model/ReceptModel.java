@@ -1,6 +1,6 @@
 package Mk.JD2_95_22.fitness.core.dto.model;
 
-import Mk.JD2_95_22.fitness.converter.number_format.DoubleConvert;
+import Mk.JD2_95_22.fitness.converter.number_format.DoubleConverter;
 import Mk.JD2_95_22.fitness.converter.number_format.InstantConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -27,13 +27,13 @@ public class ReceptModel {
     private  Integer weight;
     @JsonProperty("calories")
     private  Integer calories;
-    @JsonSerialize(converter = DoubleConvert.Serializer.class)
+    @JsonSerialize(converter = DoubleConverter.Serializer.class)
     @JsonProperty("proteins")
     private Double proteins;
-    @JsonSerialize(converter = DoubleConvert.Serializer.class)
+    @JsonSerialize(converter = DoubleConverter.Serializer.class)
     @JsonProperty("fats")
     private Double fats;
-    @JsonSerialize(converter = DoubleConvert.Serializer.class)
+    @JsonSerialize(converter = DoubleConverter.Serializer.class)
     @JsonProperty("carbohydrates")
     private Double carbohydrates;
 

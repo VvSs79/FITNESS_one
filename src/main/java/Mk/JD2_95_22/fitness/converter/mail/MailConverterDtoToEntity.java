@@ -11,7 +11,7 @@ public class MailConverterDtoToEntity implements Converter<MailDTO, MailEntity> 
                 source.getEmailFrom(),
                 source.getEmailTo(),
                 source.getSubject(),
-                source.getMessage());
+                source.getMailContent());
 
         return new MailEntity();
     }
