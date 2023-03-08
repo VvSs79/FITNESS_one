@@ -2,7 +2,7 @@ package Mk.JD2_95_22.fitness.web.controllers;
 
 import Mk.JD2_95_22.fitness.core.dto.page.PageDTO;
 import Mk.JD2_95_22.fitness.core.dto.products.RecipeDTO;
-import Mk.JD2_95_22.fitness.servise.api.IRecepteService;
+import Mk.JD2_95_22.fitness.servise.api.product.IRecepteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

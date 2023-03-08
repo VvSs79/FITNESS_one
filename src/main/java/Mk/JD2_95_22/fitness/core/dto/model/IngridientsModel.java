@@ -9,9 +9,9 @@ public class IngridientsModel {
     private ProductModel product;
 
     @JsonProperty("weight")
-    private Integer weight;
+    private Double weight;
     @JsonProperty("calories")
-    private Integer calories;
+    private Double calories;
     @JsonSerialize(converter = DoubleConvert.Serializer.class)
     @JsonProperty("proteins")
     private Double proteins;
@@ -25,10 +25,10 @@ public class IngridientsModel {
     public IngridientsModel() {
     }
 
-    public IngridientsModel(ProductModel product, Integer weight, Integer calories, Double proteins, Double fats, Double carbohydrates) {
+    public IngridientsModel(ProductModel product, Double weight, Double calories, Double proteins, Double fats, Double carbohydrates) {
         this.product = product;
         this.weight = weight;
-        this.calories = countInt(product.getCalories());
+        this.calories = counDoubl(product.getCalories());
         this.proteins = counDoubl(product.getProteins());
         this.fats = counDoubl(product.getFats());
         this.carbohydrates = counDoubl(product.getCarbohydrates());
@@ -42,19 +42,19 @@ public class IngridientsModel {
         this.product = product;
     }
 
-    public Integer getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(Integer weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 
-    public Integer getCalories() {
+    public Double getCalories() {
         return calories;
     }
 
-    public void setCalories(Integer calories) {
+    public void setCalories(Double calories) {
         this.calories = calories;
     }
 
@@ -81,7 +81,7 @@ public class IngridientsModel {
     public void setCarbohydrates(Double carbohydrates) {
         this.carbohydrates = carbohydrates;
     }
-    private Integer countInt(Integer value){
+    private Double counDoubl(Integer value){
         return weight*value/product.getWeight();
     }
     private Double counDoubl(Double value){

@@ -1,10 +1,27 @@
 package Mk.JD2_95_22.fitness.core.dto.products;
 
-import Mk.JD2_95_22.fitness.core.dto.base_essense.BaseEssence;
+import Mk.JD2_95_22.fitness.converter.number_format.InstantConverter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import jakarta.validation.constraints.NotBlank;
+import org.springframework.lang.NonNull;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
-public class RecipeDTO extends BaseEssence {
+public class RecipeDTO  {
+    @NonNull private UUID uuid;
+    @JsonProperty("dt_create")
+    @JsonSerialize(converter = InstantConverter.Serializer.class)
+    @JsonDeserialize(converter = InstantConverter.Deserializer.class)
+    private Instant dtCreate;
+    @JsonProperty("dt_update")
+    @JsonSerialize(converter = InstantConverter.Serializer.class)
+    @JsonDeserialize(converter = InstantConverter.Deserializer.class)
+    private Instant dtUpdate;
+    @NotBlank(message = "Title must not be blank")
     private String title;
     private List<Ingridients> composition;
 

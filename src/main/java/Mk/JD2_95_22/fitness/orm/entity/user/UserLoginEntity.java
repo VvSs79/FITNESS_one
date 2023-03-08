@@ -1,4 +1,4 @@
-package Mk.JD2_95_22.fitness.orm.entity;
+package Mk.JD2_95_22.fitness.orm.entity.user;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

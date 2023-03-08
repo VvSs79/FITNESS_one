@@ -7,10 +7,10 @@ import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
 
 import Mk.JD2_95_22.fitness.core.dto.user.UserVerification;
 import Mk.JD2_95_22.fitness.core.util.UserStatus;
-import Mk.JD2_95_22.fitness.orm.entity.RoleEntity;
-import Mk.JD2_95_22.fitness.orm.entity.UserEntity;
+import Mk.JD2_95_22.fitness.orm.entity.utils.RoleEntity;
+import Mk.JD2_95_22.fitness.orm.entity.user.UserEntity;
 import Mk.JD2_95_22.fitness.orm.repository.IUserRepository;
-import Mk.JD2_95_22.fitness.servise.api.IUserService;
+import Mk.JD2_95_22.fitness.servise.api.user.IUserService;
 import jakarta.validation.ValidationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

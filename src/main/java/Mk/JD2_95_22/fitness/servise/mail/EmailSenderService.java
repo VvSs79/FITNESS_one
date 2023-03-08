@@ -1,7 +1,7 @@
 package Mk.JD2_95_22.fitness.servise.mail;
 
 import Mk.JD2_95_22.fitness.core.dto.mail.MailDTO;
-import Mk.JD2_95_22.fitness.servise.api.IEmailSenderService;
+import Mk.JD2_95_22.fitness.servise.api.mail.IEmailSenderService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.validation.constraints.NotNull;

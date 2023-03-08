@@ -3,7 +3,7 @@ package Mk.JD2_95_22.fitness.converter.user;
 import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
 import Mk.JD2_95_22.fitness.core.util.UserRole;
 import Mk.JD2_95_22.fitness.core.util.UserStatus;
-import Mk.JD2_95_22.fitness.orm.entity.UserEntity;
+import Mk.JD2_95_22.fitness.orm.entity.user.UserEntity;
 import org.springframework.core.convert.converter.Converter;
 
 import java.util.UUID;

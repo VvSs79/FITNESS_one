@@ -1,11 +1,9 @@
 package Mk.JD2_95_22.fitness.web.controllers;
 
-import Mk.JD2_95_22.fitness.core.dto.model.ProductModel;
 import Mk.JD2_95_22.fitness.core.dto.page.PageDTO;
 import Mk.JD2_95_22.fitness.core.dto.products.ProductDTO;
-import Mk.JD2_95_22.fitness.servise.api.IProductService;
+import Mk.JD2_95_22.fitness.servise.api.product.IProductService;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -2,10 +2,8 @@ package Mk.JD2_95_22.fitness.servise.user;
 
 import Mk.JD2_95_22.fitness.config.security.token.ConfirmationToken;
 import Mk.JD2_95_22.fitness.core.dto.user.UserCreated;
-import Mk.JD2_95_22.fitness.core.dto.user.UserRegistration;
 import Mk.JD2_95_22.fitness.core.util.UserRole;
 import Mk.JD2_95_22.fitness.core.util.UserStatus;
-import Mk.JD2_95_22.fitness.orm.entity.UserEntity;
 import Mk.JD2_95_22.fitness.servise.mail.EmailSenderService;
 import Mk.JD2_95_22.fitness.servise.mail.EmailValidator;
 import Mk.JD2_95_22.fitness.servise.token.ConfirmationTokenService;

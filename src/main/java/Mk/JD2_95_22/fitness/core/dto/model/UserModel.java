@@ -1,8 +1,8 @@
 package Mk.JD2_95_22.fitness.core.dto.model;
 
 import Mk.JD2_95_22.fitness.converter.number_format.InstantConverter;
-import Mk.JD2_95_22.fitness.orm.entity.RoleEntity;
-import Mk.JD2_95_22.fitness.orm.entity.StatusEntity;
+import Mk.JD2_95_22.fitness.orm.entity.utils.RoleEntity;
+import Mk.JD2_95_22.fitness.orm.entity.utils.StatusEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -14,7 +14,6 @@ import java.util.UUID;
 public class UserModel {
     @JsonProperty("uuid")
     private UUID uuid;
-
     @JsonSerialize(converter = InstantConverter.Serializer.class)
     @JsonProperty("dt_create")
     private Instant dt_create;

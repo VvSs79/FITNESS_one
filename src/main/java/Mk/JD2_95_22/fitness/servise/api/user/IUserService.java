@@ -1,10 +1,10 @@
-package Mk.JD2_95_22.fitness.servise.api;
+package Mk.JD2_95_22.fitness.servise.api.user;
 
 import Mk.JD2_95_22.fitness.core.dto.page.PageDTO;
 import Mk.JD2_95_22.fitness.core.dto.user.UserCreated;
 import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
 import Mk.JD2_95_22.fitness.core.dto.user.UserVerification;
-import Mk.JD2_95_22.fitness.orm.entity.UserEntity;
+import Mk.JD2_95_22.fitness.orm.entity.user.UserEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 

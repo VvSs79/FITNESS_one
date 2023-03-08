@@ -1,8 +1,7 @@
 package Mk.JD2_95_22.fitness.servise.user;
 
 import Mk.JD2_95_22.fitness.config.security.token.ConfirmationToken;
-import Mk.JD2_95_22.fitness.core.dto.user.UserCreated;
-import Mk.JD2_95_22.fitness.orm.entity.UserEntity;
+import Mk.JD2_95_22.fitness.orm.entity.user.UserEntity;
 import Mk.JD2_95_22.fitness.orm.repository.IUserRepository;
 import Mk.JD2_95_22.fitness.servise.token.ConfirmationTokenService;
 import org.springframework.security.core.userdetails.UserDetails;

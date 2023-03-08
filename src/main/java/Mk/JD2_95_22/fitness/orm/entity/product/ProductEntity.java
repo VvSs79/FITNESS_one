@@ -1,12 +1,23 @@
-package Mk.JD2_95_22.fitness.orm.entity;
+package Mk.JD2_95_22.fitness.orm.entity.product;
 
 import jakarta.persistence.*;
-
+import java.time.Instant;
+import java.util.UUID;
 
 @Entity
-@Table( name="product", schema = "fitness")
-public class ProductEntity extends BaseEssenceEntety {
+@Table( name="product", schema = "fitness",
+        uniqueConstraints = {@UniqueConstraint(columnNames = "uuid"),
+                             @UniqueConstraint(columnNames = "title")})
+public class ProductEntity {
+    @Id
+    @Column(name = "uuid")
+    private UUID uuid;
+    @Column(name = "dt_create")
+    private Instant dtCreate;
 
+    @Column(name = "dt_update")
+    @Version
+    private Instant dtUpdate;
     @Column(name = "title")
     private String title;
     @Column(name = "weight")
@@ -23,13 +34,40 @@ public class ProductEntity extends BaseEssenceEntety {
     public ProductEntity() {
     }
 
-    public ProductEntity(String title, Double weight, Double calories, Double proteins, Double fats, Double carbohydrates) {
+    public ProductEntity(UUID uuid, Instant dtCreate, Instant dtUpdate, String title, Double weight, Double calories, Double proteins, Double fats, Double carbohydrates) {
+        this.uuid = uuid;
+        this.dtCreate = dtCreate;
+        this.dtUpdate = dtUpdate;
         this.title = title;
         this.weight = weight;
         this.calories = calories;
         this.proteins = proteins;
         this.fats = fats;
         this.carbohydrates = carbohydrates;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    public Instant getDtCreate() {
+        return dtCreate;
+    }
+
+    public void setDtCreate(Instant dtCreate) {
+        this.dtCreate = dtCreate;
+    }
+
+    public Instant getDtUpdate() {
+        return dtUpdate;
+    }
+
+    public void setDtUpdate(Instant dtUpdate) {
+        this.dtUpdate = dtUpdate;
     }
 
     public String getTitle() {

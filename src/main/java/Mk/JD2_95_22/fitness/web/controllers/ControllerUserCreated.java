@@ -4,7 +4,7 @@ import Mk.JD2_95_22.fitness.core.dto.user.UserCreated;
 import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
 
 import Mk.JD2_95_22.fitness.orm.repository.IUserRepository;
-import Mk.JD2_95_22.fitness.servise.api.IUserService;
+import Mk.JD2_95_22.fitness.servise.api.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class ControllerUserCreated {
        private IUserRepository userRepository;
 
         @RequestMapping(method = RequestMethod.POST)
-        public ResponseEntity<UserCreated> userCreated(@RequestBody UserDTO user){
+        public ResponseEntity<UserCreated> userCreated(@RequestBody UserCreated user){
             servise.CreatedUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }

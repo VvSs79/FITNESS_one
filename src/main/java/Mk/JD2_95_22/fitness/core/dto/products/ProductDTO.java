@@ -1,13 +1,25 @@
 package Mk.JD2_95_22.fitness.core.dto.products;
 
-
-
-import Mk.JD2_95_22.fitness.core.dto.base_essense.BaseEssence;
+import Mk.JD2_95_22.fitness.converter.number_format.InstantConverter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.lang.NonNull;
+import java.time.Instant;
+import java.util.UUID;
 
-import java.util.Objects;
-public class ProductDTO extends BaseEssence {
+public class ProductDTO  {
+    @NonNull private UUID uuid;
+    @JsonProperty("dt_create")
+    @JsonSerialize(converter = InstantConverter.Serializer.class)
+    @JsonDeserialize(converter = InstantConverter.Deserializer.class)
+    private Instant dtCreate;
+    @JsonProperty("dt_update")
+    @JsonSerialize(converter = InstantConverter.Serializer.class)
+    @JsonDeserialize(converter = InstantConverter.Deserializer.class)
+    private Instant dtUpdate;
     @NotBlank(message = "Title must not be blank")
     private String title;
     @NotBlank(message = "Weight should not be less than 1")
@@ -26,14 +38,40 @@ public class ProductDTO extends BaseEssence {
     @Min(value = 0)
     private double carbohydrates;
 
-
-    public ProductDTO(String title, double weight, double calories, double proteins, double fats, double carbohydrates) {
+    public ProductDTO(UUID uuid, Instant dtCreate, Instant dtUpdate, String title, double weight, double calories, double proteins, double fats, double carbohydrates) {
+        this.uuid = uuid;
+        this.dtCreate = dtCreate;
+        this.dtUpdate = dtUpdate;
         this.title = title;
         this.weight = weight;
         this.calories = calories;
         this.proteins = proteins;
         this.fats = fats;
         this.carbohydrates = carbohydrates;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    public Instant getDtCreate() {
+        return dtCreate;
+    }
+
+    public void setDtCreate(Instant dtCreate) {
+        this.dtCreate = dtCreate;
+    }
+
+    public Instant getDtUpdate() {
+        return dtUpdate;
+    }
+
+    public void setDtUpdate(Instant dtUpdate) {
+        this.dtUpdate = dtUpdate;
     }
 
     public String getTitle() {
@@ -82,30 +120,5 @@ public class ProductDTO extends BaseEssence {
 
     public void setCarbohydrates(double carbohydrates) {
         this.carbohydrates = carbohydrates;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ProductDTO that = (ProductDTO) o;
-        return Double.compare(that.weight, weight) == 0 && Double.compare(that.calories, calories) == 0 && Double.compare(that.proteins, proteins) == 0 && Double.compare(that.fats, fats) == 0 && Double.compare(that.carbohydrates, carbohydrates) == 0 && Objects.equals(title, that.title);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(title, weight, calories, proteins, fats, carbohydrates);
-    }
-
-    @Override
-    public String toString() {
-        return "ProductDTO{" +
-                "title='" + title + '\'' +
-                ", weight=" + weight +
-                ", calories=" + calories +
-                ", proteins=" + proteins +
-                ", fats=" + fats +
-                ", carbohydrates=" + carbohydrates +
-                '}';
     }
 }

@@ -1,11 +1,26 @@
-package Mk.JD2_95_22.fitness.orm.entity;
+package Mk.JD2_95_22.fitness.orm.entity.user;
+import Mk.JD2_95_22.fitness.orm.entity.utils.RoleEntity;
+import Mk.JD2_95_22.fitness.orm.entity.utils.StatusEntity;
 import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
 
+import java.time.Instant;
+import java.util.UUID;
 
 @Entity
-@Table(name = "User", schema = "fitness")
-public class UserEntity extends BaseEssenceEntety {
+@Table(name = "User", schema = "fitness",
+        uniqueConstraints = {@UniqueConstraint(columnNames = "uuid"),
+                             @UniqueConstraint(columnNames = "mail")})
+public class UserEntity  {
+    @Id
+    @Column(name = "uuid")
+    private UUID uuid;
+    @Column(name = "dt_create")
+    private Instant dtCreate;
+
+    @Column(name = "dt_update")
+    @Version
+    private Instant dtUpdate;
     @ Column(name = "mail")
     @NonNull
     private String mail;
@@ -35,21 +50,40 @@ public class UserEntity extends BaseEssenceEntety {
     public UserEntity() {
     }
 
-    public UserEntity(@NonNull String mail, @NonNull String fio, @NonNull RoleEntity role, @NonNull StatusEntity status,Boolean enabled, @NonNull String password) {
+    public UserEntity(UUID uuid, Instant dtCreate, Instant dtUpdate, @NonNull String mail, @NonNull String fio, @NonNull RoleEntity role, @NonNull StatusEntity status, Boolean enabled, @NonNull String password) {
+        this.uuid = uuid;
+        this.dtCreate = dtCreate;
+        this.dtUpdate = dtUpdate;
         this.mail = mail;
         this.fio = fio;
         this.role = role;
         this.status = status;
-        this.enabled=enabled;
+        this.enabled = enabled;
         this.password = password;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    public Instant getDtCreate() {
+        return dtCreate;
+    }
+
+    public void setDtCreate(Instant dtCreate) {
+        this.dtCreate = dtCreate;
+    }
+
+    public Instant getDtUpdate() {
+        return dtUpdate;
+    }
+
+    public void setDtUpdate(Instant dtUpdate) {
+        this.dtUpdate = dtUpdate;
     }
 
     @NonNull
@@ -86,6 +120,14 @@ public class UserEntity extends BaseEssenceEntety {
 
     public void setStatus(@NonNull StatusEntity status) {
         this.status = status;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     @NonNull

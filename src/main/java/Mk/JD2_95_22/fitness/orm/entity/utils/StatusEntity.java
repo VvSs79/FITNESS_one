@@ -1,6 +1,5 @@
-package Mk.JD2_95_22.fitness.orm.entity;
+package Mk.JD2_95_22.fitness.orm.entity.utils;
 
-import Mk.JD2_95_22.fitness.core.util.UserStatus;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,6 +7,10 @@ import jakarta.persistence.*;
 
 public class StatusEntity {
     @Id
+    @GeneratedValue(generator = "status_seq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "status_seq", sequenceName = "user_status_id_seq",
+            schema = "fitness", allocationSize = 1)
+    private  int id;
     @Enumerated(EnumType.STRING)
     private String name;
 

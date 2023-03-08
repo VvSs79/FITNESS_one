@@ -1,5 +1,7 @@
 package Mk.JD2_95_22.fitness.orm.entity;
 
+import Mk.JD2_95_22.fitness.orm.entity.user.UserEntity;
+import Mk.JD2_95_22.fitness.orm.entity.utils.MailStatusEntity;
 import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
 import java.io.Serializable;

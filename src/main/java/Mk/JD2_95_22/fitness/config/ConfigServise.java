@@ -12,15 +12,17 @@ import Mk.JD2_95_22.fitness.servise.mail.MailService;
 import Mk.JD2_95_22.fitness.servise.product.ProductService;
 import Mk.JD2_95_22.fitness.servise.product.RecepteService;
 import Mk.JD2_95_22.fitness.servise.user.UserService;
-import Mk.JD2_95_22.fitness.servise.api.IMailService;
-import Mk.JD2_95_22.fitness.servise.api.IProductService;
-import Mk.JD2_95_22.fitness.servise.api.IRecepteService;
-import Mk.JD2_95_22.fitness.servise.api.IUserService;
+import Mk.JD2_95_22.fitness.servise.api.mail.IMailService;
+import Mk.JD2_95_22.fitness.servise.api.product.IProductService;
+import Mk.JD2_95_22.fitness.servise.api.product.IRecepteService;
+import Mk.JD2_95_22.fitness.servise.api.user.IUserService;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 
 @Configuration
 public class ConfigServise {
+    @Bean
     public IUserService userService(IUserRepository repository,
                                     UserConverterDtoToEntity userConverterDtoToEntity,
                                     UserConverterEntityToDTO userConverterEntityToDTO,
@@ -33,6 +35,7 @@ public class ConfigServise {
               userConverterEntityToModel,
               userConverterEntityToPage);
   }
+    @Bean
   public IProductService productServise(IProductRepositpry repository,
                                         ProductConverterDtoToEntity productConverterDtoToEntity,
                                         ProductConvertertEntityToDTO productConvertertEntityToDTO,
@@ -46,7 +49,7 @@ public class ConfigServise {
                 productConverterModelToEntity,
                 productConverterEntityToPage);
   }
-
+    @Bean
   public IRecepteService recepteServise(IRecepteRepository repository,
                                         IProductService productService,
                                         ProductConverterModelToEntity productConverterModelToEntity,
@@ -55,6 +58,7 @@ public class ConfigServise {
 
 
   }
+    @Bean
   public IMailService mailService(IMailRepository repository,
                                   MailConverterDtoToEntity mailConverterDtoToEntity,
                                   MailConverterEntityTolDTO mailConverterEntityTolDTO,

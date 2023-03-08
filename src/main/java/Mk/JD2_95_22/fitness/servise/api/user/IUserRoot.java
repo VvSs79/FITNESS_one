@@ -1,4 +1,4 @@
-package Mk.JD2_95_22.fitness.servise.api;
+package Mk.JD2_95_22.fitness.servise.api.user;
 
 import Mk.JD2_95_22.fitness.core.dto.page.PageDTO;
 import Mk.JD2_95_22.fitness.core.dto.products.ProductDTO;

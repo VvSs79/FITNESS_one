@@ -4,9 +4,9 @@ import Mk.JD2_95_22.fitness.converter.product.*;
 import Mk.JD2_95_22.fitness.core.dto.page.PageDTO;
 import Mk.JD2_95_22.fitness.core.dto.products.ProductCreated;
 import Mk.JD2_95_22.fitness.core.dto.products.ProductDTO;
-import Mk.JD2_95_22.fitness.orm.entity.ProductEntity;
+import Mk.JD2_95_22.fitness.orm.entity.product.ProductEntity;
 import Mk.JD2_95_22.fitness.orm.repository.IProductRepositpry;
-import Mk.JD2_95_22.fitness.servise.api.IProductService;
+import Mk.JD2_95_22.fitness.servise.api.product.IProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 

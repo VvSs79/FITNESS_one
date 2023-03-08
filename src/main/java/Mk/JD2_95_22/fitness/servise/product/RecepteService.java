@@ -6,13 +6,12 @@ import Mk.JD2_95_22.fitness.core.dto.model.IngridientsModel;
 import Mk.JD2_95_22.fitness.core.dto.model.ReceptModel;
 import Mk.JD2_95_22.fitness.core.dto.page.PageDTO;
 import Mk.JD2_95_22.fitness.core.dto.products.Ingridients;
-import Mk.JD2_95_22.fitness.core.dto.products.RecipeCreated;
 import Mk.JD2_95_22.fitness.core.dto.products.RecipeDTO;
-import Mk.JD2_95_22.fitness.orm.entity.IngridientsEntity;
-import Mk.JD2_95_22.fitness.orm.entity.RecepteEntity;
+import Mk.JD2_95_22.fitness.orm.entity.product.IngridientsEntity;
+import Mk.JD2_95_22.fitness.orm.entity.product.RecipeEntity;
 import Mk.JD2_95_22.fitness.orm.repository.IRecepteRepository;
-import Mk.JD2_95_22.fitness.servise.api.IProductService;
-import Mk.JD2_95_22.fitness.servise.api.IRecepteService;
+import Mk.JD2_95_22.fitness.servise.api.product.IProductService;
+import Mk.JD2_95_22.fitness.servise.api.product.IRecepteService;
 import jakarta.validation.ValidationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -44,16 +43,16 @@ public class RecepteService implements IRecepteService {
         List<Ingridients> ingredientDTO = recipes.getComposition();
         List<Ingridients> collect = ingredientDTO.stream()
 ?                .collect(Collectors.toList());
-        RecepteEntity recipeEntity = new RecepteEntity();
+        RecipeEntity recipeEntity = new RecipeEntity();
         repository.save(recipeEntity);
     }
 
     @Override
     public PageDTO<RecipeDTO> getPageRecipe(int page, int size) {
         PageRequest paging = PageRequest.of(page, size);
-        Page<RecepteEntity> all = repository.findAll(paging);
+        Page<RecipeEntity> all = repository.findAll(paging);
         List<ReceptModel>  content  = new ArrayList<>();
-        for (RecepteEntity recipe: all.getContent()) {
+        for (RecipeEntity recipe: all.getContent()) {
             List<IngridientsModel> collect = recipe.getComposition().stream()
                     .map(s -> new IngridientsModel(
                             service.getProduct(s.getProduct().getUuid()),
@@ -96,7 +95,7 @@ public class RecepteService implements IRecepteService {
     public void update(UUID id, Instant version, RecipeDTO product) {
         checkDoubleRecipe(product);
         validate(product);
-        RecepteEntity recipeEntity = repository.findById(id)
+        RecipeEntity recipeEntity = repository.findById(id)
                 .orElseThrow(() -> new ValidationException("There is no recipe with such id"));
         if (version.toEpochMilli() == recipeEntity.getDt_update().toEpochMilli()){
             recipeEntity.setTitle(product.getTitle());
