@@ -1,5 +1,6 @@
 package Mk.JD2_95_22.fitness.orm.entity.utils;
 
+import Mk.JD2_95_22.fitness.core.util.UserStatus;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,18 +13,16 @@ public class StatusEntity {
             schema = "fitness", allocationSize = 1)
     private  int id;
     @Enumerated(EnumType.STRING)
-    private String name;
+    private UserStatus status;
 
     public StatusEntity() {
     }
 
-    public StatusEntity(String name) {
-        this.name = name;
+    public StatusEntity(UserStatus status) {
+        this.status = status;
     }
 
-
-
-    public String getName() {
-        return name;
+    public UserStatus getName() {
+        return status;
     }
 }

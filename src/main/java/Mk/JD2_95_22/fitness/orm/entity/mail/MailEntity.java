@@ -1,4 +1,4 @@
-package Mk.JD2_95_22.fitness.orm.entity;
+package Mk.JD2_95_22.fitness.orm.entity.mail;
 
 import Mk.JD2_95_22.fitness.orm.entity.user.UserEntity;
 import Mk.JD2_95_22.fitness.orm.entity.utils.MailStatusEntity;

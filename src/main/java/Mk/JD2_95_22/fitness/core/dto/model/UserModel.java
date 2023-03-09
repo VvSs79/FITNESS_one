@@ -23,7 +23,7 @@ public class UserModel {
     @JsonProperty("mail")
     private String mail;
     @JsonProperty("fio")
-    private String name;
+    private String fio;
     @JsonProperty("role")
     private RoleEntity role;
     @JsonProperty("status")
@@ -32,12 +32,12 @@ public class UserModel {
     public UserModel() {
     }
 
-    public UserModel(UUID uuid, Instant dt_create, Instant dt_update, String mail, RoleEntity role, StatusEntity status) {
+    public UserModel(UUID uuid, Instant dt_create, Instant dt_update, String mail, String fio, RoleEntity role, StatusEntity status) {
         this.uuid = uuid;
         this.dt_create = dt_create;
         this.dt_update = dt_update;
         this.mail = mail;
-        this.name = name;
+        this.fio = fio;
         this.role = role;
         this.status = status;
     }
@@ -75,11 +75,11 @@ public class UserModel {
     }
 
     public String getName() {
-        return name;
+        return fio;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String fio) {
+        this.fio = fio;
     }
 
     public RoleEntity getRole() {

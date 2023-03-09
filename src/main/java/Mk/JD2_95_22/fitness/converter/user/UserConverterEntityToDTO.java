@@ -12,14 +12,14 @@ import java.util.UUID;
 public class UserConverterEntityToDTO implements Converter<UserEntity, UserDTO> {
     @Override
     public UserDTO convert(UserEntity source) {
-        UUID uuid=source.getUuid(),
-                Instant.now(),
-                Instant.now()
-        String fio =source.getFio();
-        String mail = source.getMail();
-        UserRole role=source.getRole();
-        UserStatus status=source.getStatus();
-        UUID uuid = source.getUuid();
-        return new UserDTO(mail,fio,role,status);
+                UUID uuid=source.getUuid();
+                Instant dtCreated=source.getDtCreate();
+                Instant dtUpdate= source.getDtUpdate();
+                String fio =source.getFio();
+                String mail = source.getMail();
+                UserRole role=UserRole.USER;
+                UserStatus status=UserStatus.WAITING_ACTIVATION;
+
+        return new UserDTO(uuid,dtCreated,dtUpdate,mail,fio,role,status);
     }
 }

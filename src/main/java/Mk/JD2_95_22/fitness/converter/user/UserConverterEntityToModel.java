@@ -12,14 +12,14 @@ import java.util.UUID;
 public class UserConverterEntityToModel implements Converter<UserEntity, UserModel> {
     @Override
     public UserModel convert(UserEntity source) {
-        Instant dtCreate = source.getTimeCreated();
-        Instant dtUpdate = source.getDt_update();
+        Instant dtCreate = source.getDtCreate();
+        Instant dtUpdate = source.getDtUpdate();
         String fio =source.getFio();
         String mail = source.getMail();
         RoleEntity role = source.getRole();
-       StatusEntity status = source.getStatus();
+        StatusEntity status = source.getStatus();
         UUID uuid = source.getUuid();
-        return new UserModel(uuid,dtCreate,dtUpdate,mail,role,status);
+        return new UserModel(uuid,dtCreate,dtUpdate,fio,mail,role,status);
     }
 }
 

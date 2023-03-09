@@ -1,11 +1,9 @@
 package Mk.JD2_95_22.fitness.orm.entity.user;
-import Mk.JD2_95_22.fitness.core.util.UserRole;
-import Mk.JD2_95_22.fitness.core.util.UserStatus;
+
 import Mk.JD2_95_22.fitness.orm.entity.utils.RoleEntity;
 import Mk.JD2_95_22.fitness.orm.entity.utils.StatusEntity;
 import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
-
 import java.time.Instant;
 import java.util.UUID;
 
@@ -43,7 +41,6 @@ public class UserEntity {
             joinColumns = @JoinColumn(name="id"),
             inverseJoinColumns = @JoinColumn(name="name"))
     private StatusEntity status;
-    private Boolean enabled;
     @Column(name = "password")
     @NonNull
     private String password;
@@ -51,7 +48,7 @@ public class UserEntity {
     public UserEntity() {
     }
 
-    public UserEntity(UUID uuid, Instant dtCreate, Instant dtUpdate, @NonNull String mail, @NonNull String fio, @NonNull RoleEntity role, @NonNull StatusEntity status, Boolean enabled, @NonNull String password) {
+    public UserEntity(UUID uuid, Instant dtCreate, Instant dtUpdate,  String mail,  String fio,  RoleEntity role,  StatusEntity status, String password) {
         this.uuid = uuid;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
@@ -59,7 +56,6 @@ public class UserEntity {
         this.fio = fio;
         this.role = role;
         this.status = status;
-        this.enabled = enabled;
         this.password = password;
     }
 
@@ -87,56 +83,47 @@ public class UserEntity {
         this.dtUpdate = dtUpdate;
     }
 
-    @NonNull
+
     public String getMail() {
         return mail;
     }
 
-    public void setMail(@NonNull String mail) {
+    public void setMail(String mail) {
         this.mail = mail;
     }
 
-    @NonNull
+
     public String getFio() {
         return fio;
     }
 
-    public void setFio(@NonNull String fio) {
+    public void setFio(String fio) {
         this.fio = fio;
     }
 
-    @NonNull
+
     public RoleEntity getRole() {
         return role;
     }
 
-    public void setRole(@NonNull RoleEntity role) {
+    public void setRole( RoleEntity role) {
         this.role = role;
     }
 
-    @NonNull
+
     public StatusEntity getStatus() {
         return status;
     }
 
-    public void setStatus(@NonNull StatusEntity status) {
+    public void setStatus(StatusEntity status) {
         this.status = status;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    @NonNull
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(@NonNull String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 }

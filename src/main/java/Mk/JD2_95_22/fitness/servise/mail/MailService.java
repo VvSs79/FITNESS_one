@@ -2,7 +2,7 @@ package Mk.JD2_95_22.fitness.servise.mail;
 
 import Mk.JD2_95_22.fitness.converter.mail.MailConverterDtoToEntity;
 import Mk.JD2_95_22.fitness.converter.mail.MailConverterEntityTolDTO;
-import Mk.JD2_95_22.fitness.orm.entity.MailEntity;
+import Mk.JD2_95_22.fitness.orm.entity.mail.MailEntity;
 import Mk.JD2_95_22.fitness.orm.repository.IMailRepository;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;

@@ -1,5 +1,6 @@
 package Mk.JD2_95_22.fitness.orm.entity.utils;
 
+import Mk.JD2_95_22.fitness.core.util.UserRole;
 import jakarta.persistence.*;
 
 
@@ -12,16 +13,19 @@ public class RoleEntity {
             schema = "fitness", allocationSize = 1)
     private int id;
     @Enumerated(EnumType.STRING)
-    private String name;
+    private UserRole role;
     public RoleEntity() {
     }
 
-    public RoleEntity(String name) {
-       this.name = name;
+    public RoleEntity(UserRole role) {
+       this.role = role;
     }
 
-    public String getName() {
-        return name;
+    public int getId() {
+        return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 }

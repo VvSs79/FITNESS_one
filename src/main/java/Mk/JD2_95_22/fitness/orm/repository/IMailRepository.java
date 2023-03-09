@@ -1,7 +1,6 @@
 package Mk.JD2_95_22.fitness.orm.repository;
 
-import Mk.JD2_95_22.fitness.orm.entity.MailEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import Mk.JD2_95_22.fitness.orm.entity.mail.MailEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
