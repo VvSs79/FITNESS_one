@@ -14,6 +14,8 @@ import Mk.JD2_95_22.fitness.servise.api.user.IUserService;
 import jakarta.validation.ValidationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 
 import java.time.Instant;
@@ -49,8 +51,6 @@ public class UserService implements IUserService {
         }
         repository.save(userEntity);
     }
-
-
     public UserEntity getUser(UUID id){
         Optional<UserEntity> findUser=repository.findById(id);
         UserEntity userEntity=findUser.get();
@@ -60,7 +60,7 @@ public class UserService implements IUserService {
         validate(userCreated);
         doubleCheckMail(userCreated);
         UserEntity userEntity=repository.findById(uuid).orElseThrow(()->new ValidationException("Not found user this is a id "+ uuid));
-        if ( dt_update.toEpochMilli() == userEntity.getDt_update().toEpochMilli()){
+        if ( dt_update.toEpochMilli() == userEntity.getDtUpdate().toEpochMilli()){
             userEntity.setFio(userCreated.getFIOuser());
             userEntity.setMail(userCreated.getMailUser());
             userEntity.setStatus(userEntity.getStatus());
