@@ -173,4 +173,22 @@ public class RecepteService implements IRecepteService {
 //            .setFats(BigDecimal.valueOf(totalFats).setScale(2, RoundingMode.UP))
 //            .setCarbohydrates(BigDecimal.valueOf(totalCarbohydrates).setScale(2, RoundingMode.UP)).build());
 //    }
+
+
+
+    private RecipeDTO countRecipeCPFC(List<Ingridients> ingredient) {
+        int weight = 0;
+        int calories = 0;
+        double proteins = 0;
+        double fats = 0;
+        double carbohydrates = 0;
+        for (Ingridients dto : ingredient) {
+            weight += dto.getProduct().getWeight();
+            calories += dto.getProduct().getCalories();
+            proteins += dto.getProduct().getProteins();
+            fats += dto.getProduct().getFats();
+            carbohydrates += dto.getProduct().getCarbohydrates();
+        }
+        return new RecipeDTO();
+    }
 }
