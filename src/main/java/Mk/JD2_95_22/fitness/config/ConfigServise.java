@@ -18,6 +18,7 @@ import Mk.JD2_95_22.fitness.servise.api.product.IRecepteService;
 import Mk.JD2_95_22.fitness.servise.api.user.IUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.mail.javamail.JavaMailSender;
 
 @Configuration
@@ -37,24 +38,26 @@ public class ConfigServise {
   }
     @Bean
   public IProductService productServise(IProductRepositpry repository,
+                                        ConversionService conversionService,
                                         ProductConverterDtoToEntity productConverterDtoToEntity,
                                         ProductConvertertEntityToDTO productConvertertEntityToDTO,
                                         ProductConverterEntityToModel productConverterPEntityToModel,
-                                        ProductConverterModelToEntity productConverterModelToEntity,
-                                        ProductConverterEntityToPage productConverterEntityToPage){
+                                        ProductConverterModelToEntity productConverterModelToEntity
+                                        ){
         return new ProductService(repository,
+                conversionService,
                 productConverterDtoToEntity,
                 productConvertertEntityToDTO,
                 productConverterPEntityToModel,
-                productConverterModelToEntity,
-                productConverterEntityToPage);
+                productConverterModelToEntity
+         );
   }
     @Bean
   public IRecepteService recepteServise(IRecepteRepository repository,
                                         IProductService productService,
                                         ProductConverterModelToEntity productConverterModelToEntity,
                                         ProductConverterEntityToModel productConverterEntityToModel){
-        return new RecepteService();
+        return new RecepteService(repository,productService,productConverterEntityToModel,productConverterModelToEntity);
 
 
   }

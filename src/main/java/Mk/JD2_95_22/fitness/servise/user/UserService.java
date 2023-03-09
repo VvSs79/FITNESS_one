@@ -14,8 +14,6 @@ import Mk.JD2_95_22.fitness.servise.api.user.IUserService;
 import jakarta.validation.ValidationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 
 import java.time.Instant;

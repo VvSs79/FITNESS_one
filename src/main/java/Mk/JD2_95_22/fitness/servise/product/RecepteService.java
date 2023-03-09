@@ -1,20 +1,30 @@
 package Mk.JD2_95_22.fitness.servise.product;
 
+import Mk.JD2_95_22.fitness.converter.number_format.InstantConverter;
 import Mk.JD2_95_22.fitness.converter.product.ProductConverterEntityToModel;
 import Mk.JD2_95_22.fitness.converter.product.ProductConverterModelToEntity;
 import Mk.JD2_95_22.fitness.core.dto.model.IngridientsModel;
+import Mk.JD2_95_22.fitness.core.dto.model.ProductModel;
 import Mk.JD2_95_22.fitness.core.dto.model.ReceptModel;
 import Mk.JD2_95_22.fitness.core.dto.page.PageDTO;
 import Mk.JD2_95_22.fitness.core.dto.products.Ingridients;
+import Mk.JD2_95_22.fitness.core.dto.products.RecipeCreated;
 import Mk.JD2_95_22.fitness.core.dto.products.RecipeDTO;
+import Mk.JD2_95_22.fitness.core.exeption.SingleExeption;
 import Mk.JD2_95_22.fitness.orm.entity.product.IngridientsEntity;
+import Mk.JD2_95_22.fitness.orm.entity.product.ProductEntity;
 import Mk.JD2_95_22.fitness.orm.entity.product.RecipeEntity;
+import Mk.JD2_95_22.fitness.orm.repository.IIngridientsRepoitory;
 import Mk.JD2_95_22.fitness.orm.repository.IRecepteRepository;
 import Mk.JD2_95_22.fitness.servise.api.product.IProductService;
 import Mk.JD2_95_22.fitness.servise.api.product.IRecepteService;
+import jakarta.persistence.OptimisticLockException;
 import jakarta.validation.ValidationException;
+import org.aspectj.weaver.Utils;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -23,14 +33,18 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class RecepteService implements IRecepteService {
-    private final IRecepteRepository repository;
+    private final IRecepteRepository recepteRepository;
     private final IProductService service;
+    private final IIngridientsRepoitory ingridientsRepoitory;
+    private final ConversionService conversionService;
     private final ProductConverterEntityToModel productConverterEntityToModel;
     private final ProductConverterModelToEntity productConverterModelToEntity;
 
-    public RecepteService(IRecepteRepository repository, IProductService service, ProductConverterEntityToModel productConverterEntityToModel, ProductConverterModelToEntity productConverterModelToEntity) {
-        this.repository = repository;
+    public RecepteService(IRecepteRepository recepteRepository, IProductService service, IIngridientsRepoitory ingridientsRepoitory, ConversionService conversionService, ProductConverterEntityToModel productConverterEntityToModel, ProductConverterModelToEntity productConverterModelToEntity) {
+        this.recepteRepository = recepteRepository;
         this.service = service;
+        this.ingridientsRepoitory = ingridientsRepoitory;
+        this.conversionService = conversionService;
         this.productConverterEntityToModel = productConverterEntityToModel;
         this.productConverterModelToEntity = productConverterModelToEntity;
     }
@@ -42,77 +56,67 @@ public class RecepteService implements IRecepteService {
         RecipeDTO recipes = new RecipeDTO(recipe.getTitle(), recipe.getComposition());
         List<Ingridients> ingredientDTO = recipes.getComposition();
         List<Ingridients> collect = ingredientDTO.stream()
-?                .collect(Collectors.toList());
+               .collect(Collectors.toList());
         RecipeEntity recipeEntity = new RecipeEntity();
-        repository.save(recipeEntity);
+        recepteRepository.save(recipeEntity);
+    }
+
+    public PageDTO<RecipeDTO> getPageRecipe(Pageable pageable){
+        Page<RecipeEntity> allPages=recepteRepository.findAll(pageable);
+        List<RecipeDTO> content= new ArrayList<>();
+        for(RecipeEntity recipeEntity:allPages){
+            content.add(conversionService.convert(recipeEntity,RecipeDTO.class));
+        }
+        return new PageDTO<>(allPages.getNumber(),
+                allPages.getSize(),
+                allPages.getTotalPages(),
+                allPages.getTotalElements(),
+                allPages.isFirst(),
+                allPages.getNumberOfElements(),
+                allPages.isLast(),
+                content);
     }
 
     @Override
-    public PageDTO<RecipeDTO> getPageRecipe(int page, int size) {
-        PageRequest paging = PageRequest.of(page, size);
-        Page<RecipeEntity> all = repository.findAll(paging);
-        List<ReceptModel>  content  = new ArrayList<>();
-        for (RecipeEntity recipe: all.getContent()) {
-            List<IngridientsModel> collect = recipe.getComposition().stream()
-                    .map(s -> new IngridientsModel(
-                            service.getProduct(s.getProduct().getUuid()),
-                            s.getWeight()))
-                    .collect(Collectors.toList());
-            Integer weight = collect.stream()
-                    .mapToInt(IngridientsModel::getWeight).sum();
-            Integer calories = collect.stream()
-                    .mapToInt(IngridientsModel::getCalories).sum();
-            Double proteins = collect.stream()
-                    .mapToDouble(IngridientsModel::getProteins).sum();
-            Double fats = collect.stream()
-                    .mapToDouble(IngridientsModel::getFats).sum();
-            Double carbohydrates = collect.stream()
-                    .mapToDouble(IngridientsModel::getCarbohydrates).sum();
-            content.add(
-                    new ReceptModel(recipe.getUuid(),
-                            recipe.getTimeCreated()),
-                            recipe.getDt_update(),
-                            recipe.getTitle(),
-                            collect,
-                            weight,
-                            calories,
-                            proteins,
-                            fats,
-                            carbohydrates
-                    );
-        } return  new PageDTO<RecipeDTO>(
-                all.getNumber(),
-                all.getSize(),
-                all.getTotalPages(),
-                all.getTotalElements(),
-                all.isFirst(),
-                all.getNumberOfElements(),
-                all.isLast(),
-                all.getNumber());
-    }
-
-    @Override
-    public void update(UUID id, Instant version, RecipeDTO product) {
+    public void update(UUID id, Instant version, RecipeDTO product, String title) {
         checkDoubleRecipe(product);
         validate(product);
-        RecipeEntity recipeEntity = repository.findById(id)
+        RecipeEntity recipeEntity = recepteRepository.findById(id)
                 .orElseThrow(() -> new ValidationException("There is no recipe with such id"));
-        if (version.toEpochMilli() == recipeEntity.getDt_update().toEpochMilli()){
-            recipeEntity.setTitle(product.getTitle());
-            List<Ingridients> composition = product.getComposition();
-            List<IngridientsEntity> collect = composition.stream()
-                    .map(s -> new IngridientsEntity(
-                            productConverterModelToEntity.convert(service.getProduct(s.get)), s.getWeight()))
-                    .collect(Collectors.toList());
-            recipeEntity.setComposition(collect);
-            repository.save(recipeEntity);
-        }  else throw new ValidationException("Version is not correct");
+
+        if(recipeEntity.getDtUpdate().toEpochMilli()!=version.toEpochMilli()){
+            throw  new OptimisticLockException("Version "+ recipeEntity.getUuid() +"is not corrected");
+        }
+      if(!conversionService.canConvert(ProductModel.class, ProductEntity.class)){
+          throw new IllegalArgumentException("Can't converting ProductModel to ProductEntity ");
+      }
+        if(recepteRepository.getAllByUuid(id).equals(version)){
+            throw  new ValidationException("This is not actual version");
+        }
+        List<IngridientsEntity> ingredientEntityList = new ArrayList<>();
+        List<Ingridients> ingredientList = product.getComposition();
+
+        ProductEntity productEntity;
+
+        for (Ingridients ingredient : ingredientList) {
+            UUID productUUID = ingredient.getId();
+            productEntity = service.getProduct(productUUID);
+            ingredientEntityList.add(new IngridientsEntity(productEntity, ingredient.getWeight()));
+        }
+
+        recipeEntity.setTitle(product.getTitle());
+        recipeEntity.setComposition(ingredientEntityList);
+
+        recepteRepository.save(recipeEntity);
     }
+
+
+
     public void validate(RecipeDTO recipe) throws ValidationException {
         String title = recipe.getTitle();
 
         if (title == null || title.isBlank()){
-            throw new ValidationException("Title of product is not entered");
+            throw new ValidationException("This recipe with this is a product is not entered");
         }
         List<Ingridients> composition = recipe.getComposition();
 
@@ -123,12 +127,50 @@ public class RecepteService implements IRecepteService {
             if (ingredient.getWeight() <=0 ){
                 throw new ValidationException("Weight of ingredient with id "+ ingredient.getWeight()+ " is incorrect");
             }
+
         }
     }
+
     public void checkDoubleRecipe(RecipeDTO recipe) throws ValidationException {
         String title = recipe.getTitle();
-        if (repository.getByTitle(title) != null){
+        if (recepteRepository.getAllByTitle(title) != null){
             throw new ValidationException("Product with such title has already exist");
         }
     }
+//public void countRecipe(RecipeDTO product){
+//    List<IngridientsEntity> ingredientEntityList = new ArrayList<>();
+//    List<Ingridients> ingredientList = product.getComposition();
+//
+//    ProductEntity productEntity;
+//
+//
+//    double totalWeight = 0.0;
+//    double totalCalories = 0.0;
+//    double totalProteins = 0.0;
+//    double totalFats = 0.0;
+//    double totalCarbohydrates = 0.0;
+//
+//            for (Ingridients ingredient : ingridients) {
+//        UUID productUUID = ingredient.getProduct().getUuid();
+//        productEntity = service.getProductEntity(productUUID);
+//        double part = 1d * ingredient.getWeight() / productEntity.getWeight();
+//
+//        totalWeight += ingredient.getWeight();
+//        totalCalories += productEntity.getCalories() * part;
+//        totalProteins += productEntity.getProteins() * part;
+//        totalFats += productEntity.getFats() * part;
+//        totalCarbohydrates += productEntity.getCarbohydrates() * part;
+//    }
+//
+//            recipes.add(recipeBuilder.setUuid(recipeEntity.getUuid())
+//                    .setDtCreate(recipeEntity.getDtCreate())
+//            .setDtUpdate(recipeEntity.getDtUpdate())
+//            .setTitle(recipeEntity.getTitle())
+//            .setComposition(ingredientList)
+//                    .setWeight(totalWeight)
+//                    .setCalories(totalCalories)
+//                    .setProteins(BigDecimal.valueOf(totalProteins).setScale(2, RoundingMode.UP))
+//            .setFats(BigDecimal.valueOf(totalFats).setScale(2, RoundingMode.UP))
+//            .setCarbohydrates(BigDecimal.valueOf(totalCarbohydrates).setScale(2, RoundingMode.UP)).build());
+//    }
 }

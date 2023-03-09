@@ -13,13 +13,19 @@ public class Ingridients {
     @NonNull
     private Integer weight;
 
-    public Ingridients(@NonNull ProductDTO product) {
+    public Ingridients(@NonNull ProductDTO product, @NonNull UUID id, @NonNull Integer weight) {
         this.product = product;
-    }
-
-    public Ingridients(Integer weight, UUID id) {
         this.id = id;
         this.weight = weight;
+    }
+
+    @NonNull
+    public ProductDTO getProduct() {
+        return product;
+    }
+
+    public void setProduct(@NonNull ProductDTO product) {
+        this.product = product;
     }
 
     @NonNull
@@ -38,26 +44,5 @@ public class Ingridients {
 
     public void setWeight(@NonNull Integer weight) {
         this.weight = weight;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Ingridients that = (Ingridients) o;
-        return id.equals(that.id) && weight.equals(that.weight);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, weight);
-    }
-
-    @Override
-    public String toString() {
-        return "Ingridients{" +
-                "id=" + id +
-                ", weight=" + weight +
-                '}';
     }
 }

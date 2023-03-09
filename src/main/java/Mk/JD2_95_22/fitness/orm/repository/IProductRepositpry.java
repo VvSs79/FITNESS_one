@@ -9,9 +9,12 @@ import java.time.Instant;
 import java.util.UUID;
 
 public interface IProductRepositpry extends JpaRepository<ProductEntity, UUID> {
-    PageDTO<ProductDTO> getAllByDtUpdate(Instant dtUpdate);
-    PageDTO<ProductDTO> getAllByCalories(Double calories);
-    PageDTO<ProductDTO> getAllByCarbohydrates(Double calories);
-    PageDTO<ProductDTO> getAllByCaloriesIsGreaterThan(Double calories);
+    boolean existsByTitle(String title);
+
+    ProductEntity getAllByDtUpdate(Instant dtUpdate);
+    ProductEntity getAllByTitle(String title);
+    ProductEntity getAllByTitleAndDtUpdate(String title, Instant dtUpdate);
+    ProductEntity deleteAllByTitle(String title);
+
 
 }
