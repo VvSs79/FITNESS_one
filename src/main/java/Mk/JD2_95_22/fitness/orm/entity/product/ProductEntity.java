@@ -14,9 +14,8 @@ public class ProductEntity {
     private UUID uuid;
     @Column(name = "dt_create")
     private Instant dtCreate;
-
-    @Column(name = "dt_update")
     @Version
+    @Column(name = "dt_update")
     private Instant dtUpdate;
     @Column(name = "title")
     private String title;

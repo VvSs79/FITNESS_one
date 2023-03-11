@@ -10,6 +10,6 @@ public interface IProductService {
     public void addProduct(ProductDTO productCreateDTO);
     public void update(UUID uuid, long dtUpdate, ProductCreated productCreateDTO);
     public PageDTO<ProductDTO> getPage(int numberOfPage, int size);
-    public void getProduct(String title);
+    public void getProduct(UUID uuid);
 
 }

@@ -137,46 +137,10 @@ public class RecepteService implements IRecepteService {
             throw new ValidationException("Product with such title has already exist");
         }
     }
-//public void countRecipe(RecipeDTO product){
-//    List<IngridientsEntity> ingredientEntityList = new ArrayList<>();
-//    List<Ingridients> ingredientList = product.getComposition();
-//
-//    ProductEntity productEntity;
-//
-//
-//    double totalWeight = 0.0;
-//    double totalCalories = 0.0;
-//    double totalProteins = 0.0;
-//    double totalFats = 0.0;
-//    double totalCarbohydrates = 0.0;
-//
-//            for (Ingridients ingredient : ingridients) {
-//        UUID productUUID = ingredient.getProduct().getUuid();
-//        productEntity = service.getProductEntity(productUUID);
-//        double part = 1d * ingredient.getWeight() / productEntity.getWeight();
-//
-//        totalWeight += ingredient.getWeight();
-//        totalCalories += productEntity.getCalories() * part;
-//        totalProteins += productEntity.getProteins() * part;
-//        totalFats += productEntity.getFats() * part;
-//        totalCarbohydrates += productEntity.getCarbohydrates() * part;
-//    }
-//
-//            recipes.add(recipeBuilder.setUuid(recipeEntity.getUuid())
-//                    .setDtCreate(recipeEntity.getDtCreate())
-//            .setDtUpdate(recipeEntity.getDtUpdate())
-//            .setTitle(recipeEntity.getTitle())
-//            .setComposition(ingredientList)
-//                    .setWeight(totalWeight)
-//                    .setCalories(totalCalories)
-//                    .setProteins(BigDecimal.valueOf(totalProteins).setScale(2, RoundingMode.UP))
-//            .setFats(BigDecimal.valueOf(totalFats).setScale(2, RoundingMode.UP))
-//            .setCarbohydrates(BigDecimal.valueOf(totalCarbohydrates).setScale(2, RoundingMode.UP)).build());
-//    }
 
 
 
-    private RecipeDTO countRecipeCPFC(List<Ingridients> ingredient) {
+    private RecipeDTO countRecipeCPFC(List<Ingridients> ingredient, RecipeDTO recipe) {
         int weight = 0;
         int calories = 0;
         double proteins = 0;
@@ -189,6 +153,6 @@ public class RecepteService implements IRecepteService {
             fats += dto.getProduct().getFats();
             carbohydrates += dto.getProduct().getCarbohydrates();
         }
-        return new RecipeDTO();
+        return new RecipeDTO(recipe.getTitle(),recipe.getComposition());
     }
 }

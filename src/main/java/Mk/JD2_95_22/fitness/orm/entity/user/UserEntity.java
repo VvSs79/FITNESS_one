@@ -9,16 +9,15 @@ import java.util.UUID;
 
 
 @Entity
-@Table(name = "User", schema = "fitness")
+@Table(name = "Users", schema = "fitness")
 public class UserEntity {
     @Id
     @Column(name = "uuid")
     private UUID uuid;
     @Column(name = "dt_create")
     private Instant dtCreate;
-
-    @Column(name = "dt_update")
     @Version
+    @Column(name = "dt_update")
     private Instant dtUpdate;
     @ Column(name = "mail")
     @NonNull
@@ -31,7 +30,7 @@ public class UserEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinTable(schema = "fitness", name="user_role",
     joinColumns = @JoinColumn(name="id"),
-    inverseJoinColumns = @JoinColumn(name="name"))
+    inverseJoinColumns = @JoinColumn(name="id"))
     private RoleEntity role;
 
     @NonNull
@@ -39,7 +38,7 @@ public class UserEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinTable(schema = "fitness", name="user_status",
             joinColumns = @JoinColumn(name="id"),
-            inverseJoinColumns = @JoinColumn(name="name"))
+            inverseJoinColumns = @JoinColumn(name="id"))
     private StatusEntity status;
     @Column(name = "password")
     @NonNull

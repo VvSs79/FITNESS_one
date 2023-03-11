@@ -4,28 +4,15 @@ import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.UUID;
 
-@Entity
-@Table(name = "ingridients", schema = "fitness",
-        uniqueConstraints = @UniqueConstraint(columnNames = "uuid"))
+@Embeddable
 public class IngridientsEntity {
-    @Id
-    @Column(name = "uuid")
-    private UUID uuid;
-    @Column(name = "dt_create")
-    private Instant dtCreate;
+    @ManyToOne
+    @JoinColumn (name = "product_id",
+            nullable = false, updatable = false)
 
-    @Column(name = "dt_update")
-    @Version
-    private Instant dtUpdate;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn( name = "id",
-                 nullable = false, updatable = false
-    )
     private ProductEntity product;
-    @Column(name="weight")
     private Integer weight;
-
     public IngridientsEntity() {
     }
 

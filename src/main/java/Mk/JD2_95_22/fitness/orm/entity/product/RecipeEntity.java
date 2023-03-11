@@ -6,29 +6,22 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "recepte", schema = "fitness",
-        uniqueConstraints = {@UniqueConstraint(columnNames = "uuid"),
-                             @UniqueConstraint(columnNames = "title")})
+@Table(name = "recepte", schema = "fitness")
+
 public class RecipeEntity  {
     @Id
     @Column(name = "uuid")
     private UUID uuid;
     @Column(name = "dt_create")
     private Instant dtCreate;
-    @Column(name = "dt_update")
     @Version
+    @Column(name = "dt_update")
     private Instant dtUpdate;
     @Column(name = "title")
     private String title;
-
-    @Column(name = "composition")
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name="recipe_ingredient",
-            joinColumns=
-            @JoinColumn(name="recipe_UUID", referencedColumnName="UUID"),
-            inverseJoinColumns=
-            @JoinColumn(name="ingredient_ID", referencedColumnName="ID")
-    )
+    @ElementCollection
+    @CollectionTable(name="recipe_ingridients", schema = "fitness",
+                     joinColumns = @JoinColumn(name="id"))
     private List<IngridientsEntity> composition;
 
     public RecipeEntity() {

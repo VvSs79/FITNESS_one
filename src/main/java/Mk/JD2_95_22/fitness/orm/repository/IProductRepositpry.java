@@ -15,6 +15,7 @@ public interface IProductRepositpry extends JpaRepository<ProductEntity, UUID> {
     ProductEntity getAllByTitle(String title);
     ProductEntity getAllByTitleAndDtUpdate(String title, Instant dtUpdate);
     ProductEntity deleteAllByTitle(String title);
+    ProductEntity getAllByUuid(UUID uuid);
 
 
 }

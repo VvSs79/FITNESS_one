@@ -91,10 +91,10 @@ public class ProductService implements IProductService {
                 allEntity.isLast(),
                 content );
     }
-    public void getProduct(String title){
-        if(title==null||title.isEmpty()){
+    public void getProduct(UUID uuid){
+        if(uuid==null){
             throw  new IllegalArgumentException("Product with this a title not found");
         }
-        repository.getAllByTitle(title);
+        repository.getAllBy(title);
     };
 }
