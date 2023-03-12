@@ -20,9 +20,9 @@ public class ProductEntity {
     @Column(name = "title")
     private String title;
     @Column(name = "weight")
-    private Double weight;
+    private Integer weight;
     @Column(name = "calories")
-    private Double calories;
+    private Integer calories;
     @Column(name = "proteins")
     private Double proteins;
     @Column(name = "fats")
@@ -33,7 +33,7 @@ public class ProductEntity {
     public ProductEntity() {
     }
 
-    public ProductEntity(UUID uuid, Instant dtCreate, Instant dtUpdate, String title, Double weight, Double calories, Double proteins, Double fats, Double carbohydrates) {
+    public ProductEntity(UUID uuid, Instant dtCreate, Instant dtUpdate, String title, Integer weight, Integer calories, Double proteins, Double fats, Double carbohydrates) {
         this.uuid = uuid;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
@@ -77,19 +77,19 @@ public class ProductEntity {
         this.title = title;
     }
 
-    public Double getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public void setWeight(Double weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 
-    public Double getCalories() {
+    public Integer getCalories() {
         return calories;
     }
 
-    public void setCalories(Double calories) {
+    public void setCalories(Integer calories) {
         this.calories = calories;
     }
 

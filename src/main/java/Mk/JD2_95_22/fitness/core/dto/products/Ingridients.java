@@ -9,14 +9,14 @@ public class Ingridients {
     @NonNull
     private ProductDTO product;
     @NonNull
-    private UUID id;
-    @NonNull
     private Integer weight;
 
-    public Ingridients(@NonNull ProductDTO product, @NonNull UUID id, @NonNull Integer weight) {
+    public Ingridients(@NonNull ProductDTO product, @NonNull Integer weight) {
         this.product = product;
-        this.id = id;
         this.weight = weight;
+    }
+
+    public Ingridients() {
     }
 
     @NonNull
@@ -26,15 +26,6 @@ public class Ingridients {
 
     public void setProduct(@NonNull ProductDTO product) {
         this.product = product;
-    }
-
-    @NonNull
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(@NonNull UUID id) {
-        this.id = id;
     }
 
     @NonNull

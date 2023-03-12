@@ -1,2 +1,4 @@
-package Mk.JD2_95_22.fitness.servise.validation;public class TokenValidator {
+package Mk.JD2_95_22.fitness.servise.validation;
+
+public class TokenValidator {
 }

@@ -24,10 +24,10 @@ public class ProductDTO  {
     private String title;
     @NotBlank(message = "Weight should not be less than 1")
     @Min(value = 1)
-    private double weight;
+    private Integer weight;
     @NotBlank(message = "Calories should not be less than 1 ")
     @Min(value = 1)
-    private double calories;
+    private Integer calories;
     @NotBlank(message = "Proteins should not be less than 1 ")
     @Min(value = 0)
     private double proteins;
@@ -38,7 +38,7 @@ public class ProductDTO  {
     @Min(value = 0)
     private double carbohydrates;
 
-    public ProductDTO(UUID uuid, Instant dtCreate, Instant dtUpdate, String title, double weight, double calories, double proteins, double fats, double carbohydrates) {
+    public ProductDTO(UUID uuid, Instant dtCreate, Instant dtUpdate, String title, Integer weight, Integer calories, double proteins, double fats, double carbohydrates) {
         this.uuid = uuid;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
@@ -50,11 +50,12 @@ public class ProductDTO  {
         this.carbohydrates = carbohydrates;
     }
 
+    @NonNull
     public UUID getUuid() {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
+    public void setUuid(@NonNull UUID uuid) {
         this.uuid = uuid;
     }
 
@@ -82,19 +83,19 @@ public class ProductDTO  {
         this.title = title;
     }
 
-    public double getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 
-    public double getCalories() {
+    public Integer getCalories() {
         return calories;
     }
 
-    public void setCalories(double calories) {
+    public void setCalories(Integer calories) {
         this.calories = calories;
     }
 

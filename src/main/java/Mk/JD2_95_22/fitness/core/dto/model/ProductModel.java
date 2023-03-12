@@ -1,5 +1,7 @@
 package Mk.JD2_95_22.fitness.core.dto.model;
 
+import Mk.JD2_95_22.fitness.converter.number_format.BigDecimalConverter;
+import Mk.JD2_95_22.fitness.converter.number_format.DoubleConverter;
 import Mk.JD2_95_22.fitness.converter.number_format.InstantConverter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -19,18 +21,22 @@ public class ProductModel {
         @JsonProperty("title")
         private String title;
         @JsonProperty("weight")
-        private Double weight;
+        private Integer weight;
+        @JsonSerialize(converter = DoubleConverter.Serializer.class)
         @JsonProperty("calories")
-        private Double calories;
+        private Integer calories;
+        @JsonSerialize(converter = DoubleConverter.Serializer.class)
         @JsonProperty("proteins")
         private Double proteins;
+        @JsonSerialize(converter = DoubleConverter.Serializer.class)
         @JsonProperty("fats")
         private Double fats;
+        @JsonSerialize(converter = DoubleConverter.Serializer.class)
         @JsonProperty("carbohydrates")
         private Double carbohydrates;
 
 
-    public ProductModel(UUID uuid, Instant dtCreate, Instant dtUpdate, String title, Double weight, Double calories, Double proteins, Double fats, Double carbohydrates) {
+    public ProductModel(UUID uuid, Instant dtCreate, Instant dtUpdate, String title, Integer weight, Integer calories, Double proteins, Double fats, Double carbohydrates) {
         this.uuid = uuid;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
@@ -74,19 +80,19 @@ public class ProductModel {
         this.title = title;
     }
 
-    public Double getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public void setWeight(Double weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 
-    public Double getCalories() {
+    public Integer getCalories() {
         return calories;
     }
 
-    public void setCalories(Double calories) {
+    public void setCalories(Integer calories) {
         this.calories = calories;
     }
 

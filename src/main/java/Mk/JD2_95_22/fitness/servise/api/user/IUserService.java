@@ -19,6 +19,5 @@ public interface IUserService  {
     public void DeleteUserUuid(UUID uuid, List<UserDTO> user);
     public PageDTO<UserDTO> getALL(Pageable pageable);
     public void verficationUser(UserVerification verificationUser);
-    public void validate( UserCreated user);
-    public void  doubleCheckMail(UserCreated user);
+
 }

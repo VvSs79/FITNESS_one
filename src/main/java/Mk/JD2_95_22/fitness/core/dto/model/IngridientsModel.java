@@ -12,7 +12,7 @@ public class IngridientsModel {
     private Double weight;
     @JsonProperty("calories")
     private Double calories;
-    @JsonSerialize(converter = DoubleConverter.Serializer.class)
+    @JsonSerialize(converter =  DoubleConverter.Serializer.class)
     @JsonProperty("proteins")
     private Double proteins;
     @JsonSerialize(converter = DoubleConverter.Serializer.class)

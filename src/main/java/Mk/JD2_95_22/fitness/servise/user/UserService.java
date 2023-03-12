@@ -55,8 +55,7 @@ public class UserService implements IUserService {
         return userEntity;
     }
     public void UpdateUser(UUID uuid, Instant dt_update, UserCreated userCreated){
-        validate(userCreated);
-        doubleCheckMail(userCreated);
+
         UserEntity userEntity=repository.findById(uuid).orElseThrow(()->new ValidationException("Not found user this is a id "+ uuid));
         if ( dt_update.toEpochMilli() == userEntity.getDtUpdate().toEpochMilli()){
             userEntity.setFio(userCreated.getFIOuser());
@@ -91,43 +90,5 @@ public class UserService implements IUserService {
 
     }
 
-    public void validate( UserCreated user) throws ValidationException {
-        String mail= user.getMailUser();
-        if(repository.findByMailIgnoreCase(mail)!=null){
-            throw new ValidationException("There is already a user with this email");
-        }
-        if(mail==null){
-            throw  new ValidationException("Mail not entered");
-        }
-        if(!mail.matches("^[a-z0-9][-a-z0-9._]+@([-a-z0-9]+[.])+[a-z]{2,5}$")){
-            throw new ValidationException("Wrong format of mail");
-        }
-
-        String password= user.getPassword();
-        if(password.isBlank()||password==null){
-            throw new ValidationException("Password is not entered");
-        }
-        if(!password.matches("^(.{0,7}|[^0-9]*|[^A-Z]*|[^a-z]*|[a-zA-Z0-9]*)$")){
-            throw new ValidationException("Is not corrected format of mail");
-        }
-
-        String fio= user.getFIOuser();
-        if(fio==null || fio.isBlank()){
-            throw new ValidationException("FIO not entered");
-        }
-        if(!fio.matches("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")){
-            throw new ValidationException("Is not corrected format of FIO");
-        }
-        if(fio.length()<7||fio.length()>55){
-            throw new ValidationException("length of the name can be from 7 to 55 characters ");
-        }
-    }
-    public void  doubleCheckMail(UserCreated user){
-        String mail= user.getMailUser();
-        if(repository.findByMailIgnoreCase(mail)!=null||
-           repository.findByMailIgnoreCase(mail).equals(mail)){
-            throw new ValidationException("User with this mail is a already registered");
-        }
-    }
 
 }

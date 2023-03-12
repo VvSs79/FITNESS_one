@@ -1,16 +1,26 @@
 package Mk.JD2_95_22.fitness.core.dto.products;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+
 import java.util.Objects;
 
 public class ProductCreated  {
+    @NotBlank(message = "Must not be blank")
     private String title;
-    private double weight;
-    private double calories;
+    @Positive(message = "Should be positive")
+    private Integer weight;
+    @PositiveOrZero(message = "Should be positive or zero")
+    private Integer calories;
+    @PositiveOrZero(message = "Should be positive or zero")
     private double proteins;
+    @PositiveOrZero(message = "Should be positive or zero")
     private double fats;
+    @PositiveOrZero(message = "Should be positive or zero")
     private double carbohydrates;
 
-    public ProductCreated(String title, double weight, double calories, double proteins, double fats, double carbohydrates) {
+    public ProductCreated(String title, Integer weight, Integer calories, double proteins, double fats, double carbohydrates) {
         this.title = title;
         this.weight = weight;
         this.calories = calories;
@@ -31,7 +41,7 @@ public class ProductCreated  {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 
@@ -39,7 +49,7 @@ public class ProductCreated  {
         return calories;
     }
 
-    public void setCalories(double calories) {
+    public void setCalories(Integer calories) {
         this.calories = calories;
     }
 
@@ -72,23 +82,11 @@ public class ProductCreated  {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductCreated that = (ProductCreated) o;
-        return Double.compare(that.weight, weight) == 0 && Double.compare(that.calories, calories) == 0 && Double.compare(that.proteins, proteins) == 0 && Double.compare(that.fats, fats) == 0 && Double.compare(that.carbohydrates, carbohydrates) == 0 && Objects.equals(title, that.title);
+        return Double.compare(that.proteins, proteins) == 0 && Double.compare(that.fats, fats) == 0 && Double.compare(that.carbohydrates, carbohydrates) == 0 && Objects.equals(title, that.title) && Objects.equals(weight, that.weight) && Objects.equals(calories, that.calories);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(title, weight, calories, proteins, fats, carbohydrates);
-    }
-
-    @Override
-    public String toString() {
-        return "ProductCreated{" +
-                "title='" + title + '\'' +
-                ", weight=" + weight +
-                ", calories=" + calories +
-                ", proteins=" + proteins +
-                ", fats=" + fats +
-                ", carbohydrates=" + carbohydrates +
-                '}';
     }
 }

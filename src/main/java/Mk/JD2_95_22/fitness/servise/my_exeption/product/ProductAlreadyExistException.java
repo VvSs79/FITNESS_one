@@ -1,2 +1,8 @@
-package Mk.JD2_95_22.fitness.servise.my_exeption.product;public class ProductAlreadyExistException {
+package Mk.JD2_95_22.fitness.servise.my_exeption.product;
+
+public class ProductAlreadyExistException extends RuntimeException{
+    public ProductAlreadyExistException(){};
+    public ProductAlreadyExistException(String message) {
+        super(message);
+    }
 }

@@ -2,20 +2,17 @@ package Mk.JD2_95_22.fitness.servise.product;
 
 import Mk.JD2_95_22.fitness.converter.product.*;
 import Mk.JD2_95_22.fitness.core.dto.page.PageDTO;
-import Mk.JD2_95_22.fitness.core.dto.products.ProductCreated;
 import Mk.JD2_95_22.fitness.core.dto.products.ProductDTO;
+import Mk.JD2_95_22.fitness.core.exeption.SingleError;
 import Mk.JD2_95_22.fitness.orm.entity.product.ProductEntity;
 import Mk.JD2_95_22.fitness.orm.repository.IProductRepositpry;
 import Mk.JD2_95_22.fitness.servise.api.product.IProductService;
+import Mk.JD2_95_22.fitness.servise.validation.api.IValidator;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
-import java.awt.print.Pageable;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,73 +25,96 @@ public class ProductService implements IProductService {
     private final ProductConvertertEntityToDTO productConvertertEntityToDTO;
     private final ProductConverterEntityToModel productConverterPEntityToModel;
     private final ProductConverterModelToEntity productConverterModelToEntity;
+    private final IValidator validator;
 
-    public ProductService(IProductRepositpry repository, ConversionService conversionService, ProductConverterDtoToEntity productConverterDtoToEntity, ProductConvertertEntityToDTO productConvertertEntityToDTO, ProductConverterEntityToModel productConverterPEntityToModel, ProductConverterModelToEntity productConverterModelToEntity) {
+    public ProductService(IProductRepositpry repository, ConversionService conversionService, ProductConverterDtoToEntity productConverterDtoToEntity, ProductConvertertEntityToDTO productConvertertEntityToDTO, ProductConverterEntityToModel productConverterPEntityToModel, ProductConverterModelToEntity productConverterModelToEntity, IValidator validator) {
         this.repository = repository;
         this.conversionService = conversionService;
         this.productConverterDtoToEntity = productConverterDtoToEntity;
         this.productConvertertEntityToDTO = productConvertertEntityToDTO;
         this.productConverterPEntityToModel = productConverterPEntityToModel;
         this.productConverterModelToEntity = productConverterModelToEntity;
+        this.validator = validator;
     }
 
     @Override
-    public void addProduct(ProductDTO productDTO) {
+    public void addProduct(ProductDTO product) {
+        if (product==null){
+            throw new SingleError("Not found this a product");
+        }
+        if (repository.existsByTitle(product.getTitle())){
+            throw new SingleError("This product is exist");
+        }
+        validator.validate(product);
+        Instant dt_created=Instant.now();
+        ProductEntity entity=productConverterDtoToEntity.convert(product);
 
-        ProductEntity entity = productConverterDtoToEntity.convert(productDTO);
+       entity.setUuid(product.getUuid());
+       entity.setDtCreate(product.getDtCreate());
+       entity.setDtUpdate(product.getDtUpdate());
        repository.save(entity);
     }
 
-    @Override
-    public void update(UUID uuid, long dtUpdate, ProductCreated productCreateDTO) {
-        Optional<ProductEntity> findEntity = repository.findById(uuid);
-        ProductEntity entity = findEntity.get();
-        if (entity != null) {
-            long epochMilli = ZonedDateTime.of(LocalDateTime.from(entity.getDtUpdate()), ZoneId.systemDefault()).toInstant().toEpochMilli();
 
-            if ( epochMilli == dtUpdate && entity.getUuid().equals(uuid) ) {
-                entity.setDtUpdate(Instant.now());
-                entity.setTitle(productCreateDTO.getTitle());
-                entity.setWeight(productCreateDTO.getWeight());
-                entity.setCalories(productCreateDTO.getCalories());
-                entity.setProteins(productCreateDTO.getProteins());
-                entity.setFats(productCreateDTO.getFats());
-                entity.setCarbohydrates(productCreateDTO.getCarbohydrates());
-
-                repository.save(entity);
-            }else{
-                throw new IllegalArgumentException("Версии продукта с id " + uuid +" не совпадают!");
-            }
-        } else {
-            throw new IllegalArgumentException("Продукта с id " + uuid + " для обновления не найдено!");
+    public void update(UUID uuid, long dtUpdate,String title, ProductDTO productDTO) {
+        if(uuid==null||productDTO==null){
+            throw new SingleError("Send parametrs for update");
+            validator.validate(productDTO);
         }
+        Optional<ProductEntity> optionalProductUUID=repository.findById(uuid);
+        Optional<ProductEntity> optionalProductTitle=repository.getAllByTitle(productDTO.getTitle());
 
+        if (optionalProductUUID.isEmpty()) {
+            throw new SingleError("Not found product for update");
+
+            ProductEntity productEntity=optionalProductTitle.get();
+            if(productEntity.getDtUpdate().equals(dtUpdate)){
+                throw new SingleError("Outdated version");
+            }
+
+            if(optionalProductTitle.isPresent() && optionalProductTitle.get().getUuid().equals(uuid)){
+                throw new SingleError("This product name is already in use");
+            }
+
+            productEntity.setTitle(productDTO.getTitle());
+            productEntity.setWeight(productDTO.getWeight());
+            productEntity.setCalories(productDTO.getCalories());
+            productEntity.setProteins(productDTO.getProteins());
+            productEntity.setFats(productDTO.getFats());
+            productEntity.setCarbohydrates(productDTO.getCarbohydrates());
+
+            repository.save(productEntity);
+        }
     }
 
     @Override
     public PageDTO<ProductDTO> getPage(int numberOfPage, int size) {
-        PageRequest pageable = PageRequest.of(numberOfPage, size);
+        Page<ProductEntity> productEntityPage=repository.findAll(PageRequest.of(numberOfPage,size));
+        List<ProductEntity> productEntityList=productEntityPage.toList();
+        List<ProductDTO> productDTOList=new ArrayList<>();
 
-        Page<ProductEntity> allEntity =repository.findAll(pageable);
-        List<ProductDTO> content = new ArrayList<>();
-        for (ProductEntity entity: allEntity) {
-            ProductDTO productDTO = productConvertertEntityToDTO.convert(entity);
-            content.add(productDTO);
+        for(ProductEntity productEntity: productEntityList){
+            productDTOList.add(conversionService.convert(productEntity, ProductDTO.class));
         }
-
-        return new PageDTO<ProductDTO>(allEntity.getNumber(),
-                allEntity.getSize(),
-                allEntity.getTotalPages(),
-                allEntity.getTotalElements(),
-                allEntity.isFirst(),
-                allEntity.getNumberOfElements(),
-                allEntity.isLast(),
-                content );
+       PageDTO<ProductDTO> pageDTO=new PageDTO<>(productEntityPage.getNumber(),
+               productEntityPage.getSize(),
+               productEntityPage.getTotalPages(),
+               productEntityPage.getTotalElements(),
+               productEntityPage.isFirst(),
+               productEntityPage.getNumberOfElements(),
+               productEntityPage.isLast(),
+                productDTOList );
+        return pageDTO;
     }
+
     public void getProduct(UUID uuid){
-        if(uuid==null){
-            throw  new IllegalArgumentException("Product with this a title not found");
+        Optional<ProductEntity> optionalProductEntity=repository.findById(uuid);
+        if (optionalProductEntity.isEmpty()){
+            throw  new SingleError("Еhere is no product with that name");
         }
-        repository.getAllBy(title);
-    };
+    }
+
 }
+
+
+

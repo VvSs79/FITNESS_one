@@ -1,30 +1,28 @@
 package Mk.JD2_95_22.fitness.core.exeption;
 
-public class SingleExeption extends RuntimeException {
-    private String logref;
-    private String message;
+import java.util.ArrayList;
+import java.util.List;
 
-    public SingleExeption() {
+public class SingleError extends RuntimeException {
+    private List<Error> errorList=new ArrayList<>();
+
+    public SingleError(String message, String logref) {
+        this.errorList.add(new Error(message, logref));
     }
 
-    public SingleExeption(String logref, String message) {
-        this.logref = logref;
-        this.message = message;
+    public SingleError(String message) {
+        this.errorList.add(new Error(message));
     }
 
-    public String getLogref() {
-        return logref;
+    public List<Error> getErrorList() {
+        return errorList;
     }
 
-    public String getMessage() {
-        return message;
+    public void setErrorList(List<Error> errorList) {
+        this.errorList = errorList;
     }
 
-    public void setLogref(String logref) {
-        this.logref = logref;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    public void setErrorList(Error errorList) {
+        this.errorList.add(errorList);
     }
 }
