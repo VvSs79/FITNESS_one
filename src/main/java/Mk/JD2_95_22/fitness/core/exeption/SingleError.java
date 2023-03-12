@@ -1,8 +1,11 @@
 package Mk.JD2_95_22.fitness.core.exeption;
 
-public class SingleExeption {
+public class SingleExeption extends RuntimeException {
     private String logref;
     private String message;
+
+    public SingleExeption() {
+    }
 
     public SingleExeption(String logref, String message) {
         this.logref = logref;
