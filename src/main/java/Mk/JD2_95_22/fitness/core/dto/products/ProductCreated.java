@@ -37,7 +37,7 @@ public class ProductCreated  {
         this.title = title;
     }
 
-    public double getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
@@ -45,7 +45,7 @@ public class ProductCreated  {
         this.weight = weight;
     }
 
-    public double getCalories() {
+    public Integer getCalories() {
         return calories;
     }
 

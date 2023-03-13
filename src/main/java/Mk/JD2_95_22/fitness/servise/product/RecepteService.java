@@ -13,6 +13,8 @@ import Mk.JD2_95_22.fitness.orm.repository.IIngridientsRepoitory;
 import Mk.JD2_95_22.fitness.orm.repository.IRecepteRepository;
 import Mk.JD2_95_22.fitness.servise.api.product.IProductService;
 import Mk.JD2_95_22.fitness.servise.api.product.IRecepteService;
+import Mk.JD2_95_22.fitness.servise.my_exeption.product.RecipeNotFoundExeption;
+import Mk.JD2_95_22.fitness.servise.my_exeption.version.InvalidVersionExeption;
 import jakarta.persistence.OptimisticLockException;
 import jakarta.validation.ValidationException;
 import org.springframework.core.convert.ConversionService;
@@ -72,10 +74,13 @@ public class RecepteService implements IRecepteService {
 
     @Override
     public void update(UUID id, Instant version, RecipeDTO product, String title) {
+        if(version==null){
+            throw new InvalidVersionExeption("version is not correct");
+        }
         checkDoubleRecipe(product);
         validate(product);
         RecipeEntity recipeEntity = recepteRepository.findById(id)
-                .orElseThrow(() -> new ValidationException("There is no recipe with such id"));
+                .orElseThrow(() -> new RecipeNotFoundExeption("There is no recipe with such id"));
 
         if(recipeEntity.getDtUpdate().toEpochMilli()!=version.toEpochMilli()){
             throw  new OptimisticLockException("Version "+ recipeEntity.getUuid() +"is not corrected");
@@ -89,14 +94,14 @@ public class RecepteService implements IRecepteService {
         List<IngridientsEntity> ingredientEntityList = new ArrayList<>();
         List<Ingridients> ingredientList = product.getComposition();
 
-        ProductEntity productEntity;
+
 
         for (Ingridients ingredient : ingredientList) {
-            UUID productUUID = ingredient.getId();
-            productEntity = service.getProduct(productUUID);
-            ingredientEntityList.add(new IngridientsEntity(productEntity, ingredient.getWeight()));
+            if(ingredient!=null){
+                ProductEntity productEntity = service.getProduct(id,conversionService.convert(product,ProductEntity.class));
+                ingredientEntityList.add(new IngridientsEntity(productEntity, ingredient.getWeight()));
+            }
         }
-
         recipeEntity.setTitle(product.getTitle());
         recipeEntity.setComposition(ingredientEntityList);
 

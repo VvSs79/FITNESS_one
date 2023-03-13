@@ -1,4 +1,4 @@
-package com.bezkoder.springjwt.repository;
+package Mk.JD2_95_22.fitness.security.repository;
 
 import java.util.Optional;
 

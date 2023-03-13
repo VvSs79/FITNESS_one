@@ -8,4 +8,12 @@ public class PageNotFoundExeption extends RuntimeException{
     public PageNotFoundExeption(String message) {
         super(message);
     }
+
+    public PageNotFoundExeption(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public PageNotFoundExeption(Throwable cause) {
+        super(cause);
+    }
 }

@@ -8,4 +8,11 @@ public class RecipeValidateExeption extends IllegalArgumentException{
         super(message);
     }
 
+    public RecipeValidateExeption(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public RecipeValidateExeption(Throwable cause) {
+        super(cause);
+    }
 }

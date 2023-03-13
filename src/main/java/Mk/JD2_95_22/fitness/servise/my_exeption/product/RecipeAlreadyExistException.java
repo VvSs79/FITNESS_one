@@ -5,4 +5,12 @@ public class RecipeAlreadyExistException extends RuntimeException{
     public RecipeAlreadyExistException(String message) {
         super(message);
     }
+
+    public RecipeAlreadyExistException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public RecipeAlreadyExistException(Throwable cause) {
+        super(cause);
+    }
 }

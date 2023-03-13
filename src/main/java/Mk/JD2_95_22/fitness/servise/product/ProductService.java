@@ -2,6 +2,7 @@ package Mk.JD2_95_22.fitness.servise.product;
 
 import Mk.JD2_95_22.fitness.converter.product.*;
 import Mk.JD2_95_22.fitness.core.dto.page.PageDTO;
+import Mk.JD2_95_22.fitness.core.dto.products.ProductCreated;
 import Mk.JD2_95_22.fitness.core.dto.products.ProductDTO;
 import Mk.JD2_95_22.fitness.core.exeption.SingleError;
 import Mk.JD2_95_22.fitness.orm.entity.product.ProductEntity;
@@ -13,10 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class ProductService implements IProductService {
     private final IProductRepositpry repository;
@@ -56,34 +54,29 @@ public class ProductService implements IProductService {
     }
 
 
-    public void update(UUID uuid, long dtUpdate,String title, ProductDTO productDTO) {
-        if(uuid==null||productDTO==null){
-            throw new SingleError("Send parametrs for update");
-            validator.validate(productDTO);
+    public void update(UUID uuid, Instant dtUpdate, ProductCreated productCreate) {
+        if(uuid == null || dtUpdate == null){
+            throw new SingleError("Parameters for updating are not entered");
         }
-        Optional<ProductEntity> optionalProductUUID=repository.findById(uuid);
-        Optional<ProductEntity> optionalProductTitle=repository.getAllByTitle(productDTO.getTitle());
+        validator.validate(productCreate);
+        Optional<ProductEntity> findEntity = repository.findById(uuid);
 
-        if (optionalProductUUID.isEmpty()) {
-            throw new SingleError("Not found product for update");
-
-            ProductEntity productEntity=optionalProductTitle.get();
-            if(productEntity.getDtUpdate().equals(dtUpdate)){
-                throw new SingleError("Outdated version");
+        if (!findEntity.isPresent()) {
+            throw new SingleError("Product with this is id " + uuid + " not found");
+        } else {
+            ProductEntity entity = findEntity.get();
+            if (entity.getDtUpdate().equals(dtUpdate) && entity.getUuid().equals(uuid)) {
+                entity.setDtUpdate(Instant.now().plusNanos(3));
+                entity.setTitle(productCreate.getTitle());
+                entity.setWeight(productCreate.getWeight());
+                entity.setCalories(productCreate.getCalories());
+                entity.setProteins(productCreate.getProteins());
+                entity.setFats(productCreate.getFats());
+                entity.setCarbohydrates(productCreate.getCarbohydrates());
+                repository.save(entity);
+            } else {
+                throw new SingleError("Версии продукта с id " + uuid + " не совпадают!");
             }
-
-            if(optionalProductTitle.isPresent() && optionalProductTitle.get().getUuid().equals(uuid)){
-                throw new SingleError("This product name is already in use");
-            }
-
-            productEntity.setTitle(productDTO.getTitle());
-            productEntity.setWeight(productDTO.getWeight());
-            productEntity.setCalories(productDTO.getCalories());
-            productEntity.setProteins(productDTO.getProteins());
-            productEntity.setFats(productDTO.getFats());
-            productEntity.setCarbohydrates(productDTO.getCarbohydrates());
-
-            repository.save(productEntity);
         }
     }
 
@@ -107,13 +100,25 @@ public class ProductService implements IProductService {
         return pageDTO;
     }
 
-    public void getProduct(UUID uuid){
-        Optional<ProductEntity> optionalProductEntity=repository.findById(uuid);
-        if (optionalProductEntity.isEmpty()){
-            throw  new SingleError("Еhere is no product with that name");
+    public ProductEntity getProduct(UUID uuid, ProductEntity productEntity){
+        if (productEntity.getUuid()==null&&repository.getAllByUuid(uuid)!=null){
+            throw  new SingleError("There is no product with that name");
         }
+        if(!Objects.equals(productEntity.getUuid(),repository.getAllByUuid(uuid)!=null)){
+            throw  new SingleError("There is no product with that name");
+        }
+        return productEntity;
     }
 
+
+    public Optional<ProductEntity> getProductUuid(UUID uuid){
+        Optional<ProductEntity> optionalproductEntity=repository.findById(uuid);
+        if (optionalproductEntity.isEmpty()){
+            throw  new SingleError("There is no product with that name");
+        }
+
+        return optionalproductEntity;
+    }
 }
 
 

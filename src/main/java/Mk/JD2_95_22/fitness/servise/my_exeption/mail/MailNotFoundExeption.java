@@ -7,4 +7,12 @@ public class MailNotFoundExeption extends RuntimeException{
     public MailNotFoundExeption(String message) {
         super(message);
     }
+
+    public MailNotFoundExeption(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public MailNotFoundExeption(Throwable cause) {
+        super(cause);
+    }
 }

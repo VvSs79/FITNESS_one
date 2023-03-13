@@ -5,4 +5,12 @@ public class RecipeNotFoundExeption  extends RuntimeException{
     public RecipeNotFoundExeption(String message) {
         super(message);
     }
+
+    public RecipeNotFoundExeption(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public RecipeNotFoundExeption(Throwable cause) {
+        super(cause);
+    }
 }

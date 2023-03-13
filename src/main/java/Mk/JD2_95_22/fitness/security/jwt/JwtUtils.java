@@ -1,4 +1,4 @@
-package com.bezkoder.springjwt.security.jwt;
+package Mk.JD2_95_22.fitness.security.jwt;
 
 import java.util.Date;
 

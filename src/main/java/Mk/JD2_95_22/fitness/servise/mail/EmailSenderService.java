@@ -5,6 +5,7 @@ import Mk.JD2_95_22.fitness.core.util.MailStatus;
 import Mk.JD2_95_22.fitness.servise.api.mail.IEmailSenderService;
 import Mk.JD2_95_22.fitness.servise.my_exeption.mail.MailNotFoundExeption;
 import Mk.JD2_95_22.fitness.servise.my_exeption.mail.SendMailExeption;
+import Mk.JD2_95_22.fitness.servise.token.ConfirmationTokenService;
 import jakarta.mail.MessagingException;
 import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ public class EmailSenderService implements IEmailSenderService {
     private  SimpleMailMessage template;
     private  MailStatus status;
     private SpringTemplateEngine thymeleafTemplateEngine;
+    private ConfirmationTokenService tokenService;
     private  final static Logger logger = LoggerFactory.getLogger(EmailSenderService.class);
 
     public EmailSenderService(JavaMailSender javaMailSender, SimpleMailMessage template, MailStatus status,SpringTemplateEngine thymeleafTemplateEngine) {
@@ -43,7 +45,7 @@ public class EmailSenderService implements IEmailSenderService {
             message.setFrom("vitaliysokolov1.@gmail.com");
             message.setTo(mailDTO.getEmailTo());
             message.setSubject("Confirm your email");
-            message.setText(jvtToken);
+            message.setText(tokenService.getToken());
             javaMailSender.send(message);
             logger.info("Token authorisation was send to mail "+ mail +
                     " status sending is " + MailStatus.SEND);
