@@ -1,6 +1,8 @@
 package Mk.JD2_95_22.fitness.orm.entity.product;
 
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -10,6 +12,7 @@ import java.util.UUID;
                              @UniqueConstraint(columnNames = "title")})
 public class ProductEntity {
     @Id
+    @GeneratedValue
     @Column(name = "uuid")
     private UUID uuid;
     @Column(name = "dt_create")
@@ -24,16 +27,16 @@ public class ProductEntity {
     @Column(name = "calories")
     private Integer calories;
     @Column(name = "proteins")
-    private Double proteins;
+    private BigDecimal proteins;
     @Column(name = "fats")
-    private Double fats;
+    private BigDecimal fats;
     @Column(name = "carbohydrates")
-    private Double carbohydrates;
+    private BigDecimal carbohydrates;
 
     public ProductEntity() {
     }
 
-    public ProductEntity(UUID uuid, Instant dtCreate, Instant dtUpdate, String title, Integer weight, Integer calories, Double proteins, Double fats, Double carbohydrates) {
+    public ProductEntity(UUID uuid, Instant dtCreate, Instant dtUpdate, String title, Integer weight, Integer calories, BigDecimal proteins, BigDecimal fats, BigDecimal carbohydrates) {
         this.uuid = uuid;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
@@ -93,27 +96,27 @@ public class ProductEntity {
         this.calories = calories;
     }
 
-    public Double getProteins() {
+    public BigDecimal getProteins() {
         return proteins;
     }
 
-    public void setProteins(Double proteins) {
+    public void setProteins(BigDecimal proteins) {
         this.proteins = proteins;
     }
 
-    public Double getFats() {
+    public BigDecimal getFats() {
         return fats;
     }
 
-    public void setFats(Double fats) {
+    public void setFats(BigDecimal fats) {
         this.fats = fats;
     }
 
-    public Double getCarbohydrates() {
+    public BigDecimal getCarbohydrates() {
         return carbohydrates;
     }
 
-    public void setCarbohydrates(Double carbohydrates) {
+    public void setCarbohydrates(BigDecimal carbohydrates) {
         this.carbohydrates = carbohydrates;
     }
 }

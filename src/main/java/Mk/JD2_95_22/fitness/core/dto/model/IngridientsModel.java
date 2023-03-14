@@ -1,37 +1,41 @@
 package Mk.JD2_95_22.fitness.core.dto.model;
 
-import Mk.JD2_95_22.fitness.converter.number_format.DoubleConverter;
+import java.math.BigDecimal;
+
+import Mk.JD2_95_22.fitness.converter.number_format.BigDecimalConverter;
+import Mk.JD2_95_22.fitness.converter.number_format.InstantConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class IngridientsModel {
     @JsonProperty("product")
     private ProductModel product;
-
+    @JsonSerialize(converter = InstantConverter.Serializer.class)
     @JsonProperty("weight")
-    private Double weight;
+    private Integer weight;
+    @JsonSerialize(converter = InstantConverter.Serializer.class)
     @JsonProperty("calories")
-    private Double calories;
-    @JsonSerialize(converter =  DoubleConverter.Serializer.class)
+    private Integer calories;
+    @JsonSerialize(converter = BigDecimalConverter.class)
     @JsonProperty("proteins")
-    private Double proteins;
-    @JsonSerialize(converter = DoubleConverter.Serializer.class)
+    private BigDecimal proteins;
+    @JsonSerialize(converter = BigDecimalConverter.class)
     @JsonProperty("fats")
-    private Double fats;
-    @JsonSerialize(converter = DoubleConverter.Serializer.class)
+    private BigDecimal fats;
+    @JsonSerialize(converter = BigDecimalConverter.class)
     @JsonProperty("carbohydrates")
-    private Double carbohydrates;
+    private BigDecimal carbohydrates;
 
     public IngridientsModel() {
     }
 
-    public IngridientsModel(ProductModel product, Double weight, Double calories, Double proteins, Double fats, Double carbohydrates) {
+    public IngridientsModel(ProductModel product, Integer weight, Integer calories, BigDecimal proteins, BigDecimal fats, BigDecimal carbohydrates) {
         this.product = product;
         this.weight = weight;
-        this.calories = counDoubl(product.getCalories());
-        this.proteins = counDoubl(product.getProteins());
-        this.fats = counDoubl(product.getFats());
-        this.carbohydrates = counDoubl(product.getCarbohydrates());
+        this.calories = calories;
+        this.proteins = proteins;
+        this.fats = fats;
+        this.carbohydrates = carbohydrates;
     }
 
     public ProductModel getProduct() {
@@ -42,49 +46,47 @@ public class IngridientsModel {
         this.product = product;
     }
 
-    public Double getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public void setWeight(Double weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 
-    public Double getCalories() {
+    public Integer getCalories() {
         return calories;
     }
 
-    public void setCalories(Double calories) {
+    public void setCalories(Integer calories) {
         this.calories = calories;
     }
 
-    public Double getProteins() {
+    public BigDecimal getProteins() {
         return proteins;
     }
 
-    public void setProteins(Double proteins) {
+    public void setProteins(BigDecimal proteins) {
         this.proteins = proteins;
     }
 
-    public Double getFats() {
+    public BigDecimal getFats() {
         return fats;
     }
 
-    public void setFats(Double fats) {
+    public void setFats(BigDecimal fats) {
         this.fats = fats;
     }
 
-    public Double getCarbohydrates() {
+    public BigDecimal getCarbohydrates() {
         return carbohydrates;
     }
 
-    public void setCarbohydrates(Double carbohydrates) {
+    public void setCarbohydrates(BigDecimal carbohydrates) {
         this.carbohydrates = carbohydrates;
     }
-    private Double counDoubl(Integer value){
+    private Integer countInteger(Integer value){
         return weight*value/product.getWeight();
     }
-    private Double counDoubl(Double value){
-        return weight*value/product.getWeight();
-    }
+
 }

@@ -1,84 +1,101 @@
 package Mk.JD2_95_22.fitness.servise.user;
 
-import Mk.JD2_95_22.fitness.config.security.token.ConfirmationToken;
+import Mk.JD2_95_22.fitness.core.dto.user.UserCreated;
+import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
+import Mk.JD2_95_22.fitness.core.dto.user.UserLogin;
+import Mk.JD2_95_22.fitness.core.dto.user.UserRegistration;
+import Mk.JD2_95_22.fitness.core.exeption.SingleError;
+import Mk.JD2_95_22.fitness.core.util.UserRole;
+import Mk.JD2_95_22.fitness.core.util.UserStatus;
 import Mk.JD2_95_22.fitness.orm.entity.user.UserEntity;
-import Mk.JD2_95_22.fitness.orm.repository.IUserRepository;
-import Mk.JD2_95_22.fitness.servise.token.ConfirmationTokenService;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import Mk.JD2_95_22.fitness.orm.entity.utils.StatusEntity;
+import Mk.JD2_95_22.fitness.orm.repository.IPersonalUserRepository;
+import Mk.JD2_95_22.fitness.security.util.JwtUtils;
+import Mk.JD2_95_22.fitness.servise.api.mail.IEmailSenderService;
+import Mk.JD2_95_22.fitness.servise.api.user.IAppUserService;
+import Mk.JD2_95_22.fitness.servise.api.user.IUserService;
+import Mk.JD2_95_22.fitness.servise.my_exeption.user.UserValidateExeption;
+import Mk.JD2_95_22.fitness.servise.validation.UserRegistrationValidator;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 
-import javax.swing.text.html.parser.Entity;
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
-public class AppUserService implements UserDetailsService {
-    private final IUserRepository repository;
-    private final PasswordEncoder passwordEncoder;
-    private final ConfirmationTokenService confirmationTokenService;
+public class AppUserService implements IAppUserService {
+    private final IPersonalUserRepository repository;
+    private final IUserService service;
+    private final IEmailSenderService emailService;
+    private final  ConversionService conversionService;
+    private  final BCryptPasswordEncoder encoder;
+    private  final UserRegistrationValidator validator;
+    private final JwtUtils generateAccessToken;
 
-    public AppUserService(IUserRepository repository, PasswordEncoder passwordEncoder, ConfirmationTokenService confirmationTokenService) {
+    public AppUserService(IPersonalUserRepository repository, IUserService service, IEmailSenderService emailService, ConversionService conversionService, BCryptPasswordEncoder encoder, UserRegistrationValidator validator, JwtUtils generateAccessToken) {
         this.repository = repository;
-        this.passwordEncoder = passwordEncoder;
-        this.confirmationTokenService = confirmationTokenService;
+        this.service = service;
+        this.emailService = emailService;
+        this.conversionService = conversionService;
+        this.encoder = encoder;
+        this.validator = validator;
+        this.generateAccessToken = generateAccessToken;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
-        if(repository.findByMailIgnoreCase(email).getMail().isEmpty()||repository.findByMailIgnoreCase(email)==null)
-        throw new UsernameNotFoundException(String.format("User with email %s not found", email));
-        return loadUserByUsername(email);
+    public void create(UserRegistration user) {
+        validator.validate(user);
+        service.CreatedUser(new UserCreated(
+                UUID.randomUUID(),
+                Instant.now(),
+                Instant.now(),
+                user.getFIOuser(),
+                user.getMailUser(),
+                user.getPassword(),
+                UserRole.USER,
+                UserStatus.WAITING_ACTIVATION));
+        UserEntity userEntity = find(user.getMailUser());
+        String code = UUID.randomUUID().toString();
+        userEntity.setCode(code);
+        repository.save(userEntity);
+        emailService.sendActiveMail("maksim.maks.23@mail.ru", code,
+                "Hello, confirm verification");
     }
 
 
-    public String signUpUser(UserEntity userCreated, String email){
-        boolean userExist=repository.findByMailIgnoreCase(userCreated.getMail());
-        String appUserPrevious =  userCreated.getMail().;
-        UserDetails userExists=loadUserByUsername(email);
+    public void verify(String code,String mail) {
+        UserEntity userEntity = find(mail);
 
-       if(!loadUserByUsername(email).getUsername().isBlank()) {
+        if(code.equals(userEntity.getCode())){
+            userEntity.setStatus(new StatusEntity(UserStatus.ACTIVATED));
+            userEntity.setCode(null);
+            repository.save(userEntity);
+        } else throw new UserValidateExeption("Incorrect mail and code");
+    }
 
-                String token = UUID.randomUUID().toString();
-           saveConfirmationToken(userCreated.getMail(),token).
-
-                //A method to save user and token in this class
-                saveConfirmationToken(appUserPrevious, token);
-
-                return token;
-
-            }
-            throw new IllegalStateException(String.format("User with email %s already exists!", userCreated.getMailUser()));
+    public String login(@Validated UserLogin user) {
+        UserEntity userEntity = find(user.getMailUser());
+        if(!encoder.matches(user.getPassword(),userEntity.getPassword())){
+            throw new UserValidateExeption("Incorrect mail and password");
         }
+        return generateAccessToken.generateJwtToken( userEntity );
+    }
 
-        String encodedPassword = passwordEncoder.bCryptPasswordEncoder().encode(appUser.getPassword());
-        appUser.setPassword(encodedPassword);
-
-        //Saving the user after encoding the password
-        appUserRepository.save(appUser);
-
-        //Creating a token from UUID
-        String token = UUID.randomUUID().toString();
-
-        //Getting the confirmation token and then saving it
-        saveConfirmationToken(appUser, token);
-
-
-        //Returning token
-        return token;
+    public UserEntity find(String mail){
+        if(mail==null||mail.isBlank()){
+            new SingleError("User with this mail is not registered");
+        }
+        return repository.findByMail(mail);
     }
 
 
-    private void saveConfirmationToken(Entity appUser, String token) {
-        ConfirmationToken confirmationToken = new ConfirmationToken(token, Instant.now(),
-                Instant.now().plusSeconds(6000), appUser);
-        confirmationTokenService.saveConfirmationToken(confirmationToken);
-    }
-
-    public int enableAppUser(String email) {
-        return appUserRepository.enableAppUser(email);
-
+    public UserDTO getCard(UUID uuid) {
+        Optional<UserEntity> findUserEntity = repository.findByUuid(uuid);
+        if(findUserEntity.isEmpty()){
+            throw new SingleError("Пользователя с id " + uuid + " нет базе данных!");
+        }
+        UserEntity userEntity = findUserEntity.get();
+        return conversionService.convert(userEntity, UserDTO.class);
     }
 
 }

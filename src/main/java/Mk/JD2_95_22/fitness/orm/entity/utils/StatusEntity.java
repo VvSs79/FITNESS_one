@@ -20,9 +20,22 @@ public class StatusEntity {
 
     public StatusEntity(UserStatus status) {
         this.status = status;
+        this.id = (short) (status.ordinal() + 1);
     }
 
-    public UserStatus getName() {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public UserStatus getStatus() {
         return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
     }
 }

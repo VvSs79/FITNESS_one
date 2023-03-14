@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class ProductCreated  {
@@ -14,13 +15,13 @@ public class ProductCreated  {
     @PositiveOrZero(message = "Should be positive or zero")
     private Integer calories;
     @PositiveOrZero(message = "Should be positive or zero")
-    private double proteins;
+    private BigDecimal proteins;
     @PositiveOrZero(message = "Should be positive or zero")
-    private double fats;
+    private BigDecimal fats;
     @PositiveOrZero(message = "Should be positive or zero")
-    private double carbohydrates;
+    private BigDecimal carbohydrates;
 
-    public ProductCreated(String title, Integer weight, Integer calories, double proteins, double fats, double carbohydrates) {
+    public ProductCreated(String title, Integer weight, Integer calories, BigDecimal proteins, BigDecimal fats, BigDecimal carbohydrates) {
         this.title = title;
         this.weight = weight;
         this.calories = calories;
@@ -53,27 +54,27 @@ public class ProductCreated  {
         this.calories = calories;
     }
 
-    public double getProteins() {
+    public BigDecimal getProteins() {
         return proteins;
     }
 
-    public void setProteins(double proteins) {
+    public void setProteins(BigDecimal proteins) {
         this.proteins = proteins;
     }
 
-    public double getFats() {
+    public BigDecimal getFats() {
         return fats;
     }
 
-    public void setFats(double fats) {
+    public void setFats(BigDecimal fats) {
         this.fats = fats;
     }
 
-    public double getCarbohydrates() {
+    public BigDecimal getCarbohydrates() {
         return carbohydrates;
     }
 
-    public void setCarbohydrates(double carbohydrates) {
+    public void setCarbohydrates(BigDecimal carbohydrates) {
         this.carbohydrates = carbohydrates;
     }
 
@@ -82,7 +83,7 @@ public class ProductCreated  {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductCreated that = (ProductCreated) o;
-        return Double.compare(that.proteins, proteins) == 0 && Double.compare(that.fats, fats) == 0 && Double.compare(that.carbohydrates, carbohydrates) == 0 && Objects.equals(title, that.title) && Objects.equals(weight, that.weight) && Objects.equals(calories, that.calories);
+        return Objects.equals(title, that.title) && Objects.equals(weight, that.weight) && Objects.equals(calories, that.calories) && Objects.equals(proteins, that.proteins) && Objects.equals(fats, that.fats) && Objects.equals(carbohydrates, that.carbohydrates);
     }
 
     @Override
@@ -90,3 +91,5 @@ public class ProductCreated  {
         return Objects.hash(title, weight, calories, proteins, fats, carbohydrates);
     }
 }
+
+

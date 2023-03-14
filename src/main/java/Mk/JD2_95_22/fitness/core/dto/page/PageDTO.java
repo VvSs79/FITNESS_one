@@ -1,21 +1,36 @@
 package Mk.JD2_95_22.fitness.core.dto.page;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
+import java.util.Objects;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PageDTO<T>{
+    @JsonProperty("number")
     private int number;
+    @JsonProperty("size")
     private int size;
+    @JsonProperty("total_pages")
     private int totalPages;
+    @JsonProperty("total_elements")
     private long totalElements;
+    @JsonProperty("first")
     private boolean first;
+    @JsonProperty("number_of_elements")
     private int numberElements;
+    @JsonProperty("last")
     private boolean last;
+    @JsonProperty("content")
     private List<T> content;
 
     public PageDTO() {
     }
 
-    public PageDTO(int number, int size, int totalPages, long totalElements, boolean first, int numberElements, boolean last, List<T> content) {
+    public PageDTO(int number, int size,
+                   int totalPages, long totalElements,
+                   boolean first, int numberElements,
+                   boolean last, List<T> content) {
         this.number = number;
         this.size = size;
         this.totalPages = totalPages;
@@ -88,5 +103,31 @@ public class PageDTO<T>{
 
     public void setContent(List<T> content) {
         this.content = content;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PageDTO<?> pageDTO = (PageDTO<?>) o;
+        return number == pageDTO.number && size == pageDTO.size && totalPages == pageDTO.totalPages && totalElements == pageDTO.totalElements && first == pageDTO.first && numberElements == pageDTO.numberElements && last == pageDTO.last && Objects.equals(content, pageDTO.content);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(number, size, totalPages, totalElements, first, numberElements, last, content);
+    }
+    @Override
+    public String toString() {
+        return "PageDTO{" +
+                "number=" + number +
+                ", size=" + size +
+                ", totalPages=" + totalPages +
+                ", totalElements=" + totalElements +
+                ", first=" + first +
+                ", numberElements=" + numberElements +
+                ", last=" + last +
+                ", content=" + content +
+                '}';
     }
 }

@@ -5,6 +5,7 @@ import Mk.JD2_95_22.fitness.orm.entity.product.ProductEntity;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -16,11 +17,11 @@ public class ProductConvertertEntityToDTO implements Converter<ProductEntity, Pr
         Instant dtCreate=source.getDtCreate();
         Instant dtUpdate=source.getDtUpdate();
         String title=source.getTitle();
-        Double weight= source.getWeight();
-        Double colories= source.getCalories();
-        Double proteinas=source.getProteins();
-        Double fats=source.getFats();
-        Double carbohydrates=source.getCarbohydrates();
+        Integer weight= source.getWeight();
+        BigDecimal colories= source.getCalories();
+        BigDecimal proteinas=source.getProteins();
+        BigDecimal fats=source.getFats();
+        BigDecimal carbohydrates=source.getCarbohydrates();
 
         return new ProductDTO(uuid,dtCreate, dtUpdate,title,weight,colories,proteinas,fats,carbohydrates);
     }

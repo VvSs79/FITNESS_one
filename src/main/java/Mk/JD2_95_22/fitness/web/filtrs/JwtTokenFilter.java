@@ -1,16 +1,16 @@
-package Mk.JD2_95_22.fitness.security.jwt;
+package Mk.JD2_95_22.fitness.web.filtrs;
 
 import java.io.IOException;
 
 
 import Mk.JD2_95_22.fitness.security.services.UserDetailsServiceImpl;
+import Mk.JD2_95_22.fitness.security.util.JwtUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,17 +19,17 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 
-public class AuthTokenFilter extends OncePerRequestFilter {
+public class JwtTokenFilter extends OncePerRequestFilter {
 
   final private JwtUtils jwtUtils;
   final private UserDetailsServiceImpl userDetailsService;
 
-  public AuthTokenFilter(JwtUtils jwtUtils, UserDetailsServiceImpl userDetailsService) {
+  public JwtTokenFilter(JwtUtils jwtUtils, UserDetailsServiceImpl userDetailsService) {
     this.jwtUtils = jwtUtils;
     this.userDetailsService = userDetailsService;
   }
 
-  private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
+  private static final Logger logger = LoggerFactory.getLogger(JwtTokenFilter.class);
 
   @Override
   protected void doFilterInternal(HttpServletRequest request,

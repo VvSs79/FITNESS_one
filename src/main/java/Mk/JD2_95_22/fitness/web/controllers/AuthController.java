@@ -1,129 +1,56 @@
-package com.bezkoder.springjwt.controllers;
+package Mk.JD2_95_22.fitness.web.controllers;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import Mk.JD2_95_22.fitness.core.dto.user.UserLogin;
+import Mk.JD2_95_22.fitness.core.dto.user.UserRegistration;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 
-import com.bezkoder.springjwt.models.ERole;
-import com.bezkoder.springjwt.models.Role;
-import com.bezkoder.springjwt.models.User;
-import Mk.JD2_95_22.fitness.security.payload.request.LoginRequest;
-import Mk.JD2_95_22.fitness.security.payload.request.SignupRequest;
-import Mk.JD2_95_22.fitness.security.payload.response.JwtResponse;
-import Mk.JD2_95_22.fitness.security.payload.response.MessageResponse;
-import com.bezkoder.springjwt.repository.RoleRepository;
-import com.bezkoder.springjwt.repository.UserRepository;
-import com.bezkoder.springjwt.security.jwt.JwtUtils;
-import com.bezkoder.springjwt.security.services.UserDetailsImpl;
-
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/users")
 public class AuthController {
-  @Autowired
-  AuthenticationManager authenticationManager;
+  UserDetails userDetails;
+  private IAuthenticationService service;
 
-  @Autowired
-  UserRepository userRepository;
+  private IUserAuthenticationService userAuthenticationService;
 
-  @Autowired
-  RoleRepository roleRepository;
+  public AuthController(IUserAuthenticationService userAuthenticationService) {
 
-  @Autowired
-  PasswordEncoder encoder;
-
-  @Autowired
-  JwtUtils jwtUtils;
-
-  @PostMapping("/signin")
-  public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-
-    Authentication authentication = authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-    String jwt = jwtUtils.generateJwtToken(authentication);
-    
-    UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();    
-    List<String> roles = userDetails.getAuthorities().stream()
-        .map(item -> item.getAuthority())
-        .collect(Collectors.toList());
-
-    return ResponseEntity.ok(new JwtResponse(jwt, 
-                         userDetails.getId(), 
-                         userDetails.getUsername(), 
-                         userDetails.getEmail(), 
-                         roles));
+    this.userAuthenticationService = userAuthenticationService;
   }
 
-  @PostMapping("/signup")
-  public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-    if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-      return ResponseEntity
-          .badRequest()
-          .body(new MessageResponse("Error: Username is already taken!"));
-    }
+  @PostMapping("/registration")
+  public ResponseEntity<String> register(@Valid @RequestBody UserRegistration userRegistration) {
 
-    if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-      return ResponseEntity
-          .badRequest()
-          .body(new MessageResponse("Error: Email is already in use!"));
-    }
+    this.userAuthenticationService.register(userRegistration);
+    return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .build();
+  }
 
-    // Create new user's account
-    User user = new User(signUpRequest.getUsername(), 
-               signUpRequest.getEmail(),
-               encoder.encode(signUpRequest.getPassword()));
+  @GetMapping("/verification")
+  public ResponseEntity<String> verifyCode(@RequestParam String code,
+                                           @RequestParam String mail) {
 
-    Set<String> strRoles = signUpRequest.getRole();
-    Set<Role> roles = new HashSet<>();
+    //TODO: implement mail verification functionality
+    return ResponseEntity.ok("User successfully verified");
+  }
 
-    if (strRoles == null) {
-      Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-          .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-      roles.add(userRole);
-    } else {
-      strRoles.forEach(role -> {
-        switch (role) {
-        case "admin":
-          Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-          roles.add(adminRole);
+  @PostMapping("/login")
+  public ResponseEntity<String> login(@Valid @RequestBody UserLogin userLogin) {
 
-          break;
-        case "mod":
-          Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-          roles.add(modRole);
+    String jwtToken = this.userAuthenticationService.login(userLogin);
+    return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(jwtToken);
+  }
 
-          break;
-        default:
-          Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-          roles.add(userRole);
-        }
-      });
-    }
+  @GetMapping("/me")
+  public ResponseEntity<UserDTO> getMyData() {
 
-    user.setRoles(roles);
-    userRepository.save(user);
-
-    return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    UserDTO userData = this.userAuthenticationService.getMyData();
+    return ResponseEntity.ok(userData);
   }
 }

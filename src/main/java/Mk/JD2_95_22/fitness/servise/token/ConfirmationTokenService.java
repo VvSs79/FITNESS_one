@@ -3,9 +3,7 @@ package Mk.JD2_95_22.fitness.servise.token;
 import Mk.JD2_95_22.fitness.config.security.token.ConfirmationToken;
 import Mk.JD2_95_22.fitness.orm.repository.IConfirmationTokenRepository;
 import org.springframework.stereotype.Service;
-
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service

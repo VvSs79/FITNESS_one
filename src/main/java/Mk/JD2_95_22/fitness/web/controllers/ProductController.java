@@ -1,6 +1,7 @@
 package Mk.JD2_95_22.fitness.web.controllers;
 
 import Mk.JD2_95_22.fitness.core.dto.page.PageDTO;
+import Mk.JD2_95_22.fitness.core.dto.products.ProductCreated;
 import Mk.JD2_95_22.fitness.core.dto.products.ProductDTO;
 import Mk.JD2_95_22.fitness.servise.api.product.IProductService;
 import jakarta.validation.Valid;
@@ -34,7 +35,7 @@ public class ProductController {
     @RequestMapping(path = "/{uuid}/dt_update/{dt_update}", method = RequestMethod.PUT)
     public ResponseEntity<?> update(@PathVariable("uuid") UUID uuid,
                                     @PathVariable("dt_update") Long dtUpdate,
-                                    @RequestBody @Valid ProductDTO product) {
+                                    @RequestBody @Valid ProductCreated product) {
         Instant version = Instant.ofEpochMilli(dtUpdate);
         service.update(uuid, version, product);
         return ResponseEntity.status(HttpStatus.OK).build();

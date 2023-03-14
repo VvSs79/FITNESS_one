@@ -1,4 +1,4 @@
-package Mk.JD2_95_22.fitness.core.dto.user;
+package Mk.JD2_95_22.fitness.security.jwt;
 
 public class UserVerification {
     private String mail;

@@ -26,6 +26,16 @@ public class RoleEntity {
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.role = role;
+        this.id = (short) (role.ordinal() + 1);
+    }
+
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 }

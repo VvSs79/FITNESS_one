@@ -5,7 +5,7 @@ import Mk.JD2_95_22.fitness.core.dto.page.PageDTO;
 import Mk.JD2_95_22.fitness.core.dto.user.UserCreated;
 import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
 
-import Mk.JD2_95_22.fitness.core.dto.user.UserVerification;
+import Mk.JD2_95_22.fitness.security.jwt.UserVerification;
 import Mk.JD2_95_22.fitness.core.util.UserStatus;
 import Mk.JD2_95_22.fitness.orm.entity.utils.RoleEntity;
 import Mk.JD2_95_22.fitness.orm.entity.user.UserEntity;

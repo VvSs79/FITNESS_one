@@ -18,8 +18,17 @@ public class MailStatusEntity {
     public MailStatusEntity() {
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public MailStatusEntity(MailStatus mailStatus) {
         this.mailStatus = mailStatus;
+        this.id = (short) (mailStatus.ordinal() + 1);
     }
 
     public MailStatus getMailStatus() {
