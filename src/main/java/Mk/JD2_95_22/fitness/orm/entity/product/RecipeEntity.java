@@ -6,22 +6,21 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "recepte", schema = "fitness")
+@Table(name = "recipe", schema = "fitness")
 
 public class RecipeEntity  {
     @Id
-    @Column(name = "uuid")
     private UUID uuid;
-    @Column(name = "dt_create")
     private Instant dtCreate;
     @Version
-    @Column(name = "dt_update")
     private Instant dtUpdate;
-    @Column(name = "title")
     private String title;
     @ElementCollection
-    @CollectionTable(name="recipe_ingridients", schema = "fitness",
-                     joinColumns = @JoinColumn(name="id"))
+    @CollectionTable(
+            schema = "app",
+            name = "recipe_ingredient",
+            joinColumns = @JoinColumn(name ="recipe_id" )
+    )
     private List<IngridientsEntity> composition;
 
     public RecipeEntity() {

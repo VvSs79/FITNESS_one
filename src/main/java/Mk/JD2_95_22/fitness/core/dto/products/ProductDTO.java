@@ -7,8 +7,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.lang.NonNull;
-
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -32,15 +30,15 @@ public class ProductDTO  {
     private Integer calories;
     @NotBlank(message = "Proteins should not be less than 1 ")
     @Min(value = 0)
-    private BigDecimal proteins;
+    private double proteins;
     @NotBlank(message = "Fats should not be less than 0 ")
     @Min(value = 0)
-    private BigDecimal fats;
+    private double fats;
     @NotBlank(message = "Carbohydrates should not be less than 10")
     @Min(value = 0)
-    private BigDecimal carbohydrates;
+    private double carbohydrates;
 
-    public ProductDTO(UUID uuid, Instant dtCreate, Instant dtUpdate, String title, Integer weight, Integer calories, BigDecimal proteins, BigDecimal fats, BigDecimal carbohydrates) {
+    public ProductDTO(UUID uuid, Instant dtCreate, Instant dtUpdate, String title, Integer weight, Integer calories, double proteins, double fats, double carbohydrates) {
         this.uuid = uuid;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
@@ -101,27 +99,27 @@ public class ProductDTO  {
         this.calories = calories;
     }
 
-    public BigDecimal getProteins() {
+    public double getProteins() {
         return proteins;
     }
 
-    public void setProteins(BigDecimal proteins) {
+    public void setProteins(double proteins) {
         this.proteins = proteins;
     }
 
-    public BigDecimal getFats() {
+    public double getFats() {
         return fats;
     }
 
-    public void setFats(BigDecimal fats) {
+    public void setFats(double fats) {
         this.fats = fats;
     }
 
-    public BigDecimal getCarbohydrates() {
+    public double getCarbohydrates() {
         return carbohydrates;
     }
 
-    public void setCarbohydrates(BigDecimal carbohydrates) {
+    public void setCarbohydrates(double carbohydrates) {
         this.carbohydrates = carbohydrates;
     }
 }

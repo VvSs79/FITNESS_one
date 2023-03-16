@@ -1,13 +1,13 @@
 package Mk.JD2_95_22.fitness.servise.validation;
 
 import Mk.JD2_95_22.fitness.core.dto.products.ProductDTO;
-import Mk.JD2_95_22.fitness.core.exeption.MultipleError;
+import Mk.JD2_95_22.fitness.core.exeption.MultipleErrorResponse;
 import Mk.JD2_95_22.fitness.core.exeption.MyError;
 import Mk.JD2_95_22.fitness.servise.validation.api.IValidator;
 
 public class ProductValidator implements IValidator<ProductDTO> {
     public void validate(ProductDTO productDTO){
-        MultipleError multipleError=new MultipleError();
+        MultipleErrorResponse multipleError=new MultipleErrorResponse();
 
             if(productDTO.getTitle() == null || productDTO.getTitle().isBlank()){
                 if(multipleError.getLogref() == null){

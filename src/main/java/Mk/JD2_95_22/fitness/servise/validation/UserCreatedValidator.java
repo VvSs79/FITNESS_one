@@ -1,7 +1,7 @@
 package Mk.JD2_95_22.fitness.servise.validation;
 
 import Mk.JD2_95_22.fitness.core.dto.user.UserCreated;
-import Mk.JD2_95_22.fitness.core.exeption.MultipleError;
+import Mk.JD2_95_22.fitness.core.exeption.MultipleErrorResponse;
 import Mk.JD2_95_22.fitness.core.exeption.MyError;
 import Mk.JD2_95_22.fitness.core.util.UserRole;
 import Mk.JD2_95_22.fitness.orm.repository.IUserRepository;
@@ -21,7 +21,7 @@ public class UserCreatedValidator implements IValidator<UserCreated> {
         this.repository = repository;
     }
     public void validate(UserCreated userCreated){
-        MultipleError multipleError=new MultipleError();
+        MultipleErrorResponse multipleError=new MultipleErrorResponse();
 
         if (userCreated.getMailUser()==null&&userCreated.getMailUser().isBlank()){
             if(multipleError.getLogref()==null){

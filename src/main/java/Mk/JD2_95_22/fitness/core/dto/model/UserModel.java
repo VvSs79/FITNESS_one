@@ -3,11 +3,16 @@ package Mk.JD2_95_22.fitness.core.dto.model;
 import Mk.JD2_95_22.fitness.converter.number_format.InstantConverter;
 import Mk.JD2_95_22.fitness.orm.entity.utils.RoleEntity;
 import Mk.JD2_95_22.fitness.orm.entity.utils.StatusEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.time.Instant;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.UUID;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -96,5 +101,39 @@ public class UserModel {
 
     public void setStatus(StatusEntity status) {
         this.status = status;
+    }
+
+    @JsonIgnore
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.<GrantedAuthority>singletonList(new SimpleGrantedAuthority(role.toString()));
+    }
+
+    @JsonIgnore
+    public String getPassword() {
+        return null;
+    }
+
+    @JsonIgnore
+    public String getUsername() {
+        return mail;
+    }
+
+    @JsonIgnore
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+    @JsonIgnore
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @JsonIgnore
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @JsonIgnore
+    public boolean isEnabled() {
+        return true;
     }
 }

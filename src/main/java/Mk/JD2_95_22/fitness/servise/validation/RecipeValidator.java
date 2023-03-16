@@ -1,16 +1,16 @@
 package Mk.JD2_95_22.fitness.servise.validation;
 
 import Mk.JD2_95_22.fitness.core.dto.products.Ingridients;
-import Mk.JD2_95_22.fitness.core.dto.products.RecipeCreated;
-import Mk.JD2_95_22.fitness.core.exeption.MultipleError;
+import Mk.JD2_95_22.fitness.core.dto.products.RecipeCreatedForCU;
+import Mk.JD2_95_22.fitness.core.exeption.MultipleErrorResponse;
 import Mk.JD2_95_22.fitness.core.exeption.MyError;
 import Mk.JD2_95_22.fitness.servise.validation.api.IValidator;
 
 import java.util.List;
 
-public class RecipeValidator implements IValidator<RecipeCreated> {
-    public void validate(RecipeCreated recipeCreated) {
-        MultipleError multipleError = new MultipleError();
+public class RecipeValidator implements IValidator<RecipeCreatedForCU> {
+    public void validate(RecipeCreatedForCU recipeCreated) {
+        MultipleErrorResponse multipleError = new MultipleErrorResponse();
 
         if(recipeCreated.getTitle() == null || recipeCreated.getTitle().isBlank()){
             if(multipleError.getLogref() == null){
