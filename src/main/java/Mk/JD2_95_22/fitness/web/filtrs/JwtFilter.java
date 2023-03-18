@@ -7,23 +7,20 @@ import java.util.List;
 
 import Mk.JD2_95_22.fitness.web.util.JwtTokenUtil;
 import Mk.JD2_95_22.fitness.servise.api.user.IUserService;
-import Mk.JD2_95_22.fitness.servise.my_exeption.user.UserNotFoundExeption;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import static io.micrometer.common.util.StringUtils.isEmpty;
 
-
+@Component
 public class JwtFilter extends OncePerRequestFilter {
     private final IUserService userService;
     private final JwtTokenUtil jwtTokenUtil;

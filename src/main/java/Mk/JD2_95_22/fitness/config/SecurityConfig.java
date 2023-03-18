@@ -2,7 +2,6 @@ package Mk.JD2_95_22.fitness.config;
 
 import Mk.JD2_95_22.fitness.web.filtrs.JwtFilter;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

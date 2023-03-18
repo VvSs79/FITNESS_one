@@ -16,13 +16,11 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/users")
 public class AuthController {
-  UserDetails userDetails;
   private IAuthenticationUser repository;
 
   private IAuthenticationUserService service;
 
-  public AuthController(UserDetails userDetails, IAuthenticationUser repository, IAuthenticationUserService service) {
-    this.userDetails = userDetails;
+  public AuthController(IAuthenticationUser repository, IAuthenticationUserService service) {
     this.repository = repository;
     this.service = service;
   }
