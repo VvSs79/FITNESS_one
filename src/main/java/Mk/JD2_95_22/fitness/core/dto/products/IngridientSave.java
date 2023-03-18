@@ -1,16 +1,16 @@
 package Mk.JD2_95_22.fitness.core.dto.products;
 
-import java.math.BigDecimal;
+import java.lang.Double;
 
 public class IngridientSave {
     private ProductDTO product;
     private int weight;
-    private BigDecimal calories;
-    private BigDecimal proteins;
-    private BigDecimal fats;
-    private BigDecimal carbohydrates;
+    private Double calories;
+    private Double proteins;
+    private Double fats;
+    private Double carbohydrates;
 
-    public IngridientSave(ProductDTO product, int weight, BigDecimal calories, BigDecimal proteins, BigDecimal fats, BigDecimal carbohydrates) {
+    public IngridientSave(ProductDTO product, int weight, Double calories, Double proteins, Double fats, Double carbohydrates) {
         this.product = product;
         this.weight = weight;
         this.calories = calories;
@@ -35,35 +35,35 @@ public class IngridientSave {
         this.weight = weight;
     }
 
-    public BigDecimal getCalories() {
+    public Double getCalories() {
         return calories;
     }
 
-    public void setCalories(BigDecimal calories) {
+    public void setCalories(Double calories) {
         this.calories = calories;
     }
 
-    public BigDecimal getProteins() {
+    public Double getProteins() {
         return proteins;
     }
 
-    public void setProteins(BigDecimal proteins) {
+    public void setProteins(Double proteins) {
         this.proteins = proteins;
     }
 
-    public BigDecimal getFats() {
+    public Double getFats() {
         return fats;
     }
 
-    public void setFats(BigDecimal fats) {
+    public void setFats(Double fats) {
         this.fats = fats;
     }
 
-    public BigDecimal getCarbohydrates() {
+    public Double getCarbohydrates() {
         return carbohydrates;
     }
 
-    public void setCarbohydrates(BigDecimal carbohydrates) {
+    public void setCarbohydrates(Double carbohydrates) {
         this.carbohydrates = carbohydrates;
     }
 }

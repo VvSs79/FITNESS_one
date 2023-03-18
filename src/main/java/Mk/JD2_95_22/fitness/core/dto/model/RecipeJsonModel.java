@@ -1,7 +1,9 @@
 package Mk.JD2_95_22.fitness.core.dto.model;
 
-import Mk.JD2_95_22.fitness.converter.number_format.DoubleConverter;
-import Mk.JD2_95_22.fitness.converter.number_format.InstantConverter;
+import Mk.JD2_95_22.fitness.converter.number_format.DoubleConverterToBigDecimal;
+import Mk.JD2_95_22.fitness.converter.number_format.InstantConvertorToLong;
+import Mk.JD2_95_22.fitness.converter.number_format.StringConverterToInstant;
+import Mk.JD2_95_22.fitness.converter.number_format.LongConverterToInstant;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -9,38 +11,38 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-public class RecipeModel {
+public class RecipeJsonModel {
     @JsonProperty("uuid")
     private UUID uuid;
-    @JsonSerialize(converter = InstantConverter.Serializer.class)
+    @JsonSerialize(converter = InstantConvertorToLong.class)
     @JsonProperty("dt_create")
     private Instant dt_create;
-    @JsonSerialize(converter = InstantConverter.Serializer.class)
+    @JsonSerialize(converter = InstantConvertorToLong.class)
     @JsonProperty("dt_update")
     private Instant dt_update;
     @JsonProperty("title")
     private String title;
     @JsonProperty("composition")
-    private List<IngridientsModel> composition;
+    private List<IngridientsJsonModel> composition;
 
     @JsonProperty("weight")
     private  Integer weight;
     @JsonProperty("calories")
     private  Integer calories;
-    @JsonSerialize(converter = DoubleConverter.Serializer.class)
+    @JsonSerialize(converter = DoubleConverterToBigDecimal.class)
     @JsonProperty("proteins")
     private Double proteins;
-    @JsonSerialize(converter = DoubleConverter.Serializer.class)
+    @JsonSerialize(converter =  DoubleConverterToBigDecimal.class)
     @JsonProperty("fats")
     private Double fats;
-    @JsonSerialize(converter = DoubleConverter.Serializer.class)
+    @JsonSerialize(converter =  DoubleConverterToBigDecimal.class)
     @JsonProperty("carbohydrates")
     private Double carbohydrates;
 
-    public RecipeModel() {
+    public RecipeJsonModel() {
     }
 
-    public RecipeModel(UUID uuid, Instant dt_create, Instant dt_update, String title, List<IngridientsModel> composition, Integer weight, Integer calories, Double proteins, Double fats, Double carbohydrates) {
+    public RecipeJsonModel(UUID uuid, Instant dt_create, Instant dt_update, String title, List<IngridientsJsonModel> composition, Integer weight, Integer calories, Double proteins, Double fats, Double carbohydrates) {
         this.uuid = uuid;
         this.dt_create = dt_create;
         this.dt_update = dt_update;
@@ -85,11 +87,11 @@ public class RecipeModel {
         this.title = title;
     }
 
-    public List<IngridientsModel> getComposition() {
+    public List<IngridientsJsonModel> getComposition() {
         return composition;
     }
 
-    public void setComposition(List<IngridientsModel> composition) {
+    public void setComposition(List<IngridientsJsonModel> composition) {
         this.composition = composition;
     }
 

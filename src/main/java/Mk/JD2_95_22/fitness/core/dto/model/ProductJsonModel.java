@@ -1,42 +1,41 @@
 package Mk.JD2_95_22.fitness.core.dto.model;
 
-import Mk.JD2_95_22.fitness.converter.number_format.BigDecimalConverter;
-import Mk.JD2_95_22.fitness.converter.number_format.DoubleConverter;
-import Mk.JD2_95_22.fitness.converter.number_format.InstantConverter;
+import Mk.JD2_95_22.fitness.converter.number_format.DoubleConverterToBigDecimal;
+import Mk.JD2_95_22.fitness.converter.number_format.InstantConvertorToLong;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.time.Instant;
 import java.util.UUID;
 @JsonIgnoreProperties
-public class ProductModel {
+public class ProductJsonModel {
         @JsonProperty("uuid")
         private UUID uuid;
-        @JsonSerialize(converter = InstantConverter.Serializer.class)
+        @JsonSerialize(converter = InstantConvertorToLong.class)
         @JsonProperty("dt_create")
         private Instant dtCreate;
-        @JsonSerialize(converter = InstantConverter.Serializer.class)
+        @JsonSerialize(converter = InstantConvertorToLong.class)
         @JsonProperty("dt_update")
         private Instant dtUpdate;
         @JsonProperty("title")
         private String title;
         @JsonProperty("weight")
         private Integer weight;
-        @JsonSerialize(converter = DoubleConverter.Serializer.class)
+        @JsonSerialize
         @JsonProperty("calories")
         private Integer calories;
-        @JsonSerialize(converter = DoubleConverter.Serializer.class)
+        @JsonSerialize(converter =  DoubleConverterToBigDecimal.class)
         @JsonProperty("proteins")
         private Double proteins;
-        @JsonSerialize(converter = DoubleConverter.Serializer.class)
+        @JsonSerialize(converter =  DoubleConverterToBigDecimal.class)
         @JsonProperty("fats")
         private Double fats;
-        @JsonSerialize(converter = DoubleConverter.Serializer.class)
+        @JsonSerialize(converter =  DoubleConverterToBigDecimal.class)
         @JsonProperty("carbohydrates")
         private Double carbohydrates;
 
 
-    public ProductModel(UUID uuid, Instant dtCreate, Instant dtUpdate, String title, Integer weight, Integer calories, Double proteins, Double fats, Double carbohydrates) {
+    public ProductJsonModel(UUID uuid, Instant dtCreate, Instant dtUpdate, String title, Integer weight, Integer calories, Double proteins, Double fats, Double carbohydrates) {
         this.uuid = uuid;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;

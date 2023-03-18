@@ -5,7 +5,7 @@ import java.util.List;
 
 
 
-import Mk.JD2_95_22.fitness.security.util.JwtUtils;
+import Mk.JD2_95_22.fitness.web.util.JwtTokenUtil;
 import Mk.JD2_95_22.fitness.servise.api.user.IUserService;
 import Mk.JD2_95_22.fitness.servise.my_exeption.user.UserNotFoundExeption;
 import jakarta.servlet.FilterChain;
@@ -18,61 +18,56 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import static io.micrometer.common.util.StringUtils.isEmpty;
 
 
 public class JwtFilter extends OncePerRequestFilter {
-  private final IUserService userService;
+    private final IUserService userService;
+    private final JwtTokenUtil jwtTokenUtil;
 
-  public JwtFilter(IUserService userService) {
-    this.userService = userService;
-  }
+    public JwtFilter(IUserService userService, JwtTokenUtil jwtTokenUtil) {
+      this.userService = userService;
+      this.jwtTokenUtil = jwtTokenUtil;
+    }
 
-  @Override
-  protected void doFilterInternal(HttpServletRequest request,
-                                  HttpServletResponse response,
-                                  FilterChain chain)
-          throws ServletException, IOException {
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain chain)
+            throws ServletException, IOException {
 
-    final String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-    if (isEmpty(authorizationHeader) || !authorizationHeader.startsWith("Bearer ")) {
+      final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+      if (isEmpty(header) || !header.startsWith("Bearer ")) {
+        chain.doFilter(request, response);
+        return;
+      }
+
+      // Get jwt token and validate
+      final String token = header.split(" ")[1].trim();
+      if (!jwtTokenUtil.validate(token)) {
+        chain.doFilter(request, response);
+        return;
+      }
+
+      // Get user identity and set it on the spring security context
+      UserDetails userDetails = userService
+              .loadUserByUsername(jwtTokenUtil.getUserName(token));
+
+      UsernamePasswordAuthenticationToken
+              authentication = new UsernamePasswordAuthenticationToken(
+              userDetails, null,
+              userDetails == null ?
+                      List.of() : userDetails.getAuthorities()
+      );
+
+      authentication.setDetails(
+              new WebAuthenticationDetailsSource().buildDetails(request)
+      );
+
+      SecurityContextHolder.getContext().setAuthentication(authentication);
       chain.doFilter(request, response);
-      return;
-    }
-
-    final String token = authorizationHeader.split(" ")[1].trim();
-    if (!JwtUtils.validate(token)) {
-      chain.doFilter(request, response);
-      return;
-    }
-
-    String jwt = null;
-    UserDetails userModel = null;
-
-    try {
-      userModel = userService.loadUserByUsername(JwtUtils.extractUsername(token));
-    } catch (UserNotFoundExeption e) {
-      chain.doFilter(request, response);
-      return;
-    }
-
-
-    if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-      jwt = authorizationHeader.substring(7);
-    }
-    if (userModel != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-      String commaSeparatedListOfAuthorities = JwtUtils.extractAuthorities(jwt);
-      List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_" + commaSeparatedListOfAuthorities);
-      UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-              new UsernamePasswordAuthenticationToken(
-                      userModel, null, authorities);
-
-      SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-
-    }
-    chain.doFilter(request, response);
   }
 }

@@ -5,9 +5,10 @@ import Mk.JD2_95_22.fitness.core.dto.products.RecipeCreatedForCU;
 import Mk.JD2_95_22.fitness.core.exeption.MultipleErrorResponse;
 import Mk.JD2_95_22.fitness.core.exeption.MyError;
 import Mk.JD2_95_22.fitness.servise.validation.api.IValidator;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-
+@Component
 public class RecipeValidator implements IValidator<RecipeCreatedForCU> {
     public void validate(RecipeCreatedForCU recipeCreated) {
         MultipleErrorResponse multipleError = new MultipleErrorResponse();

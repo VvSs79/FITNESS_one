@@ -1,6 +1,6 @@
 package Mk.JD2_95_22.fitness.servise.user;
 
-import Mk.JD2_95_22.fitness.core.dto.model.UserModel;
+import Mk.JD2_95_22.fitness.core.dto.model.UserJsonModel;
 import Mk.JD2_95_22.fitness.core.dto.page.PageDTO;
 import Mk.JD2_95_22.fitness.core.dto.user.UserCreated;
 import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
@@ -67,20 +67,18 @@ public class UserService implements IUserService {
         if(userEntityId==null||userEntityMail==null){
             throw new SingleErrorResponse("This user does not exist");
         }
-        if (!conversionService.canConvert(UserEntity.class, UserModel.class)) {
+        if (!conversionService.canConvert(UserEntity.class, UserJsonModel.class)) {
             throw new IllegalStateException("Can not convert UserEntity.class to UserModel.class");
         }
         return conversionService.convert(userEntityId, UserDTO.class);
     }
 
-
-
     public UserDTO getUsers(String mail){
         UserEntity userEntityMail= repository.findByMail(mail);
-        if(userEntityMail==null){
+        if(userEntityMail.getMail()==null){
             new SingleErrorResponse("There is no user with such id");
     }
-        if (!conversionService.canConvert(UserEntity.class, UserModel.class)) {
+        if (!conversionService.canConvert(UserEntity.class, UserJsonModel.class)) {
         throw new IllegalStateException("Can not convert UserEntity.class to UserModel.class");
     }
         return conversionService.convert(userEntityMail, UserDTO.class);
@@ -134,6 +132,6 @@ public class UserService implements IUserService {
         if(myUser ==null){
             new UserNotFoundExeption("Unknown user: ");
         }
-        return conversionService.convert(myUser,UserModel.class);
+        return conversionService.convert(myUser, UserDetails.class);
     }
 }

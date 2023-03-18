@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 
-import java.math.BigDecimal;
+import java.lang.Double;
 import java.util.Objects;
 
 public class ProductCreated  {
@@ -15,13 +15,13 @@ public class ProductCreated  {
     @PositiveOrZero(message = "Should be positive or zero")
     private Integer calories;
     @PositiveOrZero(message = "Should be positive or zero")
-    private BigDecimal proteins;
+    private Double proteins;
     @PositiveOrZero(message = "Should be positive or zero")
-    private BigDecimal fats;
+    private Double fats;
     @PositiveOrZero(message = "Should be positive or zero")
-    private BigDecimal carbohydrates;
+    private Double carbohydrates;
 
-    public ProductCreated(String title, Integer weight, Integer calories, BigDecimal proteins, BigDecimal fats, BigDecimal carbohydrates) {
+    public ProductCreated(String title, Integer weight, Integer calories, Double proteins, Double fats, Double carbohydrates) {
         this.title = title;
         this.weight = weight;
         this.calories = calories;
@@ -54,32 +54,33 @@ public class ProductCreated  {
         this.calories = calories;
     }
 
-    public BigDecimal getProteins() {
+    public Double getProteins() {
         return proteins;
     }
 
-    public void setProteins(BigDecimal proteins) {
+    public void setProteins(Double proteins) {
         this.proteins = proteins;
     }
 
-    public BigDecimal getFats() {
+    public Double getFats() {
         return fats;
     }
 
-    public void setFats(BigDecimal fats) {
+    public void setFats(Double fats) {
         this.fats = fats;
     }
 
-    public BigDecimal getCarbohydrates() {
+    public Double getCarbohydrates() {
         return carbohydrates;
     }
 
-    public void setCarbohydrates(BigDecimal carbohydrates) {
+    public void setCarbohydrates(Double carbohydrates) {
         this.carbohydrates = carbohydrates;
     }
 
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductCreated that = (ProductCreated) o;

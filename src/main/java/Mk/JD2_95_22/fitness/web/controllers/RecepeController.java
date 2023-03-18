@@ -1,6 +1,6 @@
 package Mk.JD2_95_22.fitness.web.controllers;
 
-import Mk.JD2_95_22.fitness.core.dto.model.RecipeModel;
+import Mk.JD2_95_22.fitness.core.dto.model.RecipeJsonModel;
 import Mk.JD2_95_22.fitness.core.dto.page.PageDTO;
 import Mk.JD2_95_22.fitness.core.dto.products.RecipeCreatedForCU;
 import Mk.JD2_95_22.fitness.core.dto.products.RecipeDTO;
@@ -28,7 +28,7 @@ public class RecepeController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     @RequestMapping(method = RequestMethod.GET)
-    protected ResponseEntity<PageDTO<RecipeModel>> getAll(
+    protected ResponseEntity<PageDTO<RecipeJsonModel>> getAll(
             @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
             @RequestParam(name = "size", required = false, defaultValue = "20") Integer size) {
         Pageable paging= PageRequest.of(page,size);

@@ -1,6 +1,7 @@
 package Mk.JD2_95_22.fitness.core.dto.model;
 
-import Mk.JD2_95_22.fitness.converter.number_format.InstantConverter;
+import Mk.JD2_95_22.fitness.converter.number_format.InstantConvertorToLong;
+import Mk.JD2_95_22.fitness.converter.number_format.LongConverterToInstant;
 import Mk.JD2_95_22.fitness.orm.entity.utils.RoleEntity;
 import Mk.JD2_95_22.fitness.orm.entity.utils.StatusEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -16,13 +17,13 @@ import java.util.Collections;
 import java.util.UUID;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserModel {
+public class UserJsonModel {
     @JsonProperty("uuid")
     private UUID uuid;
-    @JsonSerialize(converter = InstantConverter.Serializer.class)
+    @JsonSerialize(converter = InstantConvertorToLong.class)
     @JsonProperty("dt_create")
     private Instant dt_create;
-    @JsonSerialize(converter = InstantConverter.Serializer.class)
+    @JsonSerialize(converter = InstantConvertorToLong.class)
     @JsonProperty("dt_update")
     private  Instant dt_update;
     @JsonProperty("mail")
@@ -34,10 +35,10 @@ public class UserModel {
     @JsonProperty("status")
     private StatusEntity status;
 
-    public UserModel() {
+    public UserJsonModel() {
     }
 
-    public UserModel(UUID uuid, Instant dt_create, Instant dt_update, String mail, String fio, RoleEntity role, StatusEntity status) {
+    public UserJsonModel(UUID uuid, Instant dt_create, Instant dt_update, String mail, String fio, RoleEntity role, StatusEntity status) {
         this.uuid = uuid;
         this.dt_create = dt_create;
         this.dt_update = dt_update;

@@ -1,8 +1,8 @@
 package Mk.JD2_95_22.fitness.servise.product;
 
 
-import Mk.JD2_95_22.fitness.core.dto.model.ProductModel;
-import Mk.JD2_95_22.fitness.core.dto.model.RecipeModel;
+import Mk.JD2_95_22.fitness.core.dto.model.ProductJsonModel;
+import Mk.JD2_95_22.fitness.core.dto.model.RecipeJsonModel;
 import Mk.JD2_95_22.fitness.core.dto.page.PageDTO;
 import Mk.JD2_95_22.fitness.core.dto.products.*;
 import Mk.JD2_95_22.fitness.core.exeption.SingleErrorResponse;
@@ -26,13 +26,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class RecipeService implements IRecipeService {
-    private final IRecipeRepository recepteRepository;
+    private final IRecipeRepository recipeRepository;
     private final IProductService service;
     private final ConversionService conversionService;
     private final IValidator<RecipeCreatedForCU> validator;
 
-    public RecipeService(IRecipeRepository recepteRepository, IProductService service, ConversionService conversionService, IValidator<RecipeCreatedForCU> validator) {
-        this.recepteRepository = recepteRepository;
+    public RecipeService(IRecipeRepository recipeRepository, IProductService service, ConversionService conversionService, IValidator<RecipeCreatedForCU> validator) {
+        this.recipeRepository = recipeRepository;
         this.service = service;
         this.conversionService = conversionService;
         this.validator = validator;
@@ -60,19 +60,19 @@ public class RecipeService implements IRecipeService {
                 dtUpdate,
                 recipe.getTitle(),
                 list);
-        Optional<RecipeEntity> optionalRecipe=recepteRepository.getAllByTitleIgnoreCase(recipe.getTitle());
+        Optional<RecipeEntity> optionalRecipe=recipeRepository.getAllByTitleIgnoreCase(recipe.getTitle());
         if(optionalRecipe.isPresent()){
             if(Objects.equals(recipeEntity.getTitle(),optionalRecipe.get().getTitle()) &&
                     Objects.equals(recipeEntity.getComposition(),optionalRecipe.get().getComposition())){
                 throw new SingleErrorResponse("This recipe already exists");
             }
         }
-        recepteRepository.save(recipeEntity);
+        recipeRepository.save(recipeEntity);
     }
 
 
     @Override
-    public void add(@Validated RecipeCreatedForCU recipeDTO)  throws RecipeValidateExeption {
+    public void add(RecipeCreatedForCU recipeDTO)  throws RecipeValidateExeption {
         validator.validate(recipeDTO);
         checkDoubleRecipe(recipeDTO);
         List<Ingridients> ingredientDTO = recipeDTO.getComposition();
@@ -81,7 +81,7 @@ public class RecipeService implements IRecipeService {
         }
         List<IngridientsEntity> collect = ingredientDTO.stream()
                 .map(s -> {
-                    ProductModel product =  conversionService.convert(service.getProduct(s.getProduct().getUuid()),ProductModel.class);
+                    ProductJsonModel product =  conversionService.convert(service.getProduct(s.getProduct().getUuid()), ProductJsonModel.class);
                     ProductEntity productEntity = conversionService.convert(product, ProductEntity.class);
                     return new IngridientsEntity(productEntity, s.getWeight());
                 })
@@ -89,21 +89,21 @@ public class RecipeService implements IRecipeService {
         UUID uuid = UUID.randomUUID();
         Instant dtCreated = Instant.now();
         Instant dtUpdate=dtCreated;
-        recepteRepository.save(new RecipeEntity(uuid, dtCreated, dtUpdate, recipeDTO.getTitle(), collect));
+        recipeRepository.save(new RecipeEntity(uuid, dtCreated, dtUpdate, recipeDTO.getTitle(), collect));
     }
 
-    public PageDTO<RecipeModel> getPageRecipe(Pageable paging) {
-        Page<RecipeEntity> all = recepteRepository.findAll(paging);
-        if (!conversionService.canConvert(RecipeEntity.class, RecipeModel.class)) {
+    public PageDTO<RecipeJsonModel> getPageRecipe(Pageable paging) {
+        Page<RecipeEntity> all = recipeRepository.findAll(paging);
+        if (!conversionService.canConvert(RecipeEntity.class, RecipeJsonModel.class)) {
             throw new SingleErrorResponse("Can not convert RecipeEntity.class to RecipeModel.class");
         }
-        List<RecipeModel> content = new ArrayList<>();
+        List<RecipeJsonModel> content = new ArrayList<>();
         for (RecipeEntity recipeEntity : all.getContent()) {
-            RecipeModel convert = conversionService.convert(recipeEntity, RecipeModel.class);
+            RecipeJsonModel convert = conversionService.convert(recipeEntity, RecipeJsonModel.class);
             if(convert==null){
         throw new SingleErrorResponse("Page not found");
             }
-            return PageDTO.PagesBuilder.<RecipeModel>create()
+            return PageDTO.PagesBuilder.<RecipeJsonModel>create()
                     .setNumber(all.getNumber()).setContent(content)
                     .setFirst(all.isFirst()).setLast(all.isLast())
                     .setNumberOfElements(all.getNumberOfElements())
@@ -114,7 +114,7 @@ public class RecipeService implements IRecipeService {
     }
 
     public void update(RecipeDTO recipeDTO) {
-        RecipeEntity recipeEntity = recepteRepository.findById(recipeDTO.getUuid()).orElseThrow(() -> new RecipeNotFoundExeption("Такого рецепта не существует"));
+        RecipeEntity recipeEntity = recipeRepository.findById(recipeDTO.getUuid()).orElseThrow(() -> new RecipeNotFoundExeption("Такого рецепта не существует"));
         if (recipeDTO.getDtUpdate().toEpochMilli() == recipeEntity.getDtUpdate().toEpochMilli()) {
             List<Ingridients> ingredientDTOList = recipeDTO.getComposition();
             List<IngridientsEntity> list = new ArrayList<>();
@@ -125,14 +125,14 @@ public class RecipeService implements IRecipeService {
             }
             recipeEntity.setTitle(recipeDTO.getTitle());
             recipeEntity.setComposition(list);
-            recepteRepository.save(recipeEntity);
+            recipeRepository.save(recipeEntity);
         } else throw new InvalidVersionExeption("Такой версии не существует");
     }
 
     @Override
     public void checkDoubleRecipe(RecipeCreatedForCU recipe ) throws ValidationException {
         String title = recipe.getTitle();
-        if (recepteRepository.getAllByTitle(title) != null){
+        if (recipeRepository.getAllByTitle(title) != null){
             throw new ValidationException("Product with such title has already exist");
         }
     }

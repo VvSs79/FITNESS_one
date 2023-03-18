@@ -1,6 +1,7 @@
 package Mk.JD2_95_22.fitness.core.dto.user;
 
-import Mk.JD2_95_22.fitness.converter.number_format.InstantConverter;
+import Mk.JD2_95_22.fitness.converter.number_format.InstantConvertorToLong;
+import Mk.JD2_95_22.fitness.converter.number_format.LongConverterToInstant;
 import Mk.JD2_95_22.fitness.core.util.UserRole;
 import Mk.JD2_95_22.fitness.core.util.UserStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,12 +18,10 @@ import java.util.UUID;
 public class UserDTO  {
     @NonNull private UUID uuid;
     @JsonProperty("dt_create")
-    @JsonSerialize(converter = InstantConverter.Serializer.class)
-    @JsonDeserialize(converter = InstantConverter.Deserializer.class)
+    @JsonSerialize(converter = InstantConvertorToLong.class)
     private Instant dtCreate;
     @JsonProperty("dt_update")
-    @JsonSerialize(converter = InstantConverter.Serializer.class)
-    @JsonDeserialize(converter = InstantConverter.Deserializer.class)
+    @JsonSerialize(converter = InstantConvertorToLong.class)
     private Instant dtUpdate;
     @NotBlank(message = "email cannot be empty")
     private String mail;

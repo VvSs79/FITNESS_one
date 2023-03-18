@@ -18,10 +18,10 @@ public class ProductConvertertEntityToDTO implements Converter<ProductEntity, Pr
         Instant dtUpdate=source.getDtUpdate();
         String title=source.getTitle();
         Integer weight= source.getWeight();
-        BigDecimal colories= source.getCalories();
-        BigDecimal proteinas=source.getProteins();
-        BigDecimal fats=source.getFats();
-        BigDecimal carbohydrates=source.getCarbohydrates();
+        Integer colories= source.getCalories();
+        double proteinas=source.getProteins();
+        double fats=source.getFats();
+        double carbohydrates=source.getCarbohydrates();
 
         return new ProductDTO(uuid,dtCreate, dtUpdate,title,weight,colories,proteinas,fats,carbohydrates);
     }

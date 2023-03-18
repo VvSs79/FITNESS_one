@@ -5,10 +5,10 @@ import Mk.JD2_95_22.fitness.core.exeption.MultipleErrorResponse;
 import Mk.JD2_95_22.fitness.core.exeption.MyError;
 import Mk.JD2_95_22.fitness.orm.repository.IUserRepository;
 import Mk.JD2_95_22.fitness.servise.validation.api.IValidator;
-
-
+import org.springframework.stereotype.Component;
 import java.util.regex.Pattern;
 
+@Component
 public class UserRegistrationValidator implements IValidator<UserRegistration> {
     private static final String EMAIL_REGEX =  "^[a-z0-9][-a-z0-9._]+@([-a-z0-9]+[.])+[a-z]{2,5}$";
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);

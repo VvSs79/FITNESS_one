@@ -1,35 +1,31 @@
 package Mk.JD2_95_22.fitness.core.dto.model;
 
 import java.math.BigDecimal;
-
-import Mk.JD2_95_22.fitness.converter.number_format.BigDecimalConverter;
-import Mk.JD2_95_22.fitness.converter.number_format.InstantConverter;
+import Mk.JD2_95_22.fitness.converter.number_format.DoubleConverterToBigDecimal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-public class IngridientsModel {
+public class IngridientsJsonModel {
     @JsonProperty("product")
-    private ProductModel product;
-    @JsonSerialize(converter = InstantConverter.Serializer.class)
+    private ProductJsonModel product;
     @JsonProperty("weight")
     private Integer weight;
-    @JsonSerialize(converter = InstantConverter.Serializer.class)
     @JsonProperty("calories")
     private Integer calories;
-    @JsonSerialize(converter = BigDecimalConverter.class)
+    @JsonSerialize(converter = DoubleConverterToBigDecimal.class)
     @JsonProperty("proteins")
     private BigDecimal proteins;
-    @JsonSerialize(converter = BigDecimalConverter.class)
+    @JsonSerialize(converter = DoubleConverterToBigDecimal.class)
     @JsonProperty("fats")
     private BigDecimal fats;
-    @JsonSerialize(converter = BigDecimalConverter.class)
+    @JsonSerialize(converter = DoubleConverterToBigDecimal.class)
     @JsonProperty("carbohydrates")
     private BigDecimal carbohydrates;
 
-    public IngridientsModel() {
+    public IngridientsJsonModel() {
     }
 
-    public IngridientsModel(ProductModel product, Integer weight, Integer calories, BigDecimal proteins, BigDecimal fats, BigDecimal carbohydrates) {
+    public IngridientsJsonModel(ProductJsonModel product, Integer weight, Integer calories, BigDecimal proteins, BigDecimal fats, BigDecimal carbohydrates) {
         this.product = product;
         this.weight = weight;
         this.calories = calories;
@@ -38,11 +34,11 @@ public class IngridientsModel {
         this.carbohydrates = carbohydrates;
     }
 
-    public ProductModel getProduct() {
+    public ProductJsonModel getProduct() {
         return product;
     }
 
-    public void setProduct(ProductModel product) {
+    public void setProduct(ProductJsonModel product) {
         this.product = product;
     }
 

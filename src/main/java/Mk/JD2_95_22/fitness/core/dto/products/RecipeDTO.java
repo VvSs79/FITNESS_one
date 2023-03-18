@@ -1,6 +1,7 @@
 package Mk.JD2_95_22.fitness.core.dto.products;
 
-import Mk.JD2_95_22.fitness.converter.number_format.InstantConverter;
+import Mk.JD2_95_22.fitness.converter.number_format.InstantConvertorToLong;
+import Mk.JD2_95_22.fitness.converter.number_format.LongConverterToInstant;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -14,12 +15,10 @@ import java.util.UUID;
 public class RecipeDTO  {
     @NonNull private UUID uuid;
     @JsonProperty("dt_create")
-    @JsonSerialize(converter = InstantConverter.Serializer.class)
-    @JsonDeserialize(converter = InstantConverter.Deserializer.class)
+    @JsonSerialize(converter = InstantConvertorToLong.class)
     private Instant dtCreate;
     @JsonProperty("dt_update")
-    @JsonSerialize(converter = InstantConverter.Serializer.class)
-    @JsonDeserialize(converter = InstantConverter.Deserializer.class)
+    @JsonSerialize(converter = InstantConvertorToLong.class)
     private Instant dtUpdate;
     @NotBlank(message = "Title must not be blank")
     private String title;

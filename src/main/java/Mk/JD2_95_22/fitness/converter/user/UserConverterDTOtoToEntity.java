@@ -10,7 +10,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserConverterDtoToEntity implements Converter<UserCreated, UserEntity> {
+public class UserConverterDTOtoToEntity implements Converter<UserCreated, UserEntity> {
     @Override
     public UserEntity convert(UserCreated source) {
 
@@ -22,7 +22,7 @@ public class UserConverterDtoToEntity implements Converter<UserCreated, UserEnti
                 source.getFIOuser(),
                 new RoleEntity(UserRole.USER),
                 new StatusEntity(UserStatus.WAITING_ACTIVATION),
-                source.getPassword()
-        );
+                source.getPassword());
+
    }
 }

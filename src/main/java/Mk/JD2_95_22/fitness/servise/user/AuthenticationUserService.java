@@ -1,5 +1,6 @@
 package Mk.JD2_95_22.fitness.servise.user;
 
+import Mk.JD2_95_22.fitness.core.dto.model.UserJsonModel;
 import Mk.JD2_95_22.fitness.core.dto.user.UserCreated;
 import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
 import Mk.JD2_95_22.fitness.core.dto.user.UserLogin;
@@ -10,17 +11,16 @@ import Mk.JD2_95_22.fitness.core.util.UserStatus;
 import Mk.JD2_95_22.fitness.orm.entity.user.UserEntity;
 import Mk.JD2_95_22.fitness.orm.entity.utils.StatusEntity;
 import Mk.JD2_95_22.fitness.orm.repository.IPersonalUserRepository;
-import Mk.JD2_95_22.fitness.security.util.JwtUtils;
+import Mk.JD2_95_22.fitness.web.util.JwtTokenUtil;
 import Mk.JD2_95_22.fitness.servise.api.mail.IMailSenderService;
 import Mk.JD2_95_22.fitness.servise.api.user.IAuthenticationUserService;
 import Mk.JD2_95_22.fitness.servise.api.user.IUserService;
 import Mk.JD2_95_22.fitness.servise.my_exeption.user.UserNotFoundExeption;
 import Mk.JD2_95_22.fitness.servise.my_exeption.user.UserValidateExeption;
-import Mk.JD2_95_22.fitness.servise.validation.UserRegistrationValidator;
+import Mk.JD2_95_22.fitness.servise.validation.api.IValidator;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
-
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
@@ -31,10 +31,13 @@ public class AuthenticationUserService implements IAuthenticationUserService {
     private final IMailSenderService emailService;
     private final  ConversionService conversionService;
     private  final BCryptPasswordEncoder encoder;
-    private  final UserRegistrationValidator validator;
-    private final JwtUtils generateAccessToken;
+    private  final IValidator<UserRegistration> validator;
+    private final JwtTokenUtil generateAccessToken;
 
-    public AuthenticationUserService(IPersonalUserRepository repository, IUserService service, IMailSenderService emailService, ConversionService conversionService, BCryptPasswordEncoder encoder, UserRegistrationValidator validator, JwtUtils generateAccessToken) {
+    public AuthenticationUserService(IPersonalUserRepository repository, IUserService service,
+                                     IMailSenderService emailService, ConversionService conversionService,
+                                     BCryptPasswordEncoder encoder, IValidator<UserRegistration> validator,
+                                     JwtTokenUtil generateAccessToken) {
         this.repository = repository;
         this.service = service;
         this.emailService = emailService;
@@ -79,7 +82,7 @@ public class AuthenticationUserService implements IAuthenticationUserService {
         if(!encoder.matches(user.getPassword(),userEntity.getPassword())){
             throw new UserValidateExeption("Incorrect mail and password");
         }
-        return generateAccessToken.generateJwtToken( userEntity );
+        return generateAccessToken.generateAccessToken( conversionService.convert(userEntity, UserJsonModel.class) );
     }
 
     public UserEntity find(String mail){

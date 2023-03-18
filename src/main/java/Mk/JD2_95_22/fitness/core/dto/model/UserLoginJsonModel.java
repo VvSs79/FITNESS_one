@@ -4,16 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserLoginModel {
+public class UserLoginJsonModel {
     @JsonProperty("mailUser")
     private String mailUser;
     @JsonProperty("password")
     private String password;
 
-    public UserLoginModel() {
+    public UserLoginJsonModel() {
     }
 
-    public UserLoginModel(String mailUser, String password) {
+    public UserLoginJsonModel(String mailUser, String password) {
         this.mailUser = mailUser;
         this.password = password;
     }

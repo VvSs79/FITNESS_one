@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PageModel<T> {
+public class PageJsonModel<T> {
     @JsonProperty("number")
     private int number;
     @JsonProperty("size")
@@ -24,10 +24,10 @@ public class PageModel<T> {
     @JsonProperty("content")
     private List<T> content;
 
-    public PageModel() {
+    public PageJsonModel() {
     }
 
-    public PageModel(int number, int size, int totalPages, long totalElements, boolean first, int numberOfElements, boolean last, List<T> content) {
+    public PageJsonModel(int number, int size, int totalPages, long totalElements, boolean first, int numberOfElements, boolean last, List<T> content) {
         this.number = number;
         this.size = 20;
         this.totalPages = totalPages;

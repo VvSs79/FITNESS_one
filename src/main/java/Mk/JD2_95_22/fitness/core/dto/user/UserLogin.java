@@ -1,9 +1,15 @@
 package Mk.JD2_95_22.fitness.core.dto.user;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.Objects;
 
 public class UserLogin {
+    @NotBlank
+    @Email
     private String mailUser;
+    @NotBlank
     private String password;
 
     public UserLogin(String mailUser, String password) {
