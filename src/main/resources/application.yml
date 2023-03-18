@@ -6,16 +6,12 @@ spring:
       ddl-auto: none
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://db-user:5432/user
-    # url: jdbc:postgresql://localhost:5432/fitness
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=fitness
+    #url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
-    password: Vv79Ss79
-
-
-    data:
-      redis:
-        url: http://localhost:8080/api/v1/users/verification
+    password: Vvit79Ss79
 
 jwt:
     secret: C9W)m3Yyp$H=%JY
     issuer: Fitness
+

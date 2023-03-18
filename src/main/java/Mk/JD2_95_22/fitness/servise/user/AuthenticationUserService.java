@@ -53,7 +53,7 @@ public class AuthenticationUserService implements IAuthenticationUserService {
                 UUID.randomUUID(),
                 Instant.now(),
                 Instant.now(),
-                user.getFIOuser(),
+                user.getFio(),
                 user.getMailUser(),
                 user.getPassword(),
                 UserRole.USER,

@@ -1,11 +1,9 @@
 package Mk.JD2_95_22.fitness.core.dto.user;
 
 import Mk.JD2_95_22.fitness.converter.number_format.InstantConvertorToLong;
-import Mk.JD2_95_22.fitness.converter.number_format.LongConverterToInstant;
 import Mk.JD2_95_22.fitness.core.util.UserRole;
 import Mk.JD2_95_22.fitness.core.util.UserStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

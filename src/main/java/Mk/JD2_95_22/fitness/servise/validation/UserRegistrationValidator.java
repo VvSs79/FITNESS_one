@@ -43,13 +43,13 @@ public class UserRegistrationValidator implements IValidator<UserRegistration> {
             multipleError.setErrors(new MyError("Password must be longer than 5 characters","password"));
         }
 
-        if(userRegistration.getFIOuser()==null||userRegistration.getFIOuser().isBlank()){
+        if(userRegistration.getFio()==null||userRegistration.getFio().isBlank()){
             if(multipleError.getLogref()==null){
                 multipleError.setLogref("structured_error");
             }
             multipleError.setErrors(new MyError("FIO not entered","fio"));
         }
-        if(userRegistration.getFIOuser().length()<7) {
+        if(userRegistration.getFio().length()<7) {
             if(multipleError.getLogref()==null){
             multipleError.setLogref("structured_error");
         }

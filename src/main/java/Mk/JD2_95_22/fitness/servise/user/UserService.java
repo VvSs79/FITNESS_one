@@ -42,7 +42,7 @@ public class UserService implements IUserService {
         if(newUser==null){
             throw new SingleErrorResponse("Parameters not entered");
         }
-        if(repository.existsByUuidOrMail(newUser.getUuid(), newUser.getMailUser())){
+        if(repository.existsByUuidOrMail(newUser.getUuid(), newUser.getMail())){
             throw new SingleErrorResponse("User with this email/id already exists.");
         }
         validator.validate(newUser);
@@ -89,8 +89,8 @@ public class UserService implements IUserService {
 
         UserEntity userEntity=repository.findById(uuid).orElseThrow(()->new PageNotFoundExeption("Not found user this is a id "+ uuid));
         if ( dt_update.toEpochMilli() == userEntity.getDtUpdate().toEpochMilli()){
-            userEntity.setFio(userCreated.getFIOuser());
-            userEntity.setMail(userCreated.getMailUser());
+            userEntity.setFio(userCreated.getFio());
+            userEntity.setMail(userCreated.getMail());
             userEntity.setStatus(userEntity.getStatus());
             userEntity.setPassword(userCreated.getPassword());
             userEntity.setRole(new RoleEntity());

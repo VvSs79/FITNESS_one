@@ -11,18 +11,18 @@ public class UserCreated {
     private UUID uuid;
     private Instant dtCreate;
     private Instant dtUpdate;
-    private String FIOuser;
-    private String mailUser;
+    private String fio;
+    private String mail;
     private String password;
     private UserRole userRole;
     private UserStatus userStatus;
 
-    public UserCreated(UUID uuid, Instant dtCreate, Instant dtUpdate, String FIOuser, String mailUser, String password, UserRole userRole, UserStatus userStatus) {
+    public UserCreated(UUID uuid, Instant dtCreate, Instant dtUpdate, String fio, String mail, String password, UserRole userRole, UserStatus userStatus) {
         this.uuid = uuid;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
-        this.FIOuser = FIOuser;
-        this.mailUser = mailUser;
+        this.fio = fio;
+        this.mail = mail;
         this.password = password;
         this.userRole = userRole;
         this.userStatus = userStatus;
@@ -52,20 +52,20 @@ public class UserCreated {
         this.dtUpdate = dtUpdate;
     }
 
-    public String getFIOuser() {
-        return FIOuser;
+    public String getFio() {
+        return fio;
     }
 
-    public void setFIOuser(String FIOuser) {
-        this.FIOuser = FIOuser;
+    public void setFio(String fio) {
+        this.fio = fio;
     }
 
-    public String getMailUser() {
-        return mailUser;
+    public String getMail() {
+        return mail;
     }
 
-    public void setMailUser(String mailUser) {
-        this.mailUser = mailUser;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     public String getPassword() {
@@ -97,11 +97,11 @@ public class UserCreated {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserCreated that = (UserCreated) o;
-        return Objects.equals(uuid, that.uuid) && Objects.equals(dtCreate, that.dtCreate) && Objects.equals(dtUpdate, that.dtUpdate) && Objects.equals(FIOuser, that.FIOuser) && Objects.equals(mailUser, that.mailUser) && Objects.equals(password, that.password) && userRole == that.userRole && userStatus == that.userStatus;
+        return Objects.equals(uuid, that.uuid) && Objects.equals(dtCreate, that.dtCreate) && Objects.equals(dtUpdate, that.dtUpdate) && Objects.equals(fio, that.fio) && Objects.equals(mail, that.mail) && Objects.equals(password, that.password) && userRole == that.userRole && userStatus == that.userStatus;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, dtCreate, dtUpdate, FIOuser, mailUser, password, userRole, userStatus);
+        return Objects.hash(uuid, dtCreate, dtUpdate, fio, mail, password, userRole, userStatus);
     }
 }

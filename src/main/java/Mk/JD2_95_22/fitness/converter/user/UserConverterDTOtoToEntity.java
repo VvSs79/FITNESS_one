@@ -18,8 +18,8 @@ public class UserConverterDTOtoToEntity implements Converter<UserCreated, UserEn
                 source.getUuid(),
                 source.getDtCreate(),
                 source.getDtUpdate(),
-                source.getMailUser(),
-                source.getFIOuser(),
+                source.getMail(),
+                source.getFio(),
                 new RoleEntity(UserRole.USER),
                 new StatusEntity(UserStatus.WAITING_ACTIVATION),
                 source.getPassword());

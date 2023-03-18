@@ -2,12 +2,11 @@ package Mk.JD2_95_22.fitness.core.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-
 import java.util.Objects;
 
 public class UserRegistration {
     @NotBlank
-    private String FIOuser;
+    private String fio;
     @NotBlank
     @Email
     private String mailUser;
@@ -15,17 +14,17 @@ public class UserRegistration {
     private String password;
 
     public UserRegistration(String FIOuser, String mailUser, String password) {
-        this.FIOuser = FIOuser;
+        this.fio = FIOuser;
         this.mailUser = mailUser;
         this.password = password;
     }
 
-    public String getFIOuser() {
-        return FIOuser;
+    public String getFio() {
+        return fio;
     }
 
-    public void setFIOuser(String FIOuser) {
-        this.FIOuser = FIOuser;
+    public void setFio(String fio) {
+        this.fio = fio;
     }
 
     public String getMailUser() {
@@ -49,18 +48,18 @@ public class UserRegistration {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserRegistration that = (UserRegistration) o;
-        return Objects.equals(FIOuser, that.FIOuser) && Objects.equals(mailUser, that.mailUser) && Objects.equals(password, that.password);
+        return Objects.equals(fio, that.fio) && Objects.equals(mailUser, that.mailUser) && Objects.equals(password, that.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(FIOuser, mailUser, password);
+        return Objects.hash(fio, mailUser, password);
     }
 
     @Override
     public String toString() {
         return "UserRegistration{" +
-                "FIOuser='" + FIOuser + '\'' +
+                "FIOuser='" + fio + '\'' +
                 ", mailUser='" + mailUser + '\'' +
                 ", password='" + password + '\'' +
                 '}';

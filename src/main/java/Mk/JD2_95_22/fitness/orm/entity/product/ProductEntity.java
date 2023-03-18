@@ -10,7 +10,7 @@ import java.util.UUID;
                              @UniqueConstraint(columnNames = "title")})
 public class ProductEntity {
     @Id
-    @Column(name = "id")
+    @Column(name = "uuid")
     private UUID uuid;
     @Column(name = "dtcreate")
     private Instant dtCreate;

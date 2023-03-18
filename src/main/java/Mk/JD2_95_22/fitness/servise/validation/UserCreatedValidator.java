@@ -14,7 +14,7 @@ public class UserCreatedValidator implements IValidator<UserCreated> {
     public void validate(UserCreated userCreated){
         MultipleErrorResponse multipleError=new MultipleErrorResponse();
 
-        if (userCreated.getMailUser()==null&&userCreated.getMailUser().isBlank()){
+        if (userCreated.getMail()==null&&userCreated.getMail().isBlank()){
             if(multipleError.getLogref()==null){
                 multipleError.setLogref("structured_error");
             }
@@ -34,13 +34,13 @@ public class UserCreatedValidator implements IValidator<UserCreated> {
             multipleError.setErrors(new MyError("Password must be longer than 5 characters","password"));
         }
 
-        if(userCreated.getFIOuser()==null||userCreated.getFIOuser().isBlank()){
+        if(userCreated.getFio()==null||userCreated.getFio().isBlank()){
             if(multipleError.getLogref()==null){
                 multipleError.setLogref("structured_error");
             }
             multipleError.setErrors(new MyError("FIO not entered","fio"));
         }
-        if(userCreated.getFIOuser().length()<7) {
+        if(userCreated.getFio().length()<7) {
             if(multipleError.getLogref()==null){
                 multipleError.setLogref("structured_error");
             }
@@ -73,7 +73,7 @@ public class UserCreatedValidator implements IValidator<UserCreated> {
             multipleError.setErrors(new MyError("Status not entered", "status"));
         }
 
-        if(!EMAIL_PATTERN.matcher(userCreated.getMailUser()).matches()){
+        if(!EMAIL_PATTERN.matcher(userCreated.getMail()).matches()){
             if(multipleError.getLogref()==null){
                 multipleError.setLogref("structured_error");
             }
