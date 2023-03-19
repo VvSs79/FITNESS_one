@@ -4,6 +4,7 @@ import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
 import Mk.JD2_95_22.fitness.core.dto.user.UserLogin;
 import Mk.JD2_95_22.fitness.core.dto.user.UserRegistration;
 import Mk.JD2_95_22.fitness.orm.entity.user.UserEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.UUID;
@@ -14,4 +15,5 @@ public interface IAuthenticationUserService {
     public String login(@Validated UserLogin user);
     public UserEntity find(String mail);
     public UserDTO getCard(UUID uuid);
+    public UserDetails loadUserByUsername(String username);
 }

@@ -19,7 +19,6 @@ import Mk.JD2_95_22.fitness.servise.validation.api.IValidator;
 import jakarta.validation.ValidationException;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.data.domain.Pageable;
 import java.time.Instant;
 import java.util.*;
@@ -42,12 +41,12 @@ public class RecipeService implements IRecipeService {
     public void create( RecipeCreatedForCU recipe) {
         checkDoubleRecipe(recipe);
         validator.validate(recipe);
-        List<Ingridients> ingredientDTOList = recipe.getComposition();
+        List<IngredientCreated> ingredientDTOList = recipe.getComposition();
         List<IngridientsEntity> list = new ArrayList<>();
         Instant dtCreated=Instant.now();
         Instant dtUpdate=dtCreated;
 
-        for (Ingridients ingridients : ingredientDTOList) {
+        for (IngredientCreated ingridients : ingredientDTOList) {
             UUID uuid= ingridients.getProduct().getUuid();
             ProductEntity productEntity=service.getProducts(uuid);
 
@@ -75,7 +74,7 @@ public class RecipeService implements IRecipeService {
     public void add(RecipeCreatedForCU recipeDTO)  throws RecipeValidateExeption {
         validator.validate(recipeDTO);
         checkDoubleRecipe(recipeDTO);
-        List<Ingridients> ingredientDTO = recipeDTO.getComposition();
+        List<IngredientCreated> ingredientDTO = recipeDTO.getComposition();
         if (!conversionService.canConvert(ProductDTO.class, ProductEntity.class)) {
             throw new IllegalStateException("Can not convert IngredientDTO.class to IngredientEntity.class");
         }
@@ -116,9 +115,9 @@ public class RecipeService implements IRecipeService {
     public void update(RecipeDTO recipeDTO) {
         RecipeEntity recipeEntity = recipeRepository.findById(recipeDTO.getUuid()).orElseThrow(() -> new RecipeNotFoundExeption("Такого рецепта не существует"));
         if (recipeDTO.getDtUpdate().toEpochMilli() == recipeEntity.getDtUpdate().toEpochMilli()) {
-            List<Ingridients> ingredientDTOList = recipeDTO.getComposition();
+            List<IngredientCreated> ingredientDTOList = recipeDTO.getComposition();
             List<IngridientsEntity> list = new ArrayList<>();
-            for (Ingridients s : ingredientDTOList) {
+            for (IngredientCreated s : ingredientDTOList) {
                 IngridientsEntity ingridients = new IngridientsEntity(conversionService.convert(s, ProductEntity.class),
                         s.getWeight());
                 list.add(ingridients);

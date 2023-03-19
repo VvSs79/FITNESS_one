@@ -1,7 +1,6 @@
 package Mk.JD2_95_22.fitness.core.dto.model;
 
 import Mk.JD2_95_22.fitness.converter.number_format.InstantConvertorToLong;
-import Mk.JD2_95_22.fitness.converter.number_format.LongConverterToInstant;
 import Mk.JD2_95_22.fitness.orm.entity.utils.RoleEntity;
 import Mk.JD2_95_22.fitness.orm.entity.utils.StatusEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -10,14 +9,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserJsonModel {
+public class UserJsonModel implements UserDetails {
     @JsonProperty("uuid")
     private UUID uuid;
     @JsonSerialize(converter = InstantConvertorToLong.class)
@@ -103,36 +104,37 @@ public class UserJsonModel {
     public void setStatus(StatusEntity status) {
         this.status = status;
     }
-
+    @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.<GrantedAuthority>singletonList(new SimpleGrantedAuthority(role.toString()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role));
     }
-
+    @Override
     @JsonIgnore
     public String getPassword() {
         return null;
     }
-
+    @Override
     @JsonIgnore
     public String getUsername() {
         return mail;
     }
-
+    @Override
     @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
+    @Override
     @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
-
+    @Override
     @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
-
+    @Override
     @JsonIgnore
     public boolean isEnabled() {
         return true;

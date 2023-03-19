@@ -1,20 +1,22 @@
 package Mk.JD2_95_22.fitness.web.filtrs;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-
-
-import Mk.JD2_95_22.fitness.web.util.JwtTokenUtil;
+import Mk.JD2_95_22.fitness.core.dto.model.UserJsonModel;
+import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
+import Mk.JD2_95_22.fitness.servise.api.user.IAuthenticationUserService;
 import Mk.JD2_95_22.fitness.servise.api.user.IUserService;
+import Mk.JD2_95_22.fitness.web.util.JwtTokenHandler;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -22,11 +24,11 @@ import static io.micrometer.common.util.StringUtils.isEmpty;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
-    private final IUserService userService;
-    private final JwtTokenUtil jwtTokenUtil;
+    private final IUserService service;
+    private final JwtTokenHandler jwtTokenUtil;
 
-    public JwtFilter(IUserService userService, JwtTokenUtil jwtTokenUtil) {
-      this.userService = userService;
+    public JwtFilter(IUserService service, JwtTokenHandler jwtTokenUtil) {
+      this.service = service;
       this.jwtTokenUtil = jwtTokenUtil;
     }
 
@@ -48,17 +50,14 @@ public class JwtFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
         return;
       }
-
-      // Get user identity and set it on the spring security context
-      UserDetails userDetails = userService
-              .loadUserByUsername(jwtTokenUtil.getUserName(token));
+      UserDTO user = service.getUsers(jwtTokenUtil.getUserName(token));
+      List<SimpleGrantedAuthority> list = new ArrayList<>();
+      list.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
 
       UsernamePasswordAuthenticationToken
               authentication = new UsernamePasswordAuthenticationToken(
-              userDetails, null,
-              userDetails == null ?
-                      List.of() : userDetails.getAuthorities()
-      );
+              user, null,
+              list);
 
       authentication.setDetails(
               new WebAuthenticationDetailsSource().buildDetails(request)

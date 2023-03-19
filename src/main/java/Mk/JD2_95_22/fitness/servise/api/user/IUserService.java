@@ -15,5 +15,6 @@ public interface IUserService  {
     public void UpdateUser(UUID uuid, Instant dt_update, UserCreated userCreated);
     public void DeactivatedUserUuid(UUID uuid, String mail);
     public PageDTO<UserDTO> getPageUsers(int page, int size);
-    public UserDetails loadUserByUsername(String username);
+    public UserDTO get(UUID uuid);
+
 }

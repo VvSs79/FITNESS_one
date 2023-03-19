@@ -2,27 +2,38 @@ package Mk.JD2_95_22.fitness.core.dto.page;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
+
 import java.util.List;
 import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PageDTO<T>{
     @JsonProperty("number")
-        private int number;
-        @JsonProperty("size")
-        private int size;
-        @JsonProperty("total_pages")
-        private int totalPages;
-        @JsonProperty("total_elements")
-        private long totalElements;
-        @JsonProperty("first")
-        private boolean first;
-        @JsonProperty("number_of_elements")
-        private int numberOfElements;
-        @JsonProperty("last")
-        private boolean last;
-        @JsonProperty("content")
-        private List<T> content;
+    @NotEmpty
+    private int number;
+    @JsonProperty("size")
+    @NotEmpty
+    private int size;
+
+    @JsonProperty("total_pages")
+    @NotEmpty
+    private int totalPages;
+    @JsonProperty("total_elements")
+    @NotEmpty
+    private long totalElements;
+    @JsonProperty("first")
+    @NotEmpty
+    private boolean first;
+    @JsonProperty("number_of_elements")
+    @NotEmpty
+    private int numberOfElements;
+    @JsonProperty("last")
+    @NotEmpty
+    private boolean last;
+    @JsonProperty("content")
+    @NotEmpty
+    private List<T> content;
 
     public PageDTO() {
     }
@@ -44,7 +55,6 @@ public class PageDTO<T>{
             this.last = last;
             this.content = content;
         }
-
         public int getNumber() {
             return number;
         }

@@ -5,10 +5,11 @@ import Mk.JD2_95_22.fitness.core.util.UserRole;
 import Mk.JD2_95_22.fitness.core.util.UserStatus;
 import Mk.JD2_95_22.fitness.orm.entity.user.UserEntity;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.util.UUID;
-
+@Component
 public class UserConverterEntityToDTO implements Converter<UserEntity, UserDTO> {
     @Override
     public UserDTO convert(UserEntity source) {

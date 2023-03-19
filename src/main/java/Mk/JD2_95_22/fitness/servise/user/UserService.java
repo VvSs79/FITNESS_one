@@ -19,6 +19,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import java.time.Instant;
@@ -71,6 +72,10 @@ public class UserService implements IUserService {
             throw new IllegalStateException("Can not convert UserEntity.class to UserModel.class");
         }
         return conversionService.convert(userEntityId, UserDTO.class);
+    }
+    public UserDTO get(UUID uuid) {
+        UserEntity userEntity = this.repository.findById(uuid).orElseThrow(() -> new UserNotFoundExeption("Такого юзера не существует"));
+        return conversionService.convert(userEntity, UserDTO.class);
     }
 
     public UserDTO getUsers(String mail){
@@ -126,12 +131,5 @@ public class UserService implements IUserService {
                 all.getNumberOfElements(),
                 all.isLast(),
                 pageOfUsers);
-    }
-    public UserDetails loadUserByUsername(String username) throws UserNotFoundExeption{
-        UserEntity myUser = repository.findByMail(username);
-        if(myUser ==null){
-            new UserNotFoundExeption("Unknown user: ");
-        }
-        return conversionService.convert(myUser, UserDetails.class);
     }
 }

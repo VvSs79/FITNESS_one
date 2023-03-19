@@ -1,4 +1,4 @@
-package Mk.JD2_95_22.fitness.converter.user;
+package Mk.JD2_95_22.fitness.core.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
 

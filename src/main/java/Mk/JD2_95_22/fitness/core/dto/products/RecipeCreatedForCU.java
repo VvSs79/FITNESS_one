@@ -2,13 +2,12 @@ package Mk.JD2_95_22.fitness.core.dto.products;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 public class RecipeCreatedForCU {
     private String title;
-    private List<Ingridients> composition;
+    private List<IngredientCreated> composition;
 
-    public RecipeCreatedForCU(String title, List<Ingridients> composition) {
+    public RecipeCreatedForCU(String title, List<IngredientCreated> composition) {
         this.title = title;
         this.composition = composition;
     }
@@ -17,7 +16,7 @@ public class RecipeCreatedForCU {
         return title;
     }
 
-    public List<Ingridients> getComposition() {
+    public List<IngredientCreated> getComposition() {
         return composition;
     }
 
@@ -25,7 +24,7 @@ public class RecipeCreatedForCU {
         this.title = title;
     }
 
-    public void setComposition(List<Ingridients> composition) {
+    public void setComposition(List<IngredientCreated> composition) {
         this.composition = composition;
     }
 

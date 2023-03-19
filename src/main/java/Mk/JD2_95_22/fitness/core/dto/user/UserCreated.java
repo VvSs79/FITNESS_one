@@ -25,7 +25,7 @@ public class UserCreated {
         this.mail = mail;
         this.password = password;
         this.userRole = userRole;
-        this.userStatus = userStatus;
+        this.userStatus = UserStatus.WAITING_ACTIVATION;
     }
 
     public UUID getUuid() {

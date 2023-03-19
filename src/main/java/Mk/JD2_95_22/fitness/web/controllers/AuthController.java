@@ -5,10 +5,11 @@ import Mk.JD2_95_22.fitness.core.dto.user.UserLogin;
 import Mk.JD2_95_22.fitness.core.dto.user.UserRegistration;
 import Mk.JD2_95_22.fitness.orm.repository.IAuthenticationUser;
 import Mk.JD2_95_22.fitness.servise.api.user.IAuthenticationUserService;
+import Mk.JD2_95_22.fitness.servise.user_holder.UserHolder;
+import Mk.JD2_95_22.fitness.web.util.JwtTokenHandler;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -17,7 +18,9 @@ import java.util.UUID;
 @RequestMapping("/api/v1/users")
 public class AuthController {
   private IAuthenticationUser repository;
-
+  private UserHolder userHolder;
+//  private final JwtTokenHandler jwtTokenUtil;
+//
   private IAuthenticationUserService service;
 
   public AuthController(IAuthenticationUser repository, IAuthenticationUserService service) {
@@ -43,18 +46,15 @@ public class AuthController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<String> login(@Valid @RequestBody UserLogin userLogin) {
+  public String login(@Valid @RequestBody UserLogin userLogin) {
+      UserDTO user = service.login(userLogin);
 
-    String jwtToken = this.service.login(userLogin);
-    return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(jwtToken);
+      return JwtTokenHandler.generateAccessToken(user);
   }
 
-  @GetMapping("/me")
-  public ResponseEntity<UserDTO> getMyData(UUID uuid) {
-
-    UserDTO userData = this.service.getCard(uuid);
-    return ResponseEntity.ok(userData);
+  @GetMapping(path = "/me")
+  public UserDTO getUser() {
+    UUID uuid=userHolder.getUser().getUuid();
+    return service.getCard(uuid);
   }
 }

@@ -2,7 +2,7 @@ package Mk.JD2_95_22.fitness.core.dto.products;
 
 import java.lang.Double;
 
-public class IngridientSave {
+public class IngredientDTO {
     private ProductDTO product;
     private int weight;
     private Double calories;
@@ -10,7 +10,7 @@ public class IngridientSave {
     private Double fats;
     private Double carbohydrates;
 
-    public IngridientSave(ProductDTO product, int weight, Double calories, Double proteins, Double fats, Double carbohydrates) {
+    public IngredientDTO(ProductDTO product, int weight, Double calories, Double proteins, Double fats, Double carbohydrates) {
         this.product = product;
         this.weight = weight;
         this.calories = calories;

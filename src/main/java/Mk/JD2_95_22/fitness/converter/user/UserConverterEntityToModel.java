@@ -5,10 +5,11 @@ import Mk.JD2_95_22.fitness.orm.entity.utils.RoleEntity;
 import Mk.JD2_95_22.fitness.orm.entity.utils.StatusEntity;
 import Mk.JD2_95_22.fitness.orm.entity.user.UserEntity;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.util.UUID;
-
+@Component
 public class UserConverterEntityToModel implements Converter<UserEntity, UserJsonModel> {
     @Override
     public UserJsonModel convert(UserEntity source) {

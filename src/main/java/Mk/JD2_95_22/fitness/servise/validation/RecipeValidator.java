@@ -1,6 +1,6 @@
 package Mk.JD2_95_22.fitness.servise.validation;
 
-import Mk.JD2_95_22.fitness.core.dto.products.Ingridients;
+import Mk.JD2_95_22.fitness.core.dto.products.IngredientCreated;
 import Mk.JD2_95_22.fitness.core.dto.products.RecipeCreatedForCU;
 import Mk.JD2_95_22.fitness.core.exeption.MultipleErrorResponse;
 import Mk.JD2_95_22.fitness.core.exeption.MyError;
@@ -25,8 +25,8 @@ public class RecipeValidator implements IValidator<RecipeCreatedForCU> {
             }
             multipleError.setErrors(new MyError("Field not entered", "composition"));
         }
-        List<Ingridients> ingredientEntityList = recipeCreated.getComposition();
-        for (Ingridients ingredient : ingredientEntityList) {
+        List<IngredientCreated> ingredientEntityList = recipeCreated.getComposition();
+        for (IngredientCreated ingredient : ingredientEntityList) {
             if(ingredient.getWeight() == 0){
                 if(multipleError.getLogref() == null){
                     multipleError.setLogref("structured_error");

@@ -11,7 +11,7 @@ import Mk.JD2_95_22.fitness.core.util.UserStatus;
 import Mk.JD2_95_22.fitness.orm.entity.user.UserEntity;
 import Mk.JD2_95_22.fitness.orm.entity.utils.StatusEntity;
 import Mk.JD2_95_22.fitness.orm.repository.IPersonalUserRepository;
-import Mk.JD2_95_22.fitness.web.util.JwtTokenUtil;
+import Mk.JD2_95_22.fitness.web.util.JwtTokenHandler;
 import Mk.JD2_95_22.fitness.servise.api.mail.IMailSenderService;
 import Mk.JD2_95_22.fitness.servise.api.user.IAuthenticationUserService;
 import Mk.JD2_95_22.fitness.servise.api.user.IUserService;
@@ -19,6 +19,7 @@ import Mk.JD2_95_22.fitness.servise.my_exeption.user.UserNotFoundExeption;
 import Mk.JD2_95_22.fitness.servise.my_exeption.user.UserValidateExeption;
 import Mk.JD2_95_22.fitness.servise.validation.api.IValidator;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import java.time.Instant;
@@ -32,12 +33,12 @@ public class AuthenticationUserService implements IAuthenticationUserService {
     private final  ConversionService conversionService;
     private  final BCryptPasswordEncoder encoder;
     private  final IValidator<UserRegistration> validator;
-    private final JwtTokenUtil generateAccessToken;
+    private final JwtTokenHandler generateAccessToken;
 
     public AuthenticationUserService(IPersonalUserRepository repository, IUserService service,
                                      IMailSenderService emailService, ConversionService conversionService,
                                      BCryptPasswordEncoder encoder, IValidator<UserRegistration> validator,
-                                     JwtTokenUtil generateAccessToken) {
+                                     JwtTokenHandler generateAccessToken) {
         this.repository = repository;
         this.service = service;
         this.emailService = emailService;
@@ -99,6 +100,14 @@ public class AuthenticationUserService implements IAuthenticationUserService {
         }
         UserEntity userEntity = findUserEntity.get();
         return conversionService.convert(userEntity, UserDTO.class);
+    }
+
+    public UserDetails loadUserByUsername(String username) throws UserNotFoundExeption{
+        UserEntity myUser = repository.findByMail(username);
+        if(myUser ==null){
+            new UserNotFoundExeption("Unknown user: ");
+        }
+        return conversionService.convert(myUser, UserDetails.class);
     }
 
 }

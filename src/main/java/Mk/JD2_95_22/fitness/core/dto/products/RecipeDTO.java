@@ -1,9 +1,7 @@
 package Mk.JD2_95_22.fitness.core.dto.products;
 
 import Mk.JD2_95_22.fitness.converter.number_format.InstantConvertorToLong;
-import Mk.JD2_95_22.fitness.converter.number_format.LongConverterToInstant;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.lang.NonNull;
@@ -13,6 +11,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class RecipeDTO  {
+    @JsonProperty("uuid")
     @NonNull private UUID uuid;
     @JsonProperty("dt_create")
     @JsonSerialize(converter = InstantConvertorToLong.class)
@@ -22,14 +21,14 @@ public class RecipeDTO  {
     private Instant dtUpdate;
     @NotBlank(message = "Title must not be blank")
     private String title;
-    private List<Ingridients> composition;
+    private List<IngredientCreated> composition;
     private int weight;
     private int calories;
     private double proteins;
     private double fats;
     private double carbohydrates;
 
-    public RecipeDTO(@NonNull UUID uuid, Instant dtCreate, Instant dtUpdate, String title, List<Ingridients> composition, int weight, int calories, double proteins, double fats, double carbohydrates) {
+    public RecipeDTO(@NonNull UUID uuid, Instant dtCreate, Instant dtUpdate, String title, List<IngredientCreated> composition, int weight, int calories, double proteins, double fats, double carbohydrates) {
         this.uuid = uuid;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
@@ -59,7 +58,7 @@ public class RecipeDTO  {
         return title;
     }
 
-    public List<Ingridients> getComposition() {
+    public List<IngredientCreated> getComposition() {
         return composition;
     }
 
@@ -99,7 +98,7 @@ public class RecipeDTO  {
         this.title = title;
     }
 
-    public void setComposition(List<Ingridients> composition) {
+    public void setComposition(List<IngredientCreated> composition) {
         this.composition = composition;
     }
 

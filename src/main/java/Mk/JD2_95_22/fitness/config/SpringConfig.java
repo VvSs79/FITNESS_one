@@ -8,7 +8,7 @@ import Mk.JD2_95_22.fitness.orm.repository.IPersonalUserRepository;
 import Mk.JD2_95_22.fitness.orm.repository.IProductRepositpry;
 import Mk.JD2_95_22.fitness.orm.repository.IRecipeRepository;
 import Mk.JD2_95_22.fitness.orm.repository.IUserRepository;
-import Mk.JD2_95_22.fitness.web.util.JwtTokenUtil;
+import Mk.JD2_95_22.fitness.web.util.JwtTokenHandler;
 import Mk.JD2_95_22.fitness.servise.api.mail.IMailSenderService;
 import Mk.JD2_95_22.fitness.servise.api.product.IProductService;
 import Mk.JD2_95_22.fitness.servise.api.product.IRecipeService;
@@ -22,15 +22,18 @@ import Mk.JD2_95_22.fitness.servise.user.UserService;
 import Mk.JD2_95_22.fitness.servise.validation.api.IValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import java.util.Properties;
 @Configuration
-public class ServiceConfig  {
+public class SpringConfig {
     @Bean
+    @Primary
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
@@ -38,7 +41,7 @@ public class ServiceConfig  {
     public IUserService userService(IUserRepository repository,
                                     IValidator<UserCreated> validator,
                                     ConversionService conversionService,
-                                    PasswordEncoder encoder) {
+                                    BCryptPasswordEncoder encoder) {
         return new UserService(repository,validator, conversionService, encoder);
     }
     @Bean
@@ -48,7 +51,7 @@ public class ServiceConfig  {
                                                             ConversionService conversionService,
                                                             BCryptPasswordEncoder encoder,
                                                             IValidator<UserRegistration> validator,
-                                                            JwtTokenUtil generateAccessToken) {
+                                                            JwtTokenHandler generateAccessToken) {
 
 
         return new AuthenticationUserService(repository,service,emailService,conversionService,
@@ -78,7 +81,7 @@ public class ServiceConfig  {
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.mail.ru");
-        mailSender.setPort(587);
+        mailSender.setPort(465);
         mailSender.setUsername("test_project2023@mail.ru");
         mailSender.setPassword("C9W)m3Yyp$H=%JY:");
 
