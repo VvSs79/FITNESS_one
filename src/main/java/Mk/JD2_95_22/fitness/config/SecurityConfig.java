@@ -6,22 +6,22 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
-    private final JwtFilter filter;
-
-    public SecurityConfig(JwtFilter filter) {
-        this.filter = filter;
-    }
-
+//    private final JwtFilter filter;
+//
+//    public SecurityConfig(JwtFilter filter) {
+//        this.filter = filter;
+//    }
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http,JwtFilter filter) throws Exception {
         http = http.cors().and().csrf().disable();
 
         // Set session management to stateless
@@ -45,20 +45,27 @@ public class SecurityConfig {
 
         // Set permissions on endpoints
         http
-                .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/api/v1/users/**").hasAnyAuthority("ROLE_ADMIN")
-                        .requestMatchers("/api/v1/users/registration").permitAll()
-                        .requestMatchers("/api/v1/users/verification").permitAll()
-                        .requestMatchers("/api/v1/users/login").permitAll()
-                        .requestMatchers("/api/v1/users/me").authenticated()
-                        .requestMatchers(HttpMethod.GET,"/api/v1/product").authenticated()
-                        .requestMatchers(HttpMethod.GET,"/api/v1/recipe").authenticated()
-                        .requestMatchers(HttpMethod.PUT,"/api/v1/product/**").hasAnyAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.PUT,"/api/v1/recipe/**").hasAnyAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/api/v1/product/**").hasAnyAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/api/v1/recipe/**").hasAnyAuthority("ROLE_ADMIN")
-                )
-                .httpBasic(withDefaults());
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers("/users/**").hasRole("ROLE_ADMIN")
+                        .requestMatchers("/users/").hasRole("ROLE_ADMIN")
+                        .requestMatchers("/users/registration").permitAll()
+                        .requestMatchers("/users/verification").permitAll()
+                        .requestMatchers("/users/login").permitAll()
+                        .requestMatchers("/users/me").hasRole("ROLE_USER")
+                        .requestMatchers(HttpMethod.GET,"/product").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/recipe").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/product/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/product").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/recipe/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/recipe").hasRole("ADMIN")
+
+//                .httpBasic(withDefaults());
+//        http.addFilterBefore(
+//                filter,
+//                UsernamePasswordAuthenticationFilter.class
+                .anyRequest().authenticated());
+
+        // Add JWT token з
         http.addFilterBefore(
                 filter,
                 UsernamePasswordAuthenticationFilter.class

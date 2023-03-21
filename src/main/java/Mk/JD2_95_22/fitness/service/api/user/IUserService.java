@@ -18,5 +18,6 @@ public interface IUserService <T>{
     UserJsonModel getUser(String mail);
 
     void update(UserUpdate userUpdate);
+    UserJsonModel loadUserByUsername (String mail);
 
 }

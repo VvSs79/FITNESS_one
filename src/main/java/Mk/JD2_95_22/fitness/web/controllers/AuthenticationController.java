@@ -21,10 +21,12 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController {
     private IAuthenticationService service;
     private UserHolder userHolder;
+    private final JwtTokenUtil jwtTokenUtil;
 
-    public AuthenticationController(IAuthenticationService service, UserHolder userHolder) {
+    public AuthenticationController(IAuthenticationService service, UserHolder userHolder, JwtTokenUtil jwtTokenUtil) {
         this.service = service;
         this.userHolder = userHolder;
+        this.jwtTokenUtil = jwtTokenUtil;
     }
 
     @RequestMapping(path = "/registration", method = RequestMethod.POST)
@@ -40,10 +42,9 @@ public class AuthenticationController {
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public ResponseEntity<String> logIn(@RequestBody @Valid UserLogin userLogin) {
+    public String logIn(@RequestBody @Valid UserLogin userLogin) {
        UserJsonModel userJsonModel = service.logIn(userLogin);
-
-        return ResponseEntity.status(HttpStatus.OK).body(JwtTokenUtil.generateAccessToken(userJsonModel));
+        return jwtTokenUtil.generateAccessToken(userJsonModel);
     }
 
     @RequestMapping(path = "/me", method = RequestMethod.GET)

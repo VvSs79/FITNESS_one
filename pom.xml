@@ -12,6 +12,7 @@
 	<artifactId>fitness</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>fitness</name>
+    <packaging>jar</packaging>
 	<description>FitnessProject</description>
 	<properties>
 		<java.version>17</java.version>

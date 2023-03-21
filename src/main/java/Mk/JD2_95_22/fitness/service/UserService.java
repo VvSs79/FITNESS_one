@@ -97,4 +97,8 @@ public class UserService implements IUserService {
         }
         return conversionService.convert(userEntity, UserJsonModel.class);
     }
+    @Override
+    public UserJsonModel loadUserByUsername (String mail){
+        return conversionService.convert(repository.findByMail(mail), UserJsonModel.class);
+    }
 }
