@@ -2,14 +2,16 @@ package Mk.JD2_95_22.fitness.web.utils;
 
 import Mk.JD2_95_22.fitness.core.dto.j_model.UserJsonModel;
 import io.jsonwebtoken.*;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-
+@Component
 public class JwtTokenUtil {
 
     private static final String jwtSecret = "NDQ1ZjAzNjQtMzViZi00MDRjLTljZjQtNjNjYWIyZTU5ZDYw";
     private static final String jwtIssuer = "ITAcademy";
+
 
 
     public static String generateAccessToken(UserJsonModel user) {

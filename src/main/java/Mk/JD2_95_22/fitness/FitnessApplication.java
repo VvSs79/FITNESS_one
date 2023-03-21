@@ -3,6 +3,7 @@ package Mk.JD2_95_22.fitness;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 @SpringBootApplication
 public class FitnessApplication {
 

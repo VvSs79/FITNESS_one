@@ -12,7 +12,6 @@ import Mk.JD2_95_22.fitness.service.api.product.IProductService;
 import Mk.JD2_95_22.fitness.service.api.product.IRecipeService;
 import Mk.JD2_95_22.fitness.service.api.user.IAuthenticationService;
 import Mk.JD2_95_22.fitness.service.api.user.IUserService;
-import Mk.JD95_22.fitness.service.*;
 import Mk.JD2_95_22.fitness.orm.repository.user.IAuthenticationUserRepository;
 import Mk.JD2_95_22.fitness.orm.repository.user.IUserRepository;
 import org.springframework.context.annotation.Bean;
