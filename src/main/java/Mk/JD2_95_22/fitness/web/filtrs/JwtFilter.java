@@ -6,6 +6,7 @@ import java.util.List;
 
 import Mk.JD2_95_22.fitness.core.dto.model.UserJsonModel;
 import Mk.JD2_95_22.fitness.core.dto.user.UserDTO;
+import Mk.JD2_95_22.fitness.core.dto.user.UserDetailsDTO;
 import Mk.JD2_95_22.fitness.servise.api.user.IAuthenticationUserService;
 import Mk.JD2_95_22.fitness.servise.api.user.IUserService;
 import Mk.JD2_95_22.fitness.web.util.JwtTokenHandler;
@@ -50,6 +51,7 @@ public class JwtFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
         return;
       }
+
       UserDTO user = service.getUsers(jwtTokenUtil.getUserName(token));
       List<SimpleGrantedAuthority> list = new ArrayList<>();
       list.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));

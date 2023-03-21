@@ -39,7 +39,7 @@ public class UserService implements IUserService {
         this.encoder = encoder;
     }
     @Override
-    public void CreatedUser(@Validated UserCreated newUser){
+    public UserJsonModel CreatedUser(@Validated UserCreated newUser){
         if(newUser==null){
             throw new SingleErrorResponse("Parameters not entered");
         }
@@ -55,10 +55,10 @@ public class UserService implements IUserService {
         UserEntity userEntity = conversionService.convert(newUser, UserEntity.class);
         userEntity.setUuid(UUID.randomUUID());
         Instant dtCreated = Instant.now();
-        Instant dtUpdated = dtCreated;
         userEntity.setDtCreate(dtCreated);
-        userEntity.setDtUpdate(dtUpdated);
+        userEntity.setDtUpdate(dtCreated);
         repository.save(userEntity);
+        return conversionService.convert(userEntity, UserJsonModel.class);
     }
     @Override
     public UserDTO getUser(UUID id, String mail){
@@ -74,7 +74,8 @@ public class UserService implements IUserService {
         return conversionService.convert(userEntityId, UserDTO.class);
     }
     public UserDTO get(UUID uuid) {
-        UserEntity userEntity = this.repository.findById(uuid).orElseThrow(() -> new UserNotFoundExeption("Такого юзера не существует"));
+        UserEntity userEntity = this.repository.findById(uuid).orElseThrow(() ->
+                new UserNotFoundExeption("Not found user this is a id"));
         return conversionService.convert(userEntity, UserDTO.class);
     }
 
@@ -92,7 +93,8 @@ public class UserService implements IUserService {
     @Override
     public void UpdateUser(UUID uuid, Instant dt_update, UserCreated userCreated){
 
-        UserEntity userEntity=repository.findById(uuid).orElseThrow(()->new PageNotFoundExeption("Not found user this is a id "+ uuid));
+        UserEntity userEntity=repository.findById(uuid).orElseThrow(()->
+                new PageNotFoundExeption("Not found user this is a id "+ uuid));
         if ( dt_update.toEpochMilli() == userEntity.getDtUpdate().toEpochMilli()){
             userEntity.setFio(userCreated.getFio());
             userEntity.setMail(userCreated.getMail());
@@ -104,7 +106,6 @@ public class UserService implements IUserService {
     }
     @Override
     public void DeactivatedUserUuid(UUID uuid, String mail){
-        getUser(uuid,mail);
         UserEntity foundUser=conversionService.convert(getUser(uuid, mail), UserEntity.class);
         if(foundUser==null){
             throw new UserNotFoundExeption("Not found user this is a id and mail");

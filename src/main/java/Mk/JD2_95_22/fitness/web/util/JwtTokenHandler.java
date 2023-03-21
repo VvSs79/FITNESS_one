@@ -16,7 +16,7 @@ public class JwtTokenHandler {
     this.property = property;
   }
 
-   public  String generateAccessToken(UserJsonModel user) {
+   public String generateAccessToken(UserJsonModel user) {
        Map<String, Object> claims = new HashMap<>();
        claims.put("fio",user.getName());
        claims.put("mail",user.getMail());
@@ -27,7 +27,7 @@ public class JwtTokenHandler {
             .setIssuer(property.getIssuer())
             .setIssuedAt(new Date())
             .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(30))) //30 days
-            .signWith(SignatureAlgorithm.ES512,property.getSecret())
+            .signWith(SignatureAlgorithm.HS512,property.getSecret())
             .compact();
    }
 

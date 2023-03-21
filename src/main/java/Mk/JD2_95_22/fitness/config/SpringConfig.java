@@ -1,80 +1,86 @@
 package Mk.JD2_95_22.fitness.config;
 
-import Mk.JD2_95_22.fitness.core.dto.products.ProductCreated;
-import Mk.JD2_95_22.fitness.core.dto.products.RecipeCreatedForCU;
-import Mk.JD2_95_22.fitness.core.dto.user.UserCreated;
-import Mk.JD2_95_22.fitness.core.dto.user.UserRegistration;
-import Mk.JD2_95_22.fitness.orm.repository.IPersonalUserRepository;
-import Mk.JD2_95_22.fitness.orm.repository.IProductRepositpry;
-import Mk.JD2_95_22.fitness.orm.repository.IRecipeRepository;
-import Mk.JD2_95_22.fitness.orm.repository.IUserRepository;
-import Mk.JD2_95_22.fitness.web.util.JwtTokenHandler;
-import Mk.JD2_95_22.fitness.servise.api.mail.IMailSenderService;
-import Mk.JD2_95_22.fitness.servise.api.product.IProductService;
-import Mk.JD2_95_22.fitness.servise.api.product.IRecipeService;
-import Mk.JD2_95_22.fitness.servise.api.user.IAuthenticationUserService;
-import Mk.JD2_95_22.fitness.servise.api.user.IUserService;
-import Mk.JD2_95_22.fitness.servise.mail.MailSenderService;
-import Mk.JD2_95_22.fitness.servise.product.ProductService;
-import Mk.JD2_95_22.fitness.servise.product.RecipeService;
-import Mk.JD2_95_22.fitness.servise.user.AuthenticationUserService;
-import Mk.JD2_95_22.fitness.servise.user.UserService;
-import Mk.JD2_95_22.fitness.servise.validation.api.IValidator;
+import Mk.JD2_95_22.fitness.core.exception.validation.ProductValidator;
+import Mk.JD2_95_22.fitness.core.exception.validation.RecipeValidator;
+import Mk.JD2_95_22.fitness.core.exception.validation.UserCreatedValidator;
+import Mk.JD2_95_22.fitness.core.exception.validation.UserRegistrationValidator;
+import Mk.JD2_95_22.fitness.orm.repository.product.IProductRepository;
+import Mk.JD2_95_22.fitness.orm.repository.product.IRecipeRepository;
+import Mk.JD2_95_22.fitness.service.*;
+import Mk.JD2_95_22.fitness.service.api.mail.IEmailService;
+import Mk.JD2_95_22.fitness.service.api.product.IProductService;
+import Mk.JD2_95_22.fitness.service.api.product.IRecipeService;
+import Mk.JD2_95_22.fitness.service.api.user.IAuthenticationService;
+import Mk.JD2_95_22.fitness.service.api.user.IUserService;
+import Mk.JD95_22.fitness.service.*;
+import Mk.JD2_95_22.fitness.orm.repository.user.IAuthenticationUserRepository;
+import Mk.JD2_95_22.fitness.orm.repository.user.IUserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+
 import java.util.Properties;
+
+
 @Configuration
 public class SpringConfig {
     @Bean
-    @Primary
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
-    public IUserService userService(IUserRepository repository,
-                                    IValidator<UserCreated> validator,
+    public IUserService userService(IUserRepository dao,
                                     ConversionService conversionService,
-                                    BCryptPasswordEncoder encoder) {
-        return new UserService(repository,validator, conversionService, encoder);
-    }
-    @Bean
-    public IAuthenticationUserService authenticationService(IPersonalUserRepository repository,
-                                                            IUserService service,
-                                                            IMailSenderService emailService,
-                                                            ConversionService conversionService,
-                                                            BCryptPasswordEncoder encoder,
-                                                            IValidator<UserRegistration> validator,
-                                                            JwtTokenHandler generateAccessToken) {
-
-
-        return new AuthenticationUserService(repository,service,emailService,conversionService,
-                encoder,validator, generateAccessToken);
+                                    PasswordEncoder encoder,
+                                    UserCreatedValidator validator) {
+        return new UserService(dao,
+                conversionService,
+                encoder,
+                validator);
     }
 
     @Bean
-    public IProductService productService(IProductRepositpry repository, ConversionService conversionService,
-                                          IValidator<ProductCreated> validator
-
-        ) {
-        return new ProductService(repository, conversionService,validator);
+    public IAuthenticationService authenticationService(IAuthenticationUserRepository dao,
+                                                        ConversionService conversionService,
+                                                        IEmailService iEmailService,
+                                                        IUserService iUserService,
+                                                        UserRegistrationValidator validator) {
+        return new AuthenticationService(dao,
+                conversionService,
+                iEmailService,
+                iUserService,
+                validator);
     }
 
     @Bean
-    public IRecipeService recipeService(IRecipeRepository recipeRepository, IProductService productService,
-                                        ConversionService conversionService,IValidator<RecipeCreatedForCU> validator) {
-        return new RecipeService(recipeRepository, productService,conversionService, validator);
+    public IProductService productService(IProductRepository dao,
+                                          ConversionService conversionService,
+                                          ProductValidator validator) {
+        return new ProductService(dao,
+                conversionService,
+                validator);
     }
 
     @Bean
-    public IMailSenderService emailService(JavaMailSender emailSender) {
-        return new MailSenderService(emailSender);
+    public IRecipeService recipeService(IRecipeRepository dao,
+                                        IProductService productService,
+                                        ConversionService conversionService,
+                                        RecipeValidator validator) {
+        return new RecipeService(dao,
+                productService,
+                conversionService,
+                validator);
+    }
+
+    @Bean
+    public IEmailService emailService(JavaMailSender emailSender) {
+        return new EmailService(emailSender);
     }
 
     @Bean
@@ -82,8 +88,8 @@ public class SpringConfig {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.mail.ru");
         mailSender.setPort(465);
-        mailSender.setUsername("test_project2023@mail.ru");
-        mailSender.setPassword("C9W)m3Yyp$H=%JY:");
+        mailSender.setUsername("ivanivanov2023_18@mail.ru");
+        mailSender.setPassword("CzgX7LYBBE0GfaQPrZL6");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtps");
@@ -93,4 +99,5 @@ public class SpringConfig {
 
         return mailSender;
     }
+
 }

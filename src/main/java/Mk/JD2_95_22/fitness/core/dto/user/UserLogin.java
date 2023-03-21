@@ -8,48 +8,43 @@ import java.util.Objects;
 public class UserLogin {
     @NotBlank
     @Email
-    private String mailUser;
+    private String mail;
     @NotBlank
     private String password;
 
-    public UserLogin(String mailUser, String password) {
-        this.mailUser = mailUser;
+    public UserLogin(String mail, String password) {
+        this.mail = mail;
         this.password = password;
     }
 
-    public String getMailUser() {
-        return mailUser;
+    public UserLogin() {
     }
 
-    public void setMailUser(String mailUser) {
-        this.mailUser = mailUser;
+    public String getMail() {
+        return mail;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserLogin userLogin = (UserLogin) o;
-        return Objects.equals(mailUser, userLogin.mailUser) && Objects.equals(password, userLogin.password);
+        UserLogin that = (UserLogin) o;
+        return Objects.equals(mail, that.mail) && Objects.equals(password, that.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(mailUser, password);
+        return Objects.hash(mail, password);
     }
 
     @Override
     public String toString() {
-        return "UserLogin{" +
-                "mailUser='" + mailUser + '\'' +
+        return "UserLogInDTO{" +
+                "mail='" + mail + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

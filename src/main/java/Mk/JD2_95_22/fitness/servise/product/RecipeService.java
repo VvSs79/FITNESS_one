@@ -41,6 +41,13 @@ public class RecipeService implements IRecipeService {
     public void create( RecipeCreatedForCU recipe) {
         checkDoubleRecipe(recipe);
         validator.validate(recipe);
+        String title= recipe.getTitle();
+
+        List<IngridientsEntity> comp = recipe.getComposition().stream()
+                .map(ingredient -> new IngridientsEntity(
+                        service.getProductEntity(ingredient.getProduct().getUuid()),
+                        ingredient.getWeight()))
+                .collect(Collectors.toList());
         List<IngredientCreated> ingredientDTOList = recipe.getComposition();
         List<IngridientsEntity> list = new ArrayList<>();
         Instant dtCreated=Instant.now();
@@ -57,7 +64,7 @@ public class RecipeService implements IRecipeService {
                 UUID.randomUUID(),
                 dtCreated,
                 dtUpdate,
-                recipe.getTitle(),
+                title,
                 list);
         Optional<RecipeEntity> optionalRecipe=recipeRepository.getAllByTitleIgnoreCase(recipe.getTitle());
         if(optionalRecipe.isPresent()){

@@ -96,7 +96,7 @@ public class AuthenticationUserService implements IAuthenticationUserService {
     public UserDTO getCard(UUID uuid) {
         Optional<UserEntity> findUserEntity = repository.findByUuid(uuid);
         if(findUserEntity.isEmpty()){
-            throw new SingleErrorResponse("Пользователя с id " + uuid + " нет базе данных!");
+            throw new SingleErrorResponse("User with this " + uuid + " is not registered");
         }
         UserEntity userEntity = findUserEntity.get();
         return conversionService.convert(userEntity, UserDTO.class);

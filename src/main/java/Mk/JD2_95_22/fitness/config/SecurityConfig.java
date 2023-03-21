@@ -1,23 +1,29 @@
 package Mk.JD2_95_22.fitness.config;
 
-import Mk.JD2_95_22.fitness.web.filtrs.JwtFilter;
+import Mk.JD2_95_22.fitness.web.filter.JwtFilter;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig {
+    private final JwtFilter filter;
+
+    public SecurityConfig(JwtFilter filter) {
+        this.filter = filter;
+    }
+
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, JwtFilter filter) throws Exception {
-        // Enable CORS and disable CSRF
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http = http.cors().and().csrf().disable();
 
         // Set session management to stateless
@@ -32,39 +38,29 @@ public class SecurityConfig {
                 .authenticationEntryPoint(
                         (request, response, ex) -> {
                             response.sendError(
-                                    HttpServletResponse.SC_UNAUTHORIZED,  //401
+                                    HttpServletResponse.SC_UNAUTHORIZED,
                                     ex.getMessage()
                             );
                         }
                 )
-                .accessDeniedHandler((request, response, ex) -> {
-                    response.setStatus(
-                            HttpServletResponse.SC_FORBIDDEN  //403
-                    );
-                })
                 .and();
 
         // Set permissions on endpoints
         http
                 .authorizeHttpRequests((authz) -> authz
-                        // Our public endpoints
+                        .requestMatchers("/api/v1/users/**").hasAnyAuthority("ROLE_ADMIN")
                         .requestMatchers("/api/v1/users/registration").permitAll()
                         .requestMatchers("/api/v1/users/verification").permitAll()
-                        .requestMatchers("/api/v1/users/me").authenticated()
                         .requestMatchers("/api/v1/users/login").permitAll()
-                        .requestMatchers("/api/v1/users/**").hasRole("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.GET,"/api/v1/product").permitAll()
-                        .requestMatchers(HttpMethod.PUT,"/api/v1/product/**").hasRole("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/api/v1/product/**").hasRole("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.GET,"/api/v1/recipe").permitAll()
-                        .requestMatchers(HttpMethod.PUT,"/api/v1/recipe/**").hasRole("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/api/v1/recipe/**").hasRole("ROLE_ADMIN")
-
-                        //Our private endpoints
-                        .anyRequest().authenticated()
-                );
-
-        // Add JWT token filter
+                        .requestMatchers("/api/v1/users/me").authenticated()
+                        .requestMatchers(HttpMethod.GET,"/api/v1/product").authenticated()
+                        .requestMatchers(HttpMethod.GET,"/api/v1/recipe").authenticated()
+                        .requestMatchers(HttpMethod.PUT,"/api/v1/product/**").hasAnyAuthority("ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.PUT,"/api/v1/recipe/**").hasAnyAuthority("ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/api/v1/product/**").hasAnyAuthority("ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/api/v1/recipe/**").hasAnyAuthority("ROLE_ADMIN")
+                )
+                .httpBasic(withDefaults());
         http.addFilterBefore(
                 filter,
                 UsernamePasswordAuthenticationFilter.class
@@ -72,9 +68,4 @@ public class SecurityConfig {
 
         return http.build();
     }
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
 }

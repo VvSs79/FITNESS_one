@@ -13,4 +13,5 @@ public interface IProductService {
     public Optional<ProductEntity> getProduct(UUID uuid);
     public ProductEntity getProducts(UUID uuid);
     public PageDTO<ProductDTO> getPageProducts(int page, int size);
+    public ProductEntity getProductEntity(UUID uuid);
 }

@@ -46,8 +46,7 @@ public class ProductService implements IProductService {
     @Override
     public void update(ProductDTO productDTO) {
         ProductEntity productEntity = repository.findById(productDTO.getUuid())
-                .orElseThrow(() -> new ProductNotFoundExeption("Такого продукта не существует"));
-
+                .orElseThrow(() -> new ProductNotFoundExeption("Not found this is product"));
         if (productEntity.getDtUpdate().toEpochMilli() == productDTO.getDtUpdate().toEpochMilli()) {
             productEntity.setTitle(productDTO.getTitle());
             productEntity.setWeight(productDTO.getWeight());
@@ -56,7 +55,9 @@ public class ProductService implements IProductService {
             productEntity.setFats(productDTO.getFats());
             productEntity.setCarbohydrates(productDTO.getCarbohydrates());
             repository.save(productEntity);
-        } else throw new InvalidVersionExeption("Такой версии не существует");
+        } else {
+            throw new InvalidVersionExeption("No such version exists");
+        }
     }
 
     @Override
@@ -90,6 +91,12 @@ public class ProductService implements IProductService {
             throw  new SingleErrorResponse("There is no product with that name");
         }
         return conversionService.convert(productEntity, ProductEntity.class);
+    }
+    public ProductEntity getProductEntity(UUID uuid){
+        if(!repository.existsById(uuid)){
+            throw new ProductNotFoundExeption("Not found this is product");
+        }
+        return  repository.getAllByUuid(uuid);
     }
 }
 

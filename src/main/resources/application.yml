@@ -14,4 +14,3 @@ spring:
 jwt:
     secret: C9W)m3Yyp$H=%JY
     issuer: Fitness
-

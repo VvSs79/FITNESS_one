@@ -20,10 +20,10 @@ public class MailSenderService implements IMailSenderService {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom("vitaliysokolov1@gmail.com");
             message.setTo(to);
-            message.setSubject("Confirm mail, click to address " +
+            message.setSubject("Confirm mail");
+            message.setText("Click to address " +
                     ":http://localhost:8080/api/v1/users/verification?code=  " + code +
-                    "&mail=" + to + ", status sending is ");
-            message.setText(code);
+                    "&mail=" + to );
             mailSender.send(message);
         }
         catch (MailException e){e.printStackTrace();
