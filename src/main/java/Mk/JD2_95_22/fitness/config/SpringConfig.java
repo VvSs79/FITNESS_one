@@ -1,9 +1,9 @@
 package Mk.JD2_95_22.fitness.config;
 
-import Mk.JD2_95_22.fitness.core.exception.validation.ProductValidator;
-import Mk.JD2_95_22.fitness.core.exception.validation.RecipeValidator;
-import Mk.JD2_95_22.fitness.core.exception.validation.UserCreatedValidator;
-import Mk.JD2_95_22.fitness.core.exception.validation.UserRegistrationValidator;
+import Mk.JD2_95_22.fitness.service.validate.ProductValidator;
+import Mk.JD2_95_22.fitness.service.validate.RecipeValidator;
+import Mk.JD2_95_22.fitness.service.validate.UserCreatedValidator;
+import Mk.JD2_95_22.fitness.service.validate.UserRegistrationValidator;
 import Mk.JD2_95_22.fitness.orm.repository.product.IProductRepository;
 import Mk.JD2_95_22.fitness.orm.repository.product.IRecipeRepository;
 import Mk.JD2_95_22.fitness.service.*;
@@ -43,18 +43,19 @@ public class SpringConfig {
                 encoder,
                 validator);
     }
-
     @Bean
     public IAuthenticationService authenticationService(IAuthenticationUserRepository dao,
                                                         ConversionService conversionService,
                                                         IEmailService iEmailService,
                                                         IUserService iUserService,
-                                                        UserRegistrationValidator validator) {
+                                                        UserRegistrationValidator validator,
+                                                        PasswordEncoder encoder) {
         return new AuthenticationService(dao,
                 conversionService,
                 iEmailService,
                 iUserService,
-                validator);
+                validator,
+                encoder);
     }
 
     @Bean

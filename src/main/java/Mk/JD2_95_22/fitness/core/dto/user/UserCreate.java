@@ -1,6 +1,6 @@
 package Mk.JD2_95_22.fitness.core.dto.user;
 
-import Mk.JD2_95_22.fitness.core.exception.validation.validator_enum.ValueOfEnum;
+import Mk.JD2_95_22.fitness.service.validate.validator_enum.ValueOfEnum;
 import Mk.JD2_95_22.fitness.core.dto.user_utils.UserRole;
 import Mk.JD2_95_22.fitness.core.dto.user_utils.UserStatus;
 import jakarta.validation.constraints.Email;

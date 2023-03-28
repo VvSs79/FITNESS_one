@@ -4,21 +4,22 @@ import Mk.JD2_95_22.fitness.core.dto.j_model.ProductJsonModel;
 import Mk.JD2_95_22.fitness.core.dto.page.PageDTO;
 import Mk.JD2_95_22.fitness.core.dto.product.ProductCreate;
 import Mk.JD2_95_22.fitness.core.dto.product.ProductUpdate;
-import Mk.JD2_95_22.fitness.core.exception.my_exeption.product.ProductNotFoundExeption;
-import Mk.JD2_95_22.fitness.core.exception.validation.ProductValidator;
+import Mk.JD2_95_22.fitness.core.exception.product.ProductNotFoundExeption;
+import Mk.JD2_95_22.fitness.service.validate.ProductValidator;
 import Mk.JD2_95_22.fitness.orm.entity.ProductEntity;
 import Mk.JD2_95_22.fitness.orm.repository.product.IProductRepository;
 import Mk.JD2_95_22.fitness.service.api.product.IProductService;
-import Mk.JD2_95_22.fitness.core.exception.my_exeption.check_exeptions.VersionException;
-import Mk.JD2_95_22.fitness.core.exception.my_exeption.check_exeptions.DoubleException;
+import Mk.JD2_95_22.fitness.core.exception.check_exeptions.VersionException;
+import Mk.JD2_95_22.fitness.core.exception.check_exeptions.DoubleException;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
+@Service
 public class ProductService implements IProductService {
     private final IProductRepository repository;
     private final ConversionService conversionService;

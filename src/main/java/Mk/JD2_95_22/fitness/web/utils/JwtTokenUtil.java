@@ -11,27 +11,12 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class JwtTokenUtil {
 
-//    private static final String jwtSecret = "NDQ1ZjAzNjQtMzViZi00MDRjLTljZjQtNjNjYWIyZTU5ZDYw";
-//    private static final String jwtIssuer = "ITAcademy";
-
     private final JWTProperty property;
     public JwtTokenUtil(JWTProperty property) {
         this.property = property;
     }
 
-//    public static String generateAccessToken(UserJsonModel user) {
-//        return generateAccessToken(user.getMail());
-//    }
 
-//    public static String generateAccessToken(String name) {
-//        return Jwts.builder()
-//                .setSubject(name)
-//                .setIssuer(jwtIssuer)
-//                .setIssuedAt(new Date())
-//                .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(7))) // 1 week
-//                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-//                .compact();
-//    }
     public String generateAccessToken(UserJsonModel user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("fio", user.getFio());

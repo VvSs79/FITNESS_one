@@ -12,7 +12,7 @@ public class ProductUpdate {
     private ProductCreate productCreate;
     @NonNull
     private Instant dtUpdate;
-    @NotBlank
+    @NotBlank(message = "Must not be blank")
     private UUID uuid;
 
     public ProductUpdate(ProductCreate productCreate, Instant dtUpdate, UUID uuid) {

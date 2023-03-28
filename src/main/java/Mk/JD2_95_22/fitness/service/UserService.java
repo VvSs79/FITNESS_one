@@ -4,25 +4,26 @@ import Mk.JD2_95_22.fitness.core.dto.j_model.UserJsonModel;
 import Mk.JD2_95_22.fitness.core.dto.page.PageDTO;
 import Mk.JD2_95_22.fitness.core.dto.user.UserCreate;
 import Mk.JD2_95_22.fitness.core.dto.user.UserUpdate;
-import Mk.JD2_95_22.fitness.core.exception.my_exeption.user.UserNotFoundExeption;
-import Mk.JD2_95_22.fitness.core.exception.validation.UserCreatedValidator;
+import Mk.JD2_95_22.fitness.core.exception.user.UserNotFoundExeption;
+import Mk.JD2_95_22.fitness.service.validate.UserCreatedValidator;
 import Mk.JD2_95_22.fitness.orm.entity.RoleEntity;
 import Mk.JD2_95_22.fitness.orm.entity.StatusEntity;
 import Mk.JD2_95_22.fitness.orm.entity.UserEntity;
 import Mk.JD2_95_22.fitness.service.api.user.IUserService;
-import Mk.JD2_95_22.fitness.core.exception.my_exeption.check_exeptions.DoubleException;
-import Mk.JD2_95_22.fitness.core.exception.my_exeption.check_exeptions.VersionException;
+import Mk.JD2_95_22.fitness.core.exception.check_exeptions.DoubleException;
+import Mk.JD2_95_22.fitness.core.exception.check_exeptions.VersionException;
 import Mk.JD2_95_22.fitness.orm.repository.user.IUserRepository;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-
+@Service
 public class UserService implements IUserService {
 
     private final IUserRepository repository;

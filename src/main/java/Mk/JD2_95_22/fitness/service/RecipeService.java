@@ -7,23 +7,25 @@ import Mk.JD2_95_22.fitness.core.dto.recipe.RecipeAddDTO;
 import Mk.JD2_95_22.fitness.core.dto.recipe.RecipeCreate;
 import Mk.JD2_95_22.fitness.core.dto.recipe.RecipeUpdate;
 import Mk.JD2_95_22.fitness.core.dto.recipe.ingredient.IngredientCreate;
-import Mk.JD2_95_22.fitness.core.exception.my_exeption.product.RecipeNotFoundExeption;
-import Mk.JD2_95_22.fitness.core.exception.validation.RecipeValidator;
+import Mk.JD2_95_22.fitness.core.exception.product.RecipeNotFoundExeption;
+import Mk.JD2_95_22.fitness.service.validate.RecipeValidator;
 import Mk.JD2_95_22.fitness.orm.entity.IngredientEntity;
 import Mk.JD2_95_22.fitness.orm.entity.ProductEntity;
 import Mk.JD2_95_22.fitness.orm.entity.RecipeEntity;
 import Mk.JD2_95_22.fitness.orm.repository.product.IRecipeRepository;
 import Mk.JD2_95_22.fitness.service.api.product.IProductService;
 import Mk.JD2_95_22.fitness.service.api.product.IRecipeService;
-import Mk.JD2_95_22.fitness.core.exception.my_exeption.check_exeptions.VersionException;
-import Mk.JD2_95_22.fitness.core.exception.my_exeption.check_exeptions.DoubleException;
+import Mk.JD2_95_22.fitness.core.exception.check_exeptions.VersionException;
+import Mk.JD2_95_22.fitness.core.exception.check_exeptions.DoubleException;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Service
 public class RecipeService implements IRecipeService {
     private final IRecipeRepository repository;
     private final IProductService productService;

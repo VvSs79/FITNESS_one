@@ -15,11 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-//    private final JwtFilter filter;
-//
-//    public SecurityConfig(JwtFilter filter) {
-//        this.filter = filter;
-//    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,JwtFilter filter) throws Exception {
         http = http.cors().and().csrf().disable();
@@ -35,29 +31,33 @@ public class SecurityConfig {
                 .exceptionHandling()
                 .authenticationEntryPoint(
                         (request, response, ex) -> {
-                            response.sendError(
-                                    HttpServletResponse.SC_UNAUTHORIZED,
-                                    ex.getMessage()
+                            response.setStatus(
+                                    HttpServletResponse.SC_UNAUTHORIZED
                             );
                         }
                 )
+                .accessDeniedHandler((request, response, ex) -> {
+                    response.setStatus(
+                            HttpServletResponse.SC_FORBIDDEN
+                    );
+                })
                 .and();
 
         // Set permissions on endpoints
         http
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/users/**").hasRole("ROLE_ADMIN")
-                        .requestMatchers("/users/").hasRole("ROLE_ADMIN")
-                        .requestMatchers("/users/registration").permitAll()
-                        .requestMatchers("/users/verification").permitAll()
-                        .requestMatchers("/users/login").permitAll()
-                        .requestMatchers("/users/me").hasRole("ROLE_USER")
-                        .requestMatchers(HttpMethod.GET,"/product").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/recipe").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/product/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/product").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/recipe/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/recipe").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/users/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/users/").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/users/registration").permitAll()
+                        .requestMatchers("/api/v1/users/verification").permitAll()
+                        .requestMatchers("/api/v1/users/login").permitAll()
+                        .requestMatchers("/api/v1/users/me").hasAnyAuthority("USER","ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/api/v1/product").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/v1/recipe").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/product/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/api/v1/product").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/recipe/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/api/v1/recipe").hasRole("ADMIN")
 
 //                .httpBasic(withDefaults());
 //        http.addFilterBefore(

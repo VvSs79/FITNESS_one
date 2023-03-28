@@ -49,11 +49,7 @@ public class JwtFilter extends OncePerRequestFilter {
             chain.doFilter(request, response);
             return;
         }
-//        UserJsonModel userJsonModel = userService.getUser(JwtTokenUtil.getUserMail(token));
-//        UsernamePasswordAuthenticationToken
-//                authentication = new UsernamePasswordAuthenticationToken(
-//                userJsonModel, null, userJsonModel.getAuthorities());
-//
+
         UserJsonModel user = userService.loadUserByUsername(jwtTokenUtil.getUserMail(token));
         List<SimpleGrantedAuthority> roles = new ArrayList<>();
         roles.add(new SimpleGrantedAuthority("ROLE_" + jwtTokenUtil.getUserRole(token)));

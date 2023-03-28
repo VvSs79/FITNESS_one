@@ -10,7 +10,8 @@ import jakarta.persistence.ManyToOne;
 public class IngredientEntity {
     @ManyToOne
     @JoinColumn(
-            name = "product_uuid"
+            name = "product_uuid",
+            nullable = false, updatable = false
     )
     private ProductEntity product;
     @Column(name = "weight")
@@ -30,5 +31,13 @@ public class IngredientEntity {
 
     public Integer getWeight() {
         return weight;
+    }
+
+    public void setProduct(ProductEntity product) {
+        this.product = product;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
     }
 }

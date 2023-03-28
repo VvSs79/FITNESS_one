@@ -1,24 +1,25 @@
 package Mk.JD2_95_22.fitness.core.dto.product;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 
 public class ProductCreate {
-    @NotBlank
+    @NotBlank(message = "Must not be blank")
     private String title;
-    @PositiveOrZero
+    @Positive(message = "Should be positive")
 
     private Integer weight;
-    @PositiveOrZero
+    @PositiveOrZero(message = "Should be positive or zero")
 
     private Integer calories;
-    @PositiveOrZero
+    @PositiveOrZero(message = "Should be positive or zero")
 
     private Double proteins;
-    @PositiveOrZero
+    @PositiveOrZero(message = "Should be positive or zero")
 
     private Double fats;
-    @PositiveOrZero
+    @PositiveOrZero(message = "Should be positive or zero")
     private Double carbohydrates;
 
     public ProductCreate(String title, Integer weight, Integer calories, double proteins, double fats, double carbohydrates) {

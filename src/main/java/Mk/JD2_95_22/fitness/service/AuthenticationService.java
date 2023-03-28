@@ -6,25 +6,27 @@ import Mk.JD2_95_22.fitness.core.dto.user.UserAddDTO;
 import Mk.JD2_95_22.fitness.core.dto.user.UserCreate;
 import Mk.JD2_95_22.fitness.core.dto.user.UserLogin;
 import Mk.JD2_95_22.fitness.core.dto.user.UserRegistration;
-import Mk.JD2_95_22.fitness.core.exception.my_exeption.user.UserNotFoundExeption;
-import Mk.JD2_95_22.fitness.core.exception.my_exeption.user.UserValidateExeption;
-import Mk.JD2_95_22.fitness.core.exception.validation.UserRegistrationValidator;
+import Mk.JD2_95_22.fitness.core.exception.user.UserNotFoundExeption;
+import Mk.JD2_95_22.fitness.core.exception.user.UserValidateExeption;
+import Mk.JD2_95_22.fitness.service.validate.UserRegistrationValidator;
 import Mk.JD2_95_22.fitness.orm.entity.StatusEntity;
 import Mk.JD2_95_22.fitness.orm.entity.UserEntity;
 import Mk.JD2_95_22.fitness.service.api.mail.IEmailService;
 import Mk.JD2_95_22.fitness.service.api.user.IAuthenticationService;
 import Mk.JD2_95_22.fitness.service.api.user.IUserService;
-import Mk.JD2_95_22.fitness.core.exception.my_exeption.check_exeptions.DoubleException;
+import Mk.JD2_95_22.fitness.core.exception.check_exeptions.DoubleException;
 import Mk.JD2_95_22.fitness.orm.repository.user.IAuthenticationUserRepository;
 import Mk.JD2_95_22.fitness.core.dto.user_utils.UserStatus;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 
 import java.util.Optional;
 import java.util.UUID;
-
+@Service
 public class AuthenticationService implements IAuthenticationService {
 
     private final IAuthenticationUserRepository repository;
@@ -32,24 +34,29 @@ public class AuthenticationService implements IAuthenticationService {
     private final IEmailService emailService;
     private final IUserService iUserService;
     private final UserRegistrationValidator validator;
+    private final PasswordEncoder encoder;
 
-    public AuthenticationService(IAuthenticationUserRepository repository, ConversionService conversionService,
-                                 IEmailService emailService, IUserService iUserService,
-                                 UserRegistrationValidator validator) {
+    public AuthenticationService(IAuthenticationUserRepository repository,
+                                 ConversionService conversionService,
+                                 IEmailService emailService,
+                                 IUserService iUserService,
+                                 UserRegistrationValidator validator,
+                                 PasswordEncoder encoder) {
         this.repository = repository;
         this.conversionService = conversionService;
         this.emailService = emailService;
         this.iUserService = iUserService;
         this.validator = validator;
+        this.encoder = encoder;
     }
 
     public UserJsonModel logIn(UserLogin userLogin) {
-        UserEntity userEntity = repository.findByMail(userLogin.getMail());
+        UserEntity userEntity = repository.findByMail(userLogin.getMail().toLowerCase());
         if(userEntity==null){
             throw new UserNotFoundExeption("User not found");
         }
         try {
-            BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+//            BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
             encoder.matches(userLogin.getPassword(), userEntity.getPassword());
         }catch (RuntimeException e) {
             throw new UserValidateExeption("Incorrect parameters");

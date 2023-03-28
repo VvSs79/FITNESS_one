@@ -1,10 +1,12 @@
 package Mk.JD2_95_22.fitness.service;
 
-import Mk.JD2_95_22.fitness.core.exception.my_exeption.mail.SendMailExeption;
+import Mk.JD2_95_22.fitness.core.exception.mail.SendMailExeption;
 import Mk.JD2_95_22.fitness.service.api.mail.IEmailService;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
 
+@Service
 public class EmailService implements IEmailService {
     public JavaMailSender emailSender;
 
