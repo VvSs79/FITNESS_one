@@ -1,0 +1,15 @@
+spring:
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=fitness
+    username: postgres
+    password: Vvit79Ss79
+
+jwt:
+    secret: C9W)m3Yyp$H=%JY
+    issuer: Fitness
