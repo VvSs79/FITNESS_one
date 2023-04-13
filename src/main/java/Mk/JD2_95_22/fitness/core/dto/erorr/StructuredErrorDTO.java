@@ -1,0 +1,50 @@
+package Mk.JD2_95_22.fitness.core.dto.erorr;
+
+import java.util.Objects;
+
+public class StructuredErrorDTO {
+    private String field;
+    private String message;
+
+    public StructuredErrorDTO() {
+    }
+
+    public StructuredErrorDTO(String massage) {
+        this.field = "structured_error";
+        this.message = message;
+    }
+
+    public StructuredErrorDTO(String field, String message) {
+        this.field = field;
+        this.message = message;
+    }
+
+    public String getField() {
+        return field;
+    }
+
+    public void setField(String field) {
+        this.field = field;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StructuredErrorDTO that = (StructuredErrorDTO) o;
+        return Objects.equals(field, that.field) && Objects.equals(message, that.message);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(field, message);
+    }
+}

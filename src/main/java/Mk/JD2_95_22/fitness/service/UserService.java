@@ -4,8 +4,7 @@ import Mk.JD2_95_22.fitness.core.dto.j_model.UserJsonModel;
 import Mk.JD2_95_22.fitness.core.dto.page.PageDTO;
 import Mk.JD2_95_22.fitness.core.dto.user.UserCreate;
 import Mk.JD2_95_22.fitness.core.dto.user.UserUpdate;
-import Mk.JD2_95_22.fitness.core.exception.user.UserNotFoundExeption;
-import Mk.JD2_95_22.fitness.service.validate.UserCreatedValidator;
+import Mk.JD2_95_22.fitness.core.exception.converter.ConverterExeption;
 import Mk.JD2_95_22.fitness.orm.entity.RoleEntity;
 import Mk.JD2_95_22.fitness.orm.entity.StatusEntity;
 import Mk.JD2_95_22.fitness.orm.entity.UserEntity;
@@ -16,51 +15,65 @@ import Mk.JD2_95_22.fitness.orm.repository.user.IUserRepository;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
-import java.util.ArrayList;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-@Service
+@Transactional(readOnly = true)
 public class UserService implements IUserService {
 
     private final IUserRepository repository;
     private final ConversionService conversionService;
     private final PasswordEncoder encoder;
-    private final UserCreatedValidator validator;
 
-    public UserService(IUserRepository repository, ConversionService conversionService, PasswordEncoder encoder, UserCreatedValidator validator) {
+    public UserService(IUserRepository repository, ConversionService conversionService, PasswordEncoder encoder) {
         this.repository = repository;
         this.conversionService = conversionService;
         this.encoder = encoder;
-        this.validator = validator;
     }
 
     @Override
-    public void create(UserCreate user) {
-        UserEntity userEntity = repository.findByMail(user.getMail());
-        if (userEntity != null) {
-            throw new DoubleException("User this is a mail is exist");
-        } else {
-            validator.validate(user);
-            String encode = encoder.encode(user.getPassword());
-            user.setPassword(encode);
-            repository.save(conversionService.convert(user, UserEntity.class));
+@Transactional
+public void create(@Validated UserCreate user) {
+    if (repository.findByMailIgnoreCase(user.getMail()).isPresent()) {
+        throw new DoubleException("User with this is a mail is exist");
+    } else {
+
+        String encode = encoder.encode(user.getPassword());
+        user.setPassword(encode);
+        if (!conversionService.canConvert(UserJsonModel.class, UserEntity.class)) {
+            throw new ConverterExeption("Can not convert UserJsonModel.class to UserEntity.class");
         }
+        UserEntity userEntity = conversionService.convert(user, UserEntity.class);
+        UUID uuid = UUID.randomUUID();
+        userEntity.setUuid(uuid);
+        Instant dtCreated = Instant.now();
+        userEntity.setDtCreate(dtCreated);
+        userEntity.setDtUpdate(dtCreated);
+        repository.save(userEntity);
+
+    }
     }
 
     @Override
-    public PageDTO<UserJsonModel> get(int page, int size) {
+    public PageDTO<UserJsonModel> getPageUsers(int page, int size) {
         PageRequest paging = PageRequest.of(page, size);
         Page<UserEntity> all = repository.findAll(paging);
-        List<UserJsonModel> usersPages = new ArrayList<>();
-        for (UserEntity userEntity : all.getContent()) {
-            UserJsonModel convert = conversionService.convert(userEntity, UserJsonModel.class);
-            usersPages.add(convert);
+
+        if (!conversionService.canConvert(UserEntity.class, UserJsonModel.class)) {
+            throw new ConverterExeption("Can not convert UserEntity.class to UserModel.class");
         }
-        return new PageDTO<>(page,
+
+        List<UserJsonModel> usersPages = all.getContent().stream()
+                .map(s -> conversionService.convert(s, UserJsonModel.class))
+                .collect(Collectors.toList());
+        return new PageDTO<UserJsonModel>(page,
                 size,
                 all.getTotalPages(),
                 all.getTotalElements(),
@@ -70,36 +83,42 @@ public class UserService implements IUserService {
                 usersPages);
     }
 
+
     @Override
-    public UserJsonModel get(UUID uuid) {
-        UserEntity userEntity = this.repository.findById(uuid).orElseThrow(() ->
-                new UserNotFoundExeption("This user does not exist"));
+    public UserJsonModel getUserUuid(UUID uuid) {
+        UserEntity userEntity = this.repository.findById(uuid).orElseThrow(() -> new UsernameNotFoundException("This user does not exist"));
+        if (!conversionService.canConvert(UserEntity.class, UserJsonModel.class)) {
+            throw new ConverterExeption("Can not convert UserEntity.class to UserJsonModel.class");
+        }
         return conversionService.convert(userEntity, UserJsonModel.class);
     }
 
     @Override
-    public void update(UserUpdate userUpdate) {
-        UserEntity userEntity = repository.findById(userUpdate.getUuid()).orElseThrow(() -> new UserNotFoundExeption("This user does not exist"));
-        if (userEntity.getDtUpdate().toEpochMilli() == userUpdate.getDtUpdate().toEpochMilli()) {
-            userEntity.setMail(userUpdate.getUserDTO().getMail());
-            userEntity.setFio(userUpdate.getUserDTO().getFio());
-            userEntity.setPassword(userUpdate.getUserDTO().getPassword());
-            userEntity.setRole(new RoleEntity(userUpdate.getUserDTO().getRole()));
-            userEntity.setStatus(new StatusEntity(userUpdate.getUserDTO().getStatus()));
+    @Transactional
+    public UserJsonModel update(@Validated UserUpdate updateUserDto) {
+        UserEntity userEntity = repository.findById(updateUserDto.getUuid()).orElseThrow(() -> new UsernameNotFoundException("There is no user with such mail"));
+        if (userEntity.getDtUpdate().toEpochMilli() == updateUserDto.getDtUpdate().toEpochMilli()) {
+            userEntity.setMail(updateUserDto.getUserDTO().getMail().toLowerCase());
+            userEntity.setFio(updateUserDto.getUserDTO().getFio());
+            userEntity.setPassword(updateUserDto.getUserDTO().getPassword());
+            userEntity.setRole(new RoleEntity(updateUserDto.getUserDTO().getRole().ordinal(),updateUserDto.getUserDTO().getRole()));
+            userEntity.setStatus(new StatusEntity(updateUserDto.getUserDTO().getStatus().ordinal(),updateUserDto.getUserDTO().getStatus()));
             repository.save(userEntity);
         } else throw new VersionException("This is version does not exist");
+        return conversionService.convert(userEntity, UserJsonModel.class);
     }
 
     @Override
     public UserJsonModel getUser(String mail) {
-        UserEntity userEntity = this.repository.findByMail(mail);
+        UserEntity userEntity = this.repository.findByMail(mail.toLowerCase());
         if (userEntity == null) {
-            throw new UserNotFoundExeption("This user does not exist");
+            throw new UsernameNotFoundException("There is no user with such mail");
         }
+
+        if (!conversionService.canConvert(UserEntity.class, UserJsonModel.class)) {
+            throw new ConverterExeption("Can not convert UserEntity.class to UserJsonModel.class");
+        }
+
         return conversionService.convert(userEntity, UserJsonModel.class);
-    }
-    @Override
-    public UserJsonModel loadUserByUsername (String mail){
-        return conversionService.convert(repository.findByMail(mail), UserJsonModel.class);
     }
 }

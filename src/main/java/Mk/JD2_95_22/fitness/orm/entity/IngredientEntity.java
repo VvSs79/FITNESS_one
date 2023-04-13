@@ -10,7 +10,7 @@ import jakarta.persistence.ManyToOne;
 public class IngredientEntity {
     @ManyToOne
     @JoinColumn(
-            name = "product_uuid",
+            name = "products_uuid",
             nullable = false, updatable = false
     )
     private ProductEntity product;

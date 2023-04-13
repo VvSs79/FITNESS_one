@@ -1,13 +1,16 @@
 package Mk.JD2_95_22.fitness.core.dto.user;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import Mk.JD2_95_22.fitness.service.validate.api.ValidMail;
+import Mk.JD2_95_22.fitness.service.validate.api.ValidString;
+import jakarta.validation.constraints.NotNull;
+
+import java.util.UUID;
 
 public class VerificationDTO {
-    @Email
-    @NotBlank
+    @ValidMail
+    @ValidString
     private String mail;
-    @NotBlank
+    @NotNull
     private String code;
 
     public VerificationDTO() {

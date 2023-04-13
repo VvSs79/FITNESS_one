@@ -1,33 +1,26 @@
 package Mk.JD2_95_22.fitness.config;
 
-import Mk.JD2_95_22.fitness.service.validate.ProductValidator;
 import Mk.JD2_95_22.fitness.service.validate.RecipeValidator;
-import Mk.JD2_95_22.fitness.service.validate.UserCreatedValidator;
-import Mk.JD2_95_22.fitness.service.validate.UserRegistrationValidator;
 import Mk.JD2_95_22.fitness.orm.repository.product.IProductRepository;
 import Mk.JD2_95_22.fitness.orm.repository.product.IRecipeRepository;
 import Mk.JD2_95_22.fitness.service.*;
-import Mk.JD2_95_22.fitness.service.api.mail.IEmailService;
+import Mk.JD2_95_22.fitness.service.api.mail.IMailService;
 import Mk.JD2_95_22.fitness.service.api.product.IProductService;
 import Mk.JD2_95_22.fitness.service.api.product.IRecipeService;
-import Mk.JD2_95_22.fitness.service.api.user.IAuthenticationService;
+import Mk.JD2_95_22.fitness.service.api.user.IRegistrationService;
 import Mk.JD2_95_22.fitness.service.api.user.IUserService;
-import Mk.JD2_95_22.fitness.orm.repository.user.IAuthenticationUserRepository;
+import Mk.JD2_95_22.fitness.orm.repository.user.IRegistrationUserRepository;
 import Mk.JD2_95_22.fitness.orm.repository.user.IUserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
-import java.util.Properties;
-
-
 @Configuration
 public class SpringConfig {
+
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
@@ -36,35 +29,30 @@ public class SpringConfig {
     @Bean
     public IUserService userService(IUserRepository dao,
                                     ConversionService conversionService,
-                                    PasswordEncoder encoder,
-                                    UserCreatedValidator validator) {
+                                    PasswordEncoder encoder) {
         return new UserService(dao,
                 conversionService,
-                encoder,
-                validator);
+                encoder);
     }
     @Bean
-    public IAuthenticationService authenticationService(IAuthenticationUserRepository dao,
-                                                        ConversionService conversionService,
-                                                        IEmailService iEmailService,
-                                                        IUserService iUserService,
-                                                        UserRegistrationValidator validator,
-                                                        PasswordEncoder encoder) {
-        return new AuthenticationService(dao,
+    public IRegistrationService registrationService(IRegistrationUserRepository dao,
+                                                      ConversionService conversionService,
+                                                      IMailService iMailService,
+                                                      IUserService iUserService,
+                                                      PasswordEncoder encoder) {
+        return new RegistrationService(dao,
                 conversionService,
-                iEmailService,
+                iMailService,
                 iUserService,
-                validator,
                 encoder);
     }
 
     @Bean
     public IProductService productService(IProductRepository dao,
-                                          ConversionService conversionService,
-                                          ProductValidator validator) {
+                                          ConversionService conversionService
+                                          ) {
         return new ProductService(dao,
-                conversionService,
-                validator);
+                conversionService);
     }
 
     @Bean
@@ -77,27 +65,4 @@ public class SpringConfig {
                 conversionService,
                 validator);
     }
-
-    @Bean
-    public IEmailService emailService(JavaMailSender emailSender) {
-        return new EmailService(emailSender);
-    }
-
-    @Bean
-    public JavaMailSender getJavaMailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.mail.ru");
-        mailSender.setPort(465);
-        mailSender.setUsername("ivanivanov2023_18@mail.ru");
-        mailSender.setPassword("CzgX7LYBBE0GfaQPrZL6");
-
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtps");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.ssl.enable", "true");
-        props.put("mail.debug", "true");
-
-        return mailSender;
-    }
-
 }

@@ -2,53 +2,44 @@ package Mk.JD2_95_22.fitness.orm.entity;
 
 
 import jakarta.persistence.*;
-
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "fitness", name = "user")
-@SecondaryTable(
-        schema = "fitness", name = "verification",
-        pkJoinColumns = @PrimaryKeyJoinColumn(name = "uuid")
-)
+@Table(schema = "fitness", name = "users")
 public class UserEntity {
     @Id
     @Column(name = "uuid")
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
     @Column(name = "mail")
+    @Email
+    @NotNull
     private String mail;
     @Column(name = "fio")
+    @NotNull
     private String fio;
     @Column(name = "password")
+    @NotNull
     private String password;
     @Column(name = "dt_create")
+    @NotNull
     private Instant dtCreate;
     @Column(name = "dt_update")
     @Version
     private Instant dtUpdate;
     @Enumerated(EnumType.STRING)
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinTable(schema = "fitness",
-            name = "user_role",
-            joinColumns =
-            @JoinColumn(name = "user_uuid"),
-            inverseJoinColumns =
-            @JoinColumn(name = "role_id")
-    )
+    @ManyToOne()
+    @JoinColumn(name = "role")
     private RoleEntity role;
     @Enumerated(EnumType.STRING)
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinTable(schema = "fitness",
-            name = "user_status",
-            joinColumns =
-            @JoinColumn(name = "user_uuid"),
-            inverseJoinColumns =
-            @JoinColumn(name = "status_id")
-    )
+    @ManyToOne()
+    @JoinColumn(name = "status")
     private StatusEntity status;
-    @Column(name = "code", table = "verification")
+    @Column(name = "code")
+//    @NotNull
     private String code;
 
     public UserEntity() {
@@ -119,6 +110,14 @@ public class UserEntity {
         return status;
     }
 
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    public void setDtCreate(Instant dtCreate) {
+        this.dtCreate = dtCreate;
+    }
+
     public void setStatus(StatusEntity status) {
         this.status = status;
     }
@@ -130,7 +129,6 @@ public class UserEntity {
     public void setCode(String code) {
         this.code = code;
     }
-
 
     public void setFio(String fio) {
         this.fio = fio;

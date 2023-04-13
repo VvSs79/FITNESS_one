@@ -1,17 +1,20 @@
 package Mk.JD2_95_22.fitness.core.dto.user;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import Mk.JD2_95_22.fitness.service.validate.api.ValidMail;
+import Mk.JD2_95_22.fitness.service.validate.api.ValidPassword;
+import Mk.JD2_95_22.fitness.service.validate.api.ValidString;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
 public class UserRegistration {
-    @NotBlank
-    @Email
+    @ValidMail
+    @ValidString
     private String mail;
-    @NotBlank
+    @ValidString
     private String fio;
-    @NotBlank
+    @ValidPassword
+    @ValidString
     private String password;
 
     public UserRegistration(String mail, String fio, String password) {

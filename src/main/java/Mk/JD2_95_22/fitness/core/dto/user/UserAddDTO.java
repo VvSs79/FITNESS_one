@@ -8,15 +8,15 @@ import java.time.Instant;
 
 public class UserAddDTO {
 
-    private UserCreate userDTO;
+    private UserCreate userCreate;
     private Instant dtUpdate;
     private Instant dtCreate;
     private UserRegistration userRegistration;
     private UserRole role;
     private UserStatus status;
 
-    public UserAddDTO(UserCreate userDTO) {
-        this.userDTO = userDTO;
+    public UserAddDTO(UserCreate userCreate) {
+        this.userCreate = userCreate;
         this.dtCreate = Instant.now();
         this.dtUpdate = this.dtCreate;
     }
@@ -29,8 +29,8 @@ public class UserAddDTO {
         this.status = UserStatus.WAITING_ACTIVATION;
     }
 
-    public UserCreate getUserDTO() {
-        return userDTO;
+    public UserCreate getUserCreate() {
+        return userCreate;
     }
 
     public Instant getDtUpdate() {
@@ -51,5 +51,29 @@ public class UserAddDTO {
 
     public UserStatus getStatus() {
         return status;
+    }
+
+    public void setUserCreate(UserCreate userCreate) {
+        this.userCreate = userCreate;
+    }
+
+    public void setDtUpdate(Instant dtUpdate) {
+        this.dtUpdate = dtUpdate;
+    }
+
+    public void setDtCreate(Instant dtCreate) {
+        this.dtCreate = dtCreate;
+    }
+
+    public void setUserRegistration(UserRegistration userRegistration) {
+        this.userRegistration = userRegistration;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
     }
 }

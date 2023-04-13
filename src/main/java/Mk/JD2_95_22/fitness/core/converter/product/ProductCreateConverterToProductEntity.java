@@ -1,7 +1,7 @@
 package Mk.JD2_95_22.fitness.core.converter.product;
 
-import Mk.JD2_95_22.fitness.core.dto.product.ProductAddDTO;
-import Mk.JD2_95_22.fitness.core.dto.product.ProductCreate;
+import Mk.JD2_95_22.fitness.core.dto.nutrition.product.ProductAddDTO;
+import Mk.JD2_95_22.fitness.core.dto.nutrition.product.ProductCreate;
 import Mk.JD2_95_22.fitness.orm.entity.ProductEntity;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;

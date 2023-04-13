@@ -1,15 +1,66 @@
+################ jpa ############################################
 spring:
   jpa:
-    database: POSTGRESQL
+    database: MYSQL
     show-sql: true
     hibernate:
       ddl-auto: none
-  datasource:
-    driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=fitness
-    username: postgres
-    password: Vvit79Ss79
 
+################ jdbc ###########################################
+  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://localhost:5432/postgres #?schema=fitness
+    driver-class-name=com:
+      mysql:
+        cj:
+          jdbc:
+            Driver:
+    url: jdbc:mysql://localhost:3306/FIT-PROJECT?schema=fitness
+#    username: postgres
+#    password: Vvit79Ss79
+    username: root
+    password: password
+
+################ smtp ###########################################
+  mail:
+    default-encoding: UTF-8
+    host: smtp.gmail.com
+    port: 587
+    username: MkJD29522test@gmail.com
+    password: xtbcmqnatwxbxnfc
+#    test-connection: true # проверка подключения при старте
+#    protocol: smtps
+
+################ mail properties ################################
+  properties:
+    mail:
+      smtp:
+        starttls:
+          enable: true
+#          required: true
+        auth: true
+#        ssl:
+#          trust:smtp.mail.ru
+
+################ urlemail #######################################
+  data:
+    redis:
+      urlemail: http://email-service:8080/api/v1/mail
+
+################ jwt ############################################
 jwt:
-    secret: C9W)m3Yyp$H=%JY
-    issuer: Fitness
+  secret: C9W)m3Yyp$H=%JY
+  issuer: Fitness
+
+
+
+
+#    username: vit-s-v79@mail.ru
+#    password: vitaliy1979qwert
+
+#    url: http://localhost:8080/api/v1/users/verification
+
+#    username: MkJD29522test@gmail.com
+#    password: y39oRq3WKdlp
+
+

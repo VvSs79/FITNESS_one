@@ -50,14 +50,12 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        UserJsonModel user = userService.loadUserByUsername(jwtTokenUtil.getUserMail(token));
-        List<SimpleGrantedAuthority> roles = new ArrayList<>();
-        roles.add(new SimpleGrantedAuthority("ROLE_" + jwtTokenUtil.getUserRole(token)));
+        UserJsonModel user = userService.getUser(jwtTokenUtil.extractUsername(token));
         UsernamePasswordAuthenticationToken
                 authentication = new UsernamePasswordAuthenticationToken(
-                user, null,
-                roles
-        );
+                user, null, user.getAuthorities());
+
+
         authentication.setDetails(
                 new WebAuthenticationDetailsSource().buildDetails(request)
         );
@@ -65,5 +63,4 @@ public class JwtFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(request, response);
     }
-
 }

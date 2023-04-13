@@ -8,6 +8,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import org.springframework.security.core.GrantedAuthority;
+
 @Component
 public class JwtTokenUtil {
 
@@ -16,66 +20,40 @@ public class JwtTokenUtil {
         this.property = property;
     }
 
+public String generateAccessToken(Map<String, Object> claims, String name) {
+    return Jwts.builder().setClaims(claims)
+            .setSubject(name)
+            .setIssuer(property.getIssuer())
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(7))) // 1 week
+            .signWith(SignatureAlgorithm.HS512, property.getSecret())
+            .compact();
+}
 
-    public String generateAccessToken(UserJsonModel user) {
+    public String generateToken(UserJsonModel user) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("fio", user.getFio());
-        claims.put("mail", user.getMail());
-        claims.put("role", user.getRole());
+        String commaSeparatedListOfAuthorities = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
+        claims.put("authorities", commaSeparatedListOfAuthorities);
         claims.put("uuid", user.getUuid());
-        return Jwts.builder()
-                .setClaims(claims)
-                .setIssuer(property.getIssuer())
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(7))) // 1 week
-                .signWith(SignatureAlgorithm.HS512, property.getSecret())
-                .compact();
+        claims.put("fio", user.getFio());
+        return generateAccessToken(claims, user.getUsername());
     }
 
-    public String getUsername(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(property.getSecret())
-                .parseClaimsJws(token)
-                .getBody();
-
-        return claims.get("fio", String.class);
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
     }
-    public  String getUserMail(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(property.getSecret())
-                .parseClaimsJws(token)
-                .getBody();
 
-        return claims.getSubject();
+    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
     }
-    public String getUserRole(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(property.getSecret())
-                .parseClaimsJws(token)
-                .getBody();
 
-        return claims.get("role", String.class);
-    }
-    public String getUserUUDI(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(property.getSecret())
-                .parseClaimsJws(token)
-                .getBody();
-
-        return claims.get("uuid", String.class);
+    private Claims extractAllClaims(String token) {
+        return Jwts.parser().setSigningKey(property.getSecret()).parseClaimsJws(token).getBody();
     }
 
 
-    public  Date getExpirationDate(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(property.getSecret())
-                .parseClaimsJws(token)
-                .getBody();
-
-        return claims.getExpiration();
-    }
-
-    public  boolean validate(String token) {
+    public boolean validate(String token) {
         try {
             Jwts.parser().setSigningKey(property.getSecret()).parseClaimsJws(token);
             return true;

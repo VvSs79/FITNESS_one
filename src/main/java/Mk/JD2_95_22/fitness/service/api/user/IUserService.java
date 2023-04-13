@@ -10,14 +10,11 @@ import java.util.UUID;
 
 public interface IUserService <T>{
 
-    void create(UserCreate userDTO);
-
-    PageDTO<T> get(int page, int size);
-
-    UserJsonModel get(UUID id);
+    void create(UserCreate user);
+    PageDTO<UserJsonModel> getPageUsers(int page, int size);
+    UserJsonModel update(UserUpdate updateUserDto);
+    UserJsonModel getUserUuid(UUID uuid);
     UserJsonModel getUser(String mail);
-
-    void update(UserUpdate userUpdate);
-    UserJsonModel loadUserByUsername (String mail);
+//    UserJsonModel loadUserByUsername (String mail);
 
 }

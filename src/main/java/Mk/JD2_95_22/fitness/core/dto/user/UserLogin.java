@@ -1,15 +1,19 @@
 package Mk.JD2_95_22.fitness.core.dto.user;
 
+import Mk.JD2_95_22.fitness.service.validate.api.ValidMail;
+import Mk.JD2_95_22.fitness.service.validate.api.ValidPassword;
+import Mk.JD2_95_22.fitness.service.validate.api.ValidString;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.Objects;
 
 public class UserLogin {
-    @NotBlank
-    @Email
+    @ValidMail
+    @ValidString
     private String mail;
-    @NotBlank
+    @ValidPassword
+    @ValidString
     private String password;
 
     public UserLogin(String mail, String password) {
@@ -26,6 +30,14 @@ public class UserLogin {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override

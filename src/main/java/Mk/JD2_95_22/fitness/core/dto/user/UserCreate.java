@@ -1,24 +1,29 @@
 package Mk.JD2_95_22.fitness.core.dto.user;
 
-import Mk.JD2_95_22.fitness.service.validate.validator_enum.ValueOfEnum;
+import Mk.JD2_95_22.fitness.service.validate.api.ValidMail;
+import Mk.JD2_95_22.fitness.service.validate.api.ValidPassword;
+import Mk.JD2_95_22.fitness.service.validate.api.ValidString;
+//import Mk.JD2_95_22.fitness.service.validate.validator_enum.ValueOfEnum;
 import Mk.JD2_95_22.fitness.core.dto.user_utils.UserRole;
 import Mk.JD2_95_22.fitness.core.dto.user_utils.UserStatus;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
 public class UserCreate {
-    @Email
-    @NotBlank
+    @ValidMail
+    @ValidString
     private String mail;
-    @NotBlank
+    @ValidString
     private String fio;
-    @NotBlank
+    @ValidPassword
+    @ValidString
     private String password;
-    @ValueOfEnum(enumClass = UserRole.class)
+//    @ValueOfEnum(enumClass = UserRole.class)
+    @NotNull(message = "The entered value doesn't exist")
     private String role;
-    @ValueOfEnum(enumClass = UserStatus.class)
+//    @ValueOfEnum(enumClass = UserStatus.class)
+    @NotNull(message = "The entered value doesn't exist")
     private String status;
 
     public UserCreate(String mail, String fio, String password, String role, String status) {
@@ -62,6 +67,22 @@ public class UserCreate {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public void setFio(String fio) {
+        this.fio = fio;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

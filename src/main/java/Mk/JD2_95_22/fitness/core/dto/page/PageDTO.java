@@ -82,6 +82,9 @@ public class PageDTO<T> {
     public List<T> getContent() {
         return content;
     }
+    public static <T>PageDTO<T> create( ) {
+        return new PageDTO<T>();
+    }
 
     @Override
     public boolean equals(Object o) {

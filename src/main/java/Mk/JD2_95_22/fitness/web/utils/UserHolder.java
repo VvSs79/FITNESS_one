@@ -1,4 +1,4 @@
-package Mk.JD2_95_22.fitness.service;
+package Mk.JD2_95_22.fitness.web.utils;
 
 import Mk.JD2_95_22.fitness.core.dto.j_model.UserJsonModel;
 import org.springframework.security.core.context.SecurityContextHolder;
